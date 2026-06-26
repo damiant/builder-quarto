@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "image-gen": {
+      "source": "damiant/workar",
+      "sourceType": "github",
+      "skillPath": "image-gen/SKILL.md",
+      "computedHash": "1247825b4acb00ecac02c6e7639dec62f0aa84cdecdacbb20769fbb1915eec55"
+    }
+  }
+}
