@@ -874,3 +874,164 @@ code {
     margin-bottom: 8px;
   }
 }
+
+.footer-legal {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  box-sizing: border-box;
+  background: rgb(245, 245, 247);
+}
+
+.footer-legal-content {
+  max-width: 1126px;
+  margin: 0 auto;
+  padding: 37px 22px 11px;
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.56);
+  font: 400 12px/16.0005px "SF Pro Text", "Myriad Set Pro", "SF Pro Icons", "Apple Legacy Chevron", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  letter-spacing: -0.12px;
+  text-align: left;
+}
+
+.footer-shop-message {
+  max-height: 9999px;
+  margin-bottom: 16px;
+  padding-bottom: 19px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.16);
+  color: rgba(0, 0, 0, 0.56);
+}
+
+.footer-shop-link {
+  color: rgb(0, 102, 204);
+  font: inherit;
+  text-decoration: underline;
+}
+
+.footer-callout,
+.footer-phone-link {
+  white-space: nowrap;
+}
+
+.footer-callout {
+  display: inline-block;
+  color: rgba(0, 0, 0, 0.56);
+}
+
+.footer-legal-row {
+  display: flex;
+  justify-content: space-between;
+  color: rgba(0, 0, 0, 0.56);
+}
+
+.footer-region-mobile {
+  display: none;
+}
+
+.footer-region-desktop,
+.footer-region-mobile {
+  position: relative;
+  top: -3px;
+  z-index: 2;
+  margin-top: 5px;
+  white-space: nowrap;
+}
+
+.footer-country-link {
+  display: inline-block;
+  color: rgba(0, 0, 0, 0.72);
+  font: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.footer-country-link:hover,
+.footer-legal-link:hover {
+  text-decoration: underline;
+}
+
+.footer-legal-group {
+  position: relative;
+  top: -3px;
+  z-index: 1;
+}
+
+.footer-copyright {
+  float: inline-start;
+  max-height: 9999px;
+  margin: 5px 30px 0 0;
+  color: rgba(0, 0, 0, 0.56);
+}
+
+.footer-legal-list {
+  float: inline-start;
+  position: relative;
+  top: -5px;
+  z-index: 1;
+  list-style: none;
+  margin: 5px 30px 0 0;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.56);
+}
+
+.footer-legal-item {
+  display: inline-block;
+  position: relative;
+  margin: 5px 6px 0 0;
+}
+
+.footer-legal-link {
+  display: inline-block;
+  margin-left: -9px;
+  padding: 0 9px;
+  color: rgba(0, 0, 0, 0.72);
+  font: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  .footer-legal-content {
+    padding: 17px 16px 19px;
+  }
+
+  .footer-shop-message {
+    margin-bottom: 8px;
+    padding-bottom: 10px;
+  }
+
+  .footer-callout {
+    display: block;
+    white-space: normal;
+  }
+
+  .footer-legal-row {
+    display: block;
+  }
+
+  .footer-region-mobile {
+    display: block;
+    top: 0;
+    margin: 0 0 12px;
+  }
+
+  .footer-region-desktop {
+    display: none;
+  }
+
+  .footer-legal-group {
+    top: 0;
+  }
+
+  .footer-copyright,
+  .footer-legal-list {
+    float: none;
+    margin-right: 0;
+  }
+
+  .footer-legal-list {
+    top: 0;
+    margin-top: 8px;
+  }
+}
