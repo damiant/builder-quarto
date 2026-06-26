@@ -3,8 +3,10 @@ import typescriptLogo from "./assets/typescript.svg";
 import viteLogo from "./assets/vite.svg";
 import heroImg from "./assets/hero.png";
 import { setupCounter } from "./counter.ts";
+import { renderHeader, initHeaderInteractions } from "./header.ts";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
+${renderHeader()}
 <section id="center">
   <div class="hero">
     <img src="${heroImg}" class="base" width="170" height="179">
@@ -58,3 +60,4 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
 `;
 
 setupCounter(document.querySelector<HTMLButtonElement>("#counter")!);
+initHeaderInteractions();
