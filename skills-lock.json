@@ -6,6 +6,12 @@
       "sourceType": "github",
       "skillPath": "image-gen/SKILL.md",
       "computedHash": "1247825b4acb00ecac02c6e7639dec62f0aa84cdecdacbb20769fbb1915eec55"
+    },
+    "skill-creator": {
+      "source": "BuilderIO/builder-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skill-creator/SKILL.md",
+      "computedHash": "cf08918c68755495f1d70a7c09de5aed2a48f3b761b7c15b019826d19c40c7e3"
     }
   }
 }
