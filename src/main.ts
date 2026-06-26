@@ -3,8 +3,12 @@ import typescriptLogo from "./assets/typescript.svg";
 import viteLogo from "./assets/vite.svg";
 import heroImg from "./assets/hero.png";
 import { setupCounter } from "./counter.ts";
+import { renderFooter } from "./footer.ts";
+import { renderFooterLinks } from "./footer-links.ts";
+import { renderHeader, initHeaderInteractions } from "./header.ts";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
+${renderHeader()}
 <section id="center">
   <div class="hero">
     <img src="${heroImg}" class="base" width="170" height="179">
@@ -55,6 +59,9 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
 
 <div class="ticks"></div>
 <section id="spacer"></section>
+${renderFooterLinks()}
+${renderFooter()}
 `;
 
 setupCounter(document.querySelector<HTMLButtonElement>("#counter")!);
+initHeaderInteractions();
