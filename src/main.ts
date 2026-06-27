@@ -4,11 +4,15 @@ import { renderFooter } from "./footer.ts";
 import { renderFooterLinks } from "./footer-links.ts";
 import { renderHeader, initHeaderInteractions } from "./header.ts";
 
-document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
+async function renderApp(): Promise<void> {
+  document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
 ${renderHeader()}
-${renderFeaturedProducts()}
+${await renderFeaturedProducts()}
 ${renderFooterLinks()}
 ${renderFooter()}
 `;
 
-initHeaderInteractions();
+  initHeaderInteractions();
+}
+
+void renderApp();
