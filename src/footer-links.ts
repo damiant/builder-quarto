@@ -11,28 +11,28 @@ type FooterSection = {
 const footerColumns: FooterSection[][] = [
   [
     {
-      title: "Shop and Learn",
+      title: "Shop Gadgets",
       links: [
-        { label: "Store", href: "https://www.apple.com/us/shop/goto/store" },
-        { label: "Mac", href: "https://www.apple.com/mac/" },
-        { label: "iPad", href: "https://www.apple.com/ipad/" },
-        { label: "iPhone", href: "https://www.apple.com/iphone/" },
-        { label: "Watch", href: "https://www.apple.com/watch/" },
-        { label: "Vision", href: "https://www.apple.com/apple-vision-pro/" },
-        { label: "AirPods", href: "https://www.apple.com/airpods/" },
-        { label: "TV &amp; Home", href: "https://www.apple.com/tv-home/" },
-        { label: "AirTag", href: "https://www.apple.com/airtag/" },
-        { label: "Accessories", href: "https://www.apple.com/us/shop/goto/buy_accessories" },
-        { label: "Gift Cards", href: "https://www.apple.com/us/shop/goto/giftcards" },
+        { label: "New Arrivals", href: "#new-arrivals" },
+        { label: "Smart Home", href: "#smart-home" },
+        { label: "Wearable Tech", href: "#wearable-tech" },
+        { label: "Audio Gadgets", href: "#audio-gadgets" },
+        { label: "Gaming Gear", href: "#gaming-gear" },
+        { label: "Travel Tech", href: "#travel-tech" },
+        { label: "Desktop Gadgets", href: "#desktop-gadgets" },
+        { label: "Kitchen Tech", href: "#kitchen-tech" },
+        { label: "Charge &amp; Power", href: "#charge-power" },
+        { label: "Quarto Exclusives", href: "#quarto-exclusives" },
+        { label: "Gift Cards", href: "#gift-cards" },
       ],
     },
     {
-      title: "Apple Wallet",
+      title: "Deals &amp; Drops",
       links: [
-        { label: "Wallet", href: "https://www.apple.com/wallet/" },
-        { label: "Apple&nbsp;Card", href: "https://www.apple.com/apple-card/" },
-        { label: "Apple&nbsp;Pay", href: "https://www.apple.com/apple-pay/" },
-        { label: "Apple&nbsp;Cash", href: "https://www.apple.com/apple-cash/" },
+        { label: "Daily Deals", href: "#daily-deals" },
+        { label: "Limited Drops", href: "#limited-drops" },
+        { label: "Bundle Savings", href: "#bundle-savings" },
+        { label: "Clearance Finds", href: "#clearance-finds" },
       ],
     },
   ],
@@ -40,100 +40,100 @@ const footerColumns: FooterSection[][] = [
     {
       title: "Account",
       links: [
-        { label: "Manage Your Apple Account", href: "https://account.apple.com/" },
-        { label: "Apple Store Account", href: "https://www.apple.com/us/shop/goto/account" },
-        { label: "iCloud.com", href: "https://www.icloud.com/" },
+        { label: "Manage Your Account", href: "#account" },
+        { label: "Order History", href: "#order-history" },
+        { label: "Saved Gadgets", href: "#saved-gadgets" },
       ],
     },
     {
-      title: "Entertainment",
+      title: "Discover",
       links: [
-        { label: "Apple&nbsp;One", href: "https://www.apple.com/apple-one/" },
-        { label: "Apple&nbsp;TV", href: "https://www.apple.com/apple-tv/" },
-        { label: "Apple&nbsp;Music", href: "https://www.apple.com/apple-music/" },
-        { label: "Apple&nbsp;Arcade", href: "https://www.apple.com/apple-arcade/" },
-        { label: "Apple&nbsp;Fitness+", href: "https://www.apple.com/apple-fitness-plus/" },
-        { label: "Apple&nbsp;News+", href: "https://www.apple.com/apple-news/" },
-        { label: "Apple Podcasts", href: "https://www.apple.com/apple-podcasts/" },
-        { label: "Apple&nbsp;Books", href: "https://www.apple.com/apple-books/" },
-        { label: "App&nbsp;Store", href: "https://www.apple.com/app-store/" },
-      ],
-    },
-  ],
-  [
-    {
-      title: "Apple Store",
-      links: [
-        { label: "Find a Store", href: "https://www.apple.com/retail/" },
-        { label: "Genius Bar", href: "https://www.apple.com/retail/geniusbar/" },
-        { label: "Today at Apple", href: "https://www.apple.com/today/" },
-        { label: "Group Reservations", href: "https://www.apple.com/today/groups/" },
-        { label: "Apple Camp", href: "https://www.apple.com/today/camp/" },
-        { label: "Apple Store App", href: "https://apps.apple.com/us/app/apple-store/id375380948" },
-        { label: "Certified Refurbished", href: "https://www.apple.com/us/shop/goto/special_deals" },
-        { label: "Apple&nbsp;Trade&nbsp;In", href: "https://www.apple.com/us/shop/goto/trade_in" },
-        { label: "Financing", href: "https://www.apple.com/us/shop/goto/payment_plan" },
-        { label: "Carrier Deals at Apple", href: "https://www.apple.com/us/shop/goto/buy_iphone/carrier_offers" },
-        { label: "Order Status", href: "https://www.apple.com/us/shop/goto/order/list" },
-        { label: "Shopping Help", href: "https://www.apple.com/us/shop/goto/help" },
+        { label: "Buying Guides", href: "#buying-guides" },
+        { label: "Staff Picks", href: "#staff-picks" },
+        { label: "Tech Trends", href: "#tech-trends" },
+        { label: "Gift Ideas", href: "#gift-ideas" },
+        { label: "Setup Inspiration", href: "#setup-inspiration" },
+        { label: "How-To Videos", href: "#how-to-videos" },
+        { label: "Compare Gadgets", href: "#compare-gadgets" },
+        { label: "Quarto Blog", href: "#quarto-blog" },
+        { label: "Rewards", href: "#rewards" },
       ],
     },
   ],
   [
     {
-      title: "For Business",
+      title: "Quarto Store",
       links: [
-        { label: "Apple and Business", href: "https://www.apple.com/business/" },
-        { label: "Shop for Business", href: "https://www.apple.com/retail/business/" },
-      ],
-    },
-    {
-      title: "For Education",
-      links: [
-        { label: "Apple and Education", href: "https://www.apple.com/education/" },
-        { label: "Shop for K-12", href: "https://www.apple.com/education/k12/how-to-buy/" },
-        { label: "Shop for College", href: "https://www.apple.com/us/shop/goto/educationrouting" },
-      ],
-    },
-    {
-      title: "For Healthcare",
-      links: [
-        { label: "Apple and Healthcare", href: "https://www.apple.com/healthcare/" },
-      ],
-    },
-    {
-      title: "For Government",
-      links: [
-        { label: "Apple and Government", href: "https://www.apple.com/government/" },
-        { label: "Shop for Veterans and Military", href: "https://www.apple.com/us/shop/goto/eppstore/veteransandmilitary" },
-        { label: "Shop for State and Local Employees", href: "https://www.apple.com/us_epp_67909/store" },
-        { label: "Shop for Federal Employees", href: "https://www.apple.com/us_epp_55499/store" },
+        { label: "Find a Store", href: "#stores" },
+        { label: "Store Events", href: "#store-events" },
+        { label: "Product Demos", href: "#product-demos" },
+        { label: "Personal Shopping", href: "#personal-shopping" },
+        { label: "Quarto App", href: "#quarto-app" },
+        { label: "Certified Refurbished", href: "#refurbished" },
+        { label: "Trade-In Program", href: "#trade-in" },
+        { label: "Financing", href: "#financing" },
+        { label: "Protection Plans", href: "#protection-plans" },
+        { label: "Order Status", href: "#order-status" },
+        { label: "Shipping Options", href: "#shipping-options" },
+        { label: "Shopping Help", href: "#shopping-help" },
       ],
     },
   ],
   [
     {
-      title: "Apple Values",
+      title: "For Work",
       links: [
-        { label: "Accessibility", href: "https://www.apple.com/accessibility/" },
-        { label: "Education", href: "https://www.apple.com/education-initiative/" },
-        { label: "Environment", href: "https://www.apple.com/environment/" },
-        { label: "Inclusion and Diversity", href: "https://www.apple.com/diversity/" },
-        { label: "Privacy", href: "https://www.apple.com/privacy/" },
-        { label: "Racial Equity and Justice", href: "https://www.apple.com/racial-equity-justice-initiative/" },
-        { label: "Supply Chain Innovation", href: "https://www.apple.com/supply-chain/" },
+        { label: "Quarto for Business", href: "#business" },
+        { label: "Bulk Orders", href: "#bulk-orders" },
       ],
     },
     {
-      title: "About Apple",
+      title: "For Creators",
       links: [
-        { label: "Newsroom", href: "https://www.apple.com/newsroom/" },
-        { label: "Apple Leadership", href: "https://www.apple.com/leadership/" },
-        { label: "Career Opportunities", href: "https://www.apple.com/careers/us/" },
-        { label: "Investors", href: "https://investor.apple.com/" },
-        { label: "Ethics &amp; Compliance", href: "https://www.apple.com/compliance/" },
-        { label: "Events", href: "https://www.apple.com/apple-events/" },
-        { label: "Contact Apple", href: "https://www.apple.com/contact/" },
+        { label: "Creator Kits", href: "#creator-kits" },
+        { label: "Studio Gear", href: "#studio-gear" },
+        { label: "Streaming Setups", href: "#streaming-setups" },
+      ],
+    },
+    {
+      title: "For Students",
+      links: [
+        { label: "Student Tech", href: "#student-tech" },
+      ],
+    },
+    {
+      title: "For Teams",
+      links: [
+        { label: "Team Essentials", href: "#team-essentials" },
+        { label: "Office Upgrades", href: "#office-upgrades" },
+        { label: "Remote Work Gear", href: "#remote-work-gear" },
+        { label: "Corporate Gifts", href: "#corporate-gifts" },
+      ],
+    },
+  ],
+  [
+    {
+      title: "Quarto Values",
+      links: [
+        { label: "Sustainability", href: "#sustainability" },
+        { label: "Responsible Sourcing", href: "#responsible-sourcing" },
+        { label: "Accessibility", href: "#accessibility" },
+        { label: "Privacy", href: "#privacy" },
+        { label: "Product Safety", href: "#product-safety" },
+        { label: "Repair &amp; Reuse", href: "#repair-reuse" },
+        { label: "Community Impact", href: "#community-impact" },
+      ],
+    },
+    {
+      title: "About Quarto",
+      links: [
+        { label: "Our Story", href: "#our-story" },
+        { label: "Careers", href: "#careers" },
+        { label: "Press", href: "#press" },
+        { label: "Partner With Us", href: "#partners" },
+        { label: "Ethics &amp; Compliance", href: "#compliance" },
+        { label: "Events", href: "#events" },
+        { label: "Contact Quarto", href: "#contact" },
       ],
     },
   ],
@@ -166,7 +166,7 @@ function renderFooterSection(section: FooterSection): string {
 export function renderFooterLinks(): string {
   return `
 <footer class="footer-links" aria-label="Footer Links">
-  <nav aria-label="Apple Directory" role="navigation" class="footer-links-directory">
+  <nav aria-label="Quarto Directory" role="navigation" class="footer-links-directory">
     ${footerColumns.map(column => `
     <div class="footer-links-column">
       ${column.map(renderFooterSection).join("")}
