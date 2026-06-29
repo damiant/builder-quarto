@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { addCartItem } from "./cart.ts";
 import { fetchFeaturedProducts } from "./FeaturedProducts.tsx";
 import { currencyFormatter, getProductImageUrl, type Product } from "./ProductCard.tsx";
 
@@ -20,6 +21,15 @@ export function ProductDetailPage({ productId }: ProductDetailPageProps) {
   }, [productId]);
 
   if (product === undefined) return null;
+
+  function handleAddToCart() {
+    addCartItem({
+      id: product?.sku ?? product?.slug ?? productId,
+      title: product?.title ?? productId,
+      price: product?.price ?? 0,
+      image: product?.image,
+    });
+  }
 
   if (product === null) {
     return (
@@ -74,7 +84,7 @@ export function ProductDetailPage({ productId }: ProductDetailPageProps) {
             <p className="product-detail-description">{product.description}</p>
           )}
           <p className="product-detail-price">{currencyFormatter.format(product.price)}</p>
-          <button className="product-detail-btn" type="button">
+          <button className="product-detail-btn" type="button" onClick={handleAddToCart}>
             Add to cart
           </button>
         </div>

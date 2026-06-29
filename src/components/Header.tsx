@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getCartItemCount, getCartItems, subscribeToCartChanges, type CartItem } from "./cart.ts";
+import { currencyFormatter } from "./ProductCard.tsx";
 
 const quartoLogo = (
   <svg
@@ -155,12 +157,42 @@ const categories = [
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [cartItems, setCartItems] = useState<CartItem[]>(() => getCartItems());
+  const cartItemCount = getCartItemCount(cartItems);
+  const cartTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+
+  useEffect(() => subscribeToCartChanges(() => setCartItems(getCartItems())), []);
 
   function closeMenu() {
     setMenuOpen(false);
   }
   function toggleMenu() {
     setMenuOpen((open) => !open);
+  }
+  function openCart() {
+    setCartItems(getCartItems());
+    setCartOpen(true);
+  }
+  function closeCart() {
+    setCartOpen(false);
+  }
+
+  function renderCartButton() {
+    return (
+      <button
+        type="button"
+        className="cart-link"
+        aria-label={`Cart with ${cartItemCount} ${cartItemCount === 1 ? "item" : "items"}`}
+        onClick={openCart}
+      >
+        <span className="cart-icon-wrap">
+          {cartIcon}
+          {cartItemCount > 0 && <span className="cart-badge">{cartItemCount}</span>}
+        </span>
+        <span className="cart-label">Cart</span>
+      </button>
+    );
   }
 
   return (
@@ -294,12 +326,7 @@ export function Header() {
                 Orders &amp; Returns
               </a>
             </li>
-            <li className="user-action-item user-action-divider">
-              <a href="#" className="cart-link" aria-label="Cart">
-                <span className="cart-icon-wrap">{cartIcon}</span>
-                <span className="cart-label">Cart</span>
-              </a>
-            </li>
+            <li className="user-action-item user-action-divider">{renderCartButton()}</li>
           </ul>
         </nav>
 
@@ -316,15 +343,57 @@ export function Header() {
                 Sign In / Register
               </button>
             </li>
-            <li className="tools-item tools-item-divider">
-              <a href="#" className="cart-link" aria-label="Cart">
-                <span className="cart-icon-wrap">{cartIcon}</span>
-                <span className="cart-label">Cart</span>
-              </a>
-            </li>
+            <li className="tools-item tools-item-divider">{renderCartButton()}</li>
           </ul>
         </nav>
       </div>
+
+      {cartOpen && (
+        <div className="cart-dialog-backdrop" role="presentation" onClick={closeCart}>
+          <section
+            className="cart-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="cart-dialog-title"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="cart-dialog-header">
+              <h2 id="cart-dialog-title" className="cart-dialog-title">
+                Cart
+              </h2>
+              <button type="button" className="cart-dialog-close" onClick={closeCart}>
+                Close
+              </button>
+            </div>
+
+            {cartItems.length > 0 ? (
+              <>
+                <ul className="cart-item-list">
+                  {cartItems.map((item) => (
+                    <li className="cart-item" key={item.id}>
+                      <div className="cart-item-copy">
+                        <p className="cart-item-title">{item.title}</p>
+                        <p className="cart-item-meta">
+                          {item.quantity} × {currencyFormatter.format(item.price)}
+                        </p>
+                      </div>
+                      <p className="cart-item-subtotal">
+                        {currencyFormatter.format(item.price * item.quantity)}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+                <div className="cart-dialog-total">
+                  <span>Total</span>
+                  <strong>{currencyFormatter.format(cartTotal)}</strong>
+                </div>
+              </>
+            ) : (
+              <p className="cart-empty-message">Your cart is empty.</p>
+            )}
+          </section>
+        </div>
+      )}
     </header>
   );
 }
