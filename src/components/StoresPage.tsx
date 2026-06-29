@@ -120,22 +120,24 @@ export function StoresPage() {
           </h1>
           <p className="stores-subtitle">Visit one of our locations near you</p>
         </div>
-        {storeGroups.map((group) => (
-          <section
-            key={group.name}
-            className="stores-section"
-            aria-labelledby={`group-${group.name}`}
-          >
-            <h2 id={`group-${group.name}`} className="stores-group-title">
-              {group.name}
-            </h2>
-            <div className="stores-grid">
-              {group.stores.map((store) => (
-                <StoreCard key={store.title} {...store} />
-              ))}
-            </div>
-          </section>
-        ))}
+        <div className="stores-groups-container">
+          {storeGroups.map((group) => (
+            <section
+              key={group.name}
+              className="stores-section"
+              aria-labelledby={`group-${group.name}`}
+            >
+              <h2 id={`group-${group.name}`} className="stores-group-title">
+                {group.name}
+              </h2>
+              <div className="stores-group-grid">
+                {group.stores.map((store) => (
+                  <StoreCard key={store.title} {...store} />
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
       </div>
     </main>
   );
