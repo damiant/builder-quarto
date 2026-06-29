@@ -10,6 +10,7 @@ import { Footer } from "./components/Footer.tsx";
 import { FooterLinks } from "./components/FooterLinks.tsx";
 import { FeaturedProducts } from "./components/FeaturedProducts.tsx";
 import { ContentHeader } from "./components/ContentHeader.tsx";
+import { PageHero } from "./components/PageHero.tsx";
 import "./builder-components.tsx";
 
 builder.init(BUILDER_PUBLIC_API_KEY);
@@ -176,24 +177,11 @@ const privacyNews = [
 function TestPage() {
   return (
     <main className="test-page quarto-privacy" aria-labelledby="test-page-title" tabIndex={-1}>
-      <section className="privacy-hero" aria-labelledby="test-page-title">
-        <div className="privacy-section-inner">
-          <div className="privacy-heading-block">
-            <h1 id="test-page-title" className="privacy-hero-title">
-              Privacy at Quarto
-            </h1>
-            <p className="privacy-hero-subtitle">
-              Your data is private at work, at home, and on the go
-            </p>
-          </div>
-          <img
-            loading="lazy"
-            alt="A collage of graphical user interface elements, including message bubbles, notification panels, and app screens."
-            src="https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/MSPrivacy_HeroBanner_CROP_4000x1250?scl=1"
-            className="privacy-hero-image"
-          />
-        </div>
-      </section>
+      <PageHero
+        title="Privacy at Quarto"
+        text="Your data is private at work, at home, and on the go"
+        image="https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/MSPrivacy_HeroBanner_CROP_4000x1250?scl=1"
+      />
 
       <section className="privacy-section" aria-labelledby="privacy-commitment-title">
         <div className="privacy-section-inner">

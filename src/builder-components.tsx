@@ -2,6 +2,25 @@ import { Builder } from "@builder.io/react";
 import { FeaturedProducts } from "./components/FeaturedProducts.tsx";
 import { ProductCard } from "./components/ProductCard.tsx";
 import { ContentHeader } from "./components/ContentHeader.tsx";
+import { PageHero } from "./components/PageHero.tsx";
+
+Builder.registerComponent(PageHero, {
+  name: "PageHero",
+  inputs: [
+    { name: "title", type: "text", defaultValue: "Privacy at Quarto" },
+    {
+      name: "text",
+      type: "longText",
+      defaultValue: "Your data is private at work, at home, and on the go",
+    },
+    {
+      name: "image",
+      type: "file",
+      defaultValue:
+        "https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/MSPrivacy_HeroBanner_CROP_4000x1250?scl=1",
+    },
+  ],
+});
 
 Builder.registerComponent(ContentHeader, {
   name: "ContentHeader",
