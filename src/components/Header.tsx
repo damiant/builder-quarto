@@ -1,5 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { getCartItemCount, getCartItems, subscribeToCartChanges, type CartItem } from "./cart.ts";
+import {
+  getCartItemCount,
+  getCartItems,
+  removeCartItem,
+  subscribeToCartChanges,
+  type CartItem,
+  updateCartItemQuantity,
+} from "./cart.ts";
 import { currencyFormatter } from "./ProductCard.tsx";
 import {
   Dialog,
@@ -195,6 +202,12 @@ export function Header() {
   function handleCartOpenChange(open: boolean) {
     if (open) setCartItems(getCartItems());
     setCartOpen(open);
+  }
+  function changeCartItemQuantity(itemId: string, quantity: number) {
+    updateCartItemQuantity(itemId, quantity);
+  }
+  function removeCartDialogItem(itemId: string) {
+    removeCartItem(itemId);
   }
 
   function renderCartButton() {
@@ -395,9 +408,36 @@ export function Header() {
                   <li className="cart-item" key={item.id}>
                     <div className="cart-item-copy">
                       <p className="cart-item-title">{item.title}</p>
-                      <p className="cart-item-meta">
-                        {item.quantity} × {currencyFormatter.format(item.price)}
-                      </p>
+                      <p className="cart-item-meta">{currencyFormatter.format(item.price)} each</p>
+                      <div
+                        className="cart-quantity-controls"
+                        aria-label={`Quantity for ${item.title}`}
+                      >
+                        <button
+                          type="button"
+                          className="cart-quantity-btn"
+                          aria-label={`Decrease quantity for ${item.title}`}
+                          onClick={() => changeCartItemQuantity(item.id, item.quantity - 1)}
+                        >
+                          −
+                        </button>
+                        <span className="cart-quantity-value">{item.quantity}</span>
+                        <button
+                          type="button"
+                          className="cart-quantity-btn"
+                          aria-label={`Increase quantity for ${item.title}`}
+                          onClick={() => changeCartItemQuantity(item.id, item.quantity + 1)}
+                        >
+                          +
+                        </button>
+                        <button
+                          type="button"
+                          className="cart-remove-btn"
+                          onClick={() => removeCartDialogItem(item.id)}
+                        >
+                          Remove
+                        </button>
+                      </div>
                     </div>
                     <p className="cart-item-subtotal">
                       {currencyFormatter.format(item.price * item.quantity)}
@@ -409,6 +449,9 @@ export function Header() {
                 <span>Total</span>
                 <strong>{currencyFormatter.format(cartTotal)}</strong>
               </div>
+              <button type="button" className="cart-checkout-btn">
+                Check Out
+              </button>
             </>
           ) : (
             <p className="cart-empty-message">Your cart is empty.</p>

@@ -59,6 +59,20 @@ export function addCartItem(item: Omit<CartItem, "quantity">) {
   writeStoredCart(cartItems);
 }
 
+export function updateCartItemQuantity(itemId: string, quantity: number) {
+  const cartItems = readStoredCart();
+
+  writeStoredCart(
+    cartItems
+      .map((item) => (item.id === itemId ? { ...item, quantity } : item))
+      .filter((item) => item.quantity > 0),
+  );
+}
+
+export function removeCartItem(itemId: string) {
+  writeStoredCart(readStoredCart().filter((item) => item.id !== itemId));
+}
+
 export function subscribeToCartChanges(listener: () => void) {
   if (typeof window === "undefined") return () => {};
 
