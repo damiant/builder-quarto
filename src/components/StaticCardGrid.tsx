@@ -16,16 +16,14 @@ export const staticCardGridBuilderConfig = {
       type: "list",
       defaultValue: [
         {
-          title: "You control your information",
-          text: "We give you the ability to control your data, along with clear and meaningful choices over how your data is used.",
-          image:
-            "https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/MSPrivacy_01_CONTROL_NEW_2000x2000?wid=570&hei=570",
+          title: "Feature highlight",
+          text: "Use this card to highlight an important feature, benefit, or message.",
+          image: "",
         },
         {
-          title: "Your data is protected",
-          text: "We rigorously protect your data using encryption and other security best practices.",
-          image:
-            "https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/MSPrivacy_02_IMAGERY_PROTECTION_NEW_2000x2000?wid=570&hei=570",
+          title: "Supporting detail",
+          text: "Use this card to share additional context for your audience.",
+          image: "",
         },
       ],
       subFields: [
