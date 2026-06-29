@@ -4,6 +4,8 @@ export type Store = {
   phone?: string;
   hours?: string;
   image?: string;
+  state?: string;
+  country?: string;
 };
 
 export function StoreCard({ title, address, phone, hours, image }: Store) {

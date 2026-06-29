@@ -19,6 +19,8 @@ function normalizeStore(content: BuilderStoreContent): Store | null {
     phone: content.data?.phone,
     hours: content.data?.hours,
     image: content.data?.image,
+    state: content.data?.state,
+    country: content.data?.country,
   };
 }
 
@@ -26,7 +28,10 @@ export async function fetchStores(): Promise<Store[]> {
   const storesUrl = new URL("https://cdn.builder.io/api/v3/content/stores");
   storesUrl.searchParams.set("apiKey", BUILDER_PUBLIC_API_KEY);
   storesUrl.searchParams.set("limit", "100");
-  storesUrl.searchParams.set("fields", "data.title,data.address,data.phone,data.hours,data.image");
+  storesUrl.searchParams.set(
+    "fields",
+    "data.title,data.address,data.phone,data.hours,data.image,data.state,data.country",
+  );
 
   const response = await fetch(storesUrl);
   if (!response.ok) throw new Error(`Failed to load stores: ${response.status}`);
@@ -35,6 +40,28 @@ export async function fetchStores(): Promise<Store[]> {
   const stores = (data.results ?? []).map(normalizeStore).filter((s): s is Store => Boolean(s));
 
   return stores;
+}
+
+type StoreGroup = {
+  name: string;
+  stores: Store[];
+};
+
+function groupStores(stores: Store[]): StoreGroup[] {
+  const groups: Record<string, Store[]> = {};
+
+  stores.forEach((store) => {
+    const groupKey =
+      store.country === "United States" ? store.state || "Other" : store.country || "Other";
+    if (!groups[groupKey]) {
+      groups[groupKey] = [];
+    }
+    groups[groupKey].push(store);
+  });
+
+  return Object.entries(groups)
+    .map(([name, storeList]) => ({ name, stores: storeList }))
+    .sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export function StoresPage() {
@@ -82,6 +109,8 @@ export function StoresPage() {
     );
   }
 
+  const storeGroups = groupStores(stores);
+
   return (
     <main className="stores-page" aria-labelledby="stores-title">
       <div className="stores-page-inner">
@@ -91,11 +120,22 @@ export function StoresPage() {
           </h1>
           <p className="stores-subtitle">Visit one of our locations near you</p>
         </div>
-        <div className="stores-grid">
-          {stores.map((store) => (
-            <StoreCard key={store.title} {...store} />
-          ))}
-        </div>
+        {storeGroups.map((group) => (
+          <section
+            key={group.name}
+            className="stores-section"
+            aria-labelledby={`group-${group.name}`}
+          >
+            <h2 id={`group-${group.name}`} className="stores-group-title">
+              {group.name}
+            </h2>
+            <div className="stores-grid">
+              {group.stores.map((store) => (
+                <StoreCard key={store.title} {...store} />
+              ))}
+            </div>
+          </section>
+        ))}
       </div>
     </main>
   );
