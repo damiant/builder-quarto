@@ -239,6 +239,11 @@ export function Header() {
                 </li>
               ))}
               <li className="category-divider" role="separator"></li>
+              <li className="category-item">
+                <button type="button" className="category-item-btn category-sign-in">
+                  Sign In / Register
+                </button>
+              </li>
             </ul>
             <div className="close-menu-area">
               <button type="button" className="close-menu-btn" onClick={closeMenu}>
