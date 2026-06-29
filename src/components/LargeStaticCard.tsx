@@ -37,7 +37,7 @@ export function LargeStaticCard({ image, title, text, ctaLabel, ctaLink }: Large
         <h3 className="static-feature-title">{title}</h3>
         <p className="static-feature-text">{text}</p>
         {ctaLabel ? (
-          <a className="static-button" href={ctaLink}>
+          <a className="static-link-btn" href={ctaLink}>
             {ctaLabel}
           </a>
         ) : null}

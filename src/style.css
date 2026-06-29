@@ -75,7 +75,7 @@ body {
 /* ── Site Header ── */
 .site-header {
   background: var(--header-bg);
-  font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--sans);
   font-size: 16px;
   border-bottom: 1px solid var(--border);
   /* Break out of the narrow #app container to span full viewport width */
@@ -84,6 +84,10 @@ body {
   left: 50%;
   transform: translateX(-50%);
   box-sizing: border-box;
+}
+
+.header-sans {
+  font-family: var(--sans);
 }
 
 /* Utility bar */
@@ -279,7 +283,7 @@ body {
 
 .category-divider {
   border-bottom: 1px solid var(--border-light);
-  margin: 16px 8px 18px;
+  margin: 16px 8px 16px;
 }
 
 .close-menu-area {
@@ -368,13 +372,13 @@ body {
   border: 1px solid var(--primary-blue);
   border-radius: 4px;
   position: absolute;
-  inset: -5px 0 0;
+  inset: -4px 0 0;
   padding: 0 8px;
   pointer-events: none;
 }
 
 .search-legend {
-  font-size: 0.75em;
+  font-size: 12px;
   line-height: 11px;
   transition: width 0.15s;
   overflow: hidden;
@@ -610,7 +614,7 @@ code {
 }
 
 .featured-products-header {
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
 .featured-products-eyebrow {
@@ -736,7 +740,7 @@ code {
   overflow: hidden;
   margin: 0 0 14px;
   color: var(--text-muted);
-  font-size: 13px;
+  font-size: 12px;
   line-height: 1.4;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
@@ -819,7 +823,7 @@ code {
 }
 
 .product-detail-description {
-  margin: 18px 0 0;
+  margin: 16px 0 0;
   color: var(--text-secondary);
   font-size: 17px;
   line-height: 1.55;
@@ -833,7 +837,7 @@ code {
   line-height: 1.2;
 }
 
-.product-detail-button {
+.product-detail-btn {
   margin-top: 24px;
   padding: 12px 18px;
   border: 2px solid var(--primary-blue);
@@ -871,7 +875,7 @@ code {
 
   .product-detail-layout {
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 24px;
   }
 
   .product-detail-title,
@@ -992,9 +996,7 @@ code {
   flex-direction: column;
   overflow-wrap: break-word;
   background: var(--white);
-  box-shadow:
-    var(--shadow-lighter) 0 3px 7px,
-    rgba(0, 0, 0, 0.11) 0 1px 2px;
+  box-shadow: var(--shadow);
 }
 
 .static-card-image {
@@ -1030,7 +1032,7 @@ code {
   display: inline-block;
   position: relative;
   margin: 16px 24px 16px 0;
-  padding-right: 27px;
+  padding-right: 24px;
   color: var(--link-blue);
   font-weight: 600;
   text-decoration: none;
@@ -1088,11 +1090,11 @@ code {
   color: var(--text-body);
 }
 
-.static-button {
+.static-link-btn {
   display: inline-block;
   margin: 8px 0;
   padding: 10px 12px;
-  border: 2px solid rgba(0, 0, 0, 0);
+  border: 2px solid transparent;
   border-radius: 2px;
   background: var(--link-blue);
   color: var(--white);
@@ -1257,18 +1259,10 @@ code {
   display: flex;
   max-width: 1126px;
   margin: 0 auto;
-  padding: 20px 22px 0;
+  padding: 20px 24px 0;
   box-sizing: border-box;
   color: var(--text-muted);
-  font:
-    400 12px/16.0005px "SF Pro Text",
-    "Myriad Set Pro",
-    "SF Pro Icons",
-    "Apple Legacy Chevron",
-    "Helvetica Neue",
-    Helvetica,
-    Arial,
-    sans-serif;
+  font: 400 12px/16px var(--sans);
   letter-spacing: -0.12px;
   text-align: left;
 }
@@ -1290,14 +1284,14 @@ code {
 
 .footer-links-heading-text {
   display: block;
-  margin: 0 20px 9.6px 0;
+  margin: 0 20px 8px 0;
   color: var(--text-high);
   font-weight: 600;
 }
 
-.footer-links-toggle {
+.footer-links-toggle-btn {
   display: none;
-  margin: 0 20px 9.6px 0;
+  margin: 0 20px 8px 0;
   padding: 0;
   border: 0;
   background: transparent;
@@ -1326,7 +1320,7 @@ code {
 }
 
 .footer-links-item {
-  margin-bottom: 9.6px;
+  margin-bottom: 8px;
 }
 
 .footer-links-anchor {
@@ -1360,7 +1354,7 @@ code {
     display: none;
   }
 
-  .footer-links-toggle {
+  .footer-links-toggle-btn {
     display: flex;
     width: 100%;
     align-items: center;
@@ -1395,18 +1389,10 @@ code {
 .footer-legal-content {
   max-width: 1126px;
   margin: 0 auto;
-  padding: 37px 22px 11px;
+  padding: 40px 24px 12px;
   box-sizing: border-box;
   color: var(--text-muted);
-  font:
-    400 12px/16.0005px "SF Pro Text",
-    "Myriad Set Pro",
-    "SF Pro Icons",
-    "Apple Legacy Chevron",
-    "Helvetica Neue",
-    Helvetica,
-    Arial,
-    sans-serif;
+  font: 400 12px/16px var(--sans);
   letter-spacing: -0.12px;
   text-align: left;
 }
@@ -1448,9 +1434,9 @@ code {
 .footer-region-desktop,
 .footer-region-mobile {
   position: relative;
-  top: -3px;
+  top: -4px;
   z-index: 2;
-  margin-top: 5px;
+  margin-top: 4px;
   white-space: nowrap;
 }
 
@@ -1469,24 +1455,24 @@ code {
 
 .footer-legal-group {
   position: relative;
-  top: -3px;
+  top: -4px;
   z-index: 1;
 }
 
 .footer-copyright {
   float: inline-start;
   max-height: 9999px;
-  margin: 5px 30px 0 0;
+  margin: 4px 32px 0 0;
   color: var(--text-muted);
 }
 
 .footer-legal-list {
   float: inline-start;
   position: relative;
-  top: -5px;
+  top: -6px;
   z-index: 1;
   list-style: none;
-  margin: 5px 30px 0 0;
+  margin: 4px 32px 0 0;
   padding: 0;
   color: var(--text-muted);
 }
@@ -1494,7 +1480,7 @@ code {
 .footer-legal-item {
   display: inline-block;
   position: relative;
-  margin: 5px 6px 0 0;
+  margin: 4px 6px 0 0;
 }
 
 .footer-legal-link {
@@ -1509,7 +1495,7 @@ code {
 
 @media (max-width: 700px) {
   .footer-legal-content {
-    padding: 17px 16px 19px;
+    padding: 16px 16px 20px;
   }
 
   .footer-shop-message {

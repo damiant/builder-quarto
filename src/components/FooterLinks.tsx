@@ -190,7 +190,7 @@ function FooterSection({ title, links }: FooterSection) {
     <section className="footer-links-section">
       <h3 className="footer-links-heading">
         <span className="footer-links-heading-text">{title}</span>
-        <button disabled className="footer-links-toggle" type="button">
+        <button disabled className="footer-links-toggle-btn" type="button">
           <span>{title}</span>
           <span className="footer-links-toggle-icon">{footerChevron}</span>
         </button>

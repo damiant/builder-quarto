@@ -58,8 +58,8 @@ alwaysApply: false
 ## Colors
 
 | Token | Value | Usage |
-|-------|-------|-------|
-| ... | ... | ... |
+| ----- | ----- | ----- |
+| ...   | ...   | ...   |
 
 ## Spacing Scale
 
@@ -69,15 +69,17 @@ Scale: [list of values]
 ## Typography
 
 | Token | font-size | font-weight | line-height |
-|-------|-----------|-------------|-------------|
-| ... | ... | ... | ... |
+| ----- | --------- | ----------- | ----------- |
+| ...   | ...       | ...         | ...         |
 
 ## Component Patterns
 
 ### Button
+
 [Describe expected structure and class naming]
 
 ### Card
+
 ...
 
 ## Rules
@@ -106,6 +108,7 @@ Once the design system is confirmed (or already exists in `.agents/rules/design-
 
 **1. Hardcoded colors**
 Find any color value that is NOT a CSS variable or design token reference:
+
 - Hex: `#fff`, `#1a2b3c`
 - RGB/RGBA: `rgb(...)`, `rgba(...)`
 - HSL/HSLA: `hsl(...)`, `hsla(...)`
@@ -154,6 +157,7 @@ After reporting, always end with:
 > "Would you like me to fix any of these? I can fix a specific violation, a specific file, all violations of one type, or everything at once."
 
 When fixing:
+
 - Replace hardcoded colors with the nearest design token (add as CSS variable if not already defined)
 - Replace non-standard spacing with the nearest scale value (round to closest, don't invent new steps)
 - Replace typography values with the nearest type scale token
