@@ -125,7 +125,7 @@ body {
   text-decoration: none;
   font-size: 14px;
   line-height: 1.7;
-  padding: 2px 12px;
+  padding: 4px 12px;
   display: inline-block;
 }
 
@@ -160,7 +160,7 @@ body {
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 10px 24px;
+  padding: 8px 24px;
   max-width: 1440px;
   margin: 0 auto;
   box-sizing: border-box;
@@ -190,12 +190,12 @@ body {
 .browse-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   background: var(--primary-blue);
   color: var(--white);
   border: 2px solid var(--primary-blue);
   border-radius: 3px;
-  padding: 8px 14px 8px 10px;
+  padding: 8px 16px;
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
@@ -221,7 +221,7 @@ body {
 .category-dropdown {
   display: none;
   position: absolute;
-  top: calc(100% + 2px);
+  top: calc(100% + 4px);
   left: 0;
   background: var(--white);
   z-index: 101;
@@ -269,7 +269,7 @@ body {
   background: none;
   border: none;
   text-align: left;
-  padding: 10px 16px;
+  padding: 12px 16px;
   font-size: 14px;
   color: var(--text-input);
   cursor: pointer;
@@ -283,7 +283,7 @@ body {
 
 .category-divider {
   border-bottom: 1px solid var(--border-light);
-  margin: 16px 8px 16px;
+  margin: 8px;
 }
 
 .close-menu-area {
@@ -296,7 +296,7 @@ body {
   color: var(--white);
   border: none;
   border-radius: 3px;
-  padding: 10px 16px;
+  padding: 12px 16px;
   font-size: 14px;
   cursor: pointer;
   transition: background-color 0.2s;
@@ -334,7 +334,7 @@ body {
   border: none;
   outline: none;
   padding: 0 8px;
-  font-size: 15px;
+  font-size: 16px;
   color: var(--text-input);
   background: transparent;
   min-width: 0;
@@ -379,7 +379,7 @@ body {
 
 .search-legend {
   font-size: 12px;
-  line-height: 11px;
+  line-height: 12px;
   transition: width 0.15s;
   overflow: hidden;
 }
@@ -738,7 +738,7 @@ code {
 .product-card-description {
   display: -webkit-box;
   overflow: hidden;
-  margin: 0 0 14px;
+  margin: 0 0 16px;
   color: var(--text-muted);
   font-size: 12px;
   line-height: 1.4;
@@ -749,7 +749,7 @@ code {
 .product-card-price {
   margin: auto 0 0;
   color: var(--text-medium);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
   line-height: 1.4;
 }
@@ -954,8 +954,8 @@ code {
 }
 
 .static-section-title {
-  font-size: 37px;
-  line-height: 44.4px;
+  font-size: 40px;
+  line-height: 48px;
 }
 
 .static-section-description {
@@ -1080,7 +1080,7 @@ code {
 .static-feature-title {
   margin: 0 0 16px;
   color: var(--black);
-  font-size: 29px;
+  font-size: 32px;
   font-weight: 600;
   line-height: 34.8px;
 }
