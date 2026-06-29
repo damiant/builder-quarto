@@ -15,6 +15,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "./ui/Dialog.tsx";
 
 const quartoLogo = (
@@ -195,199 +196,207 @@ export function Header() {
   function toggleMenu() {
     setMenuOpen((open) => !open);
   }
-  function openCart() {
+  function refreshCartItems() {
     setCartItems(getCartItems());
-    setCartOpen(true);
   }
   function handleCartOpenChange(open: boolean) {
-    if (open) setCartItems(getCartItems());
+    if (open) refreshCartItems();
     setCartOpen(open);
   }
-  function changeCartItemQuantity(itemId: string, quantity: number) {
-    updateCartItemQuantity(itemId, quantity);
+  function changeCartItemQuantity(itemId: string, quantityChange: number) {
+    const currentItem = getCartItems().find((item) => item.id === itemId);
+    if (!currentItem) return;
+
+    updateCartItemQuantity(itemId, currentItem.quantity + quantityChange);
+    refreshCartItems();
   }
   function removeCartDialogItem(itemId: string) {
     removeCartItem(itemId);
+    refreshCartItems();
   }
 
   function renderCartButton() {
     return (
-      <button
-        type="button"
-        className="cart-link"
-        aria-label={`Cart with ${cartItemCount} ${cartItemCount === 1 ? "item" : "items"}`}
-        onClick={openCart}
-      >
-        <span className={`cart-icon-wrap${badgeAnimationKey > 0 ? " cart-icon-wrap-animate" : ""}`}>
-          {cartIcon}
-          {cartItemCount > 0 && (
-            <span
-              key={badgeAnimationKey}
-              className={`cart-badge${badgeAnimationKey > 0 ? " cart-badge-animate" : ""}`}
-            >
-              {cartItemCount}
-            </span>
-          )}
-        </span>
-        <span className="cart-label">Cart</span>
-      </button>
+      <DialogTrigger asChild>
+        <button
+          type="button"
+          className="cart-link"
+          aria-label={`Cart with ${cartItemCount} ${cartItemCount === 1 ? "item" : "items"}`}
+          onClick={refreshCartItems}
+        >
+          <span
+            className={`cart-icon-wrap${badgeAnimationKey > 0 ? " cart-icon-wrap-animate" : ""}`}
+          >
+            {cartIcon}
+            {cartItemCount > 0 && (
+              <span
+                key={badgeAnimationKey}
+                className={`cart-badge${badgeAnimationKey > 0 ? " cart-badge-animate" : ""}`}
+              >
+                {cartItemCount}
+              </span>
+            )}
+          </span>
+          <span className="cart-label">Cart</span>
+        </button>
+      </DialogTrigger>
     );
   }
 
   return (
-    <header className="site-header header-sans">
-      <div className="utility-bar">
-        <div className="utility-bar-inner">
-          <nav aria-label="Quick links" className="utility-nav">
-            <ul className="utility-links">
-              <li>
-                <a href="#" className="utility-link">
-                  What's New
-                </a>
-              </li>
-              <li>
-                <a href="#" className="utility-link">
-                  Extensions
-                </a>
-              </li>
-              <li>
-                <a href="#" className="utility-link">
-                  Gallery
-                </a>
-              </li>
-              <li>
-                <a href="#" className="utility-link">
-                  Blog
-                </a>
-              </li>
-              <li>
-                <a href="#" className="utility-link">
-                  Community Forum
-                </a>
-              </li>
-              <li>
-                <a href="#" className="utility-link">
-                  Get Started
-                </a>
-              </li>
-              <li>
-                <a href="#" className="utility-link">
-                  Support
-                </a>
-              </li>
-              <li className="utility-region">
-                <button type="button" className="region-btn" aria-label="Language: English">
-                  EN {chevronDown}
-                </button>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </div>
-
-      <div className="main-header-row">
-        <a href="/" className="logo-link" aria-label="Quarto home">
-          {quartoLogo}
-        </a>
-
-        <div className="browse-area">
-          <button
-            type="button"
-            className="browse-btn"
-            aria-expanded={menuOpen}
-            onClick={toggleMenu}
-          >
-            {hamburgerIcon}
-            <span className="browse-label">Browse</span>
-          </button>
-          <div className={`category-dropdown${menuOpen ? " open" : ""}`} aria-hidden={!menuOpen}>
-            <ul className="category-list">
-              {categories.map((cat) => (
-                <li key={cat} className="category-item">
-                  <button type="button" className="category-item-btn">
-                    {cat} {chevronRight}
+    <Dialog open={cartOpen} onOpenChange={handleCartOpenChange}>
+      <header className="site-header header-sans">
+        <div className="utility-bar">
+          <div className="utility-bar-inner">
+            <nav aria-label="Quick links" className="utility-nav">
+              <ul className="utility-links">
+                <li>
+                  <a href="#" className="utility-link">
+                    What's New
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="utility-link">
+                    Extensions
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="utility-link">
+                    Gallery
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="utility-link">
+                    Blog
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="utility-link">
+                    Community Forum
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="utility-link">
+                    Get Started
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="utility-link">
+                    Support
+                  </a>
+                </li>
+                <li className="utility-region">
+                  <button type="button" className="region-btn" aria-label="Language: English">
+                    EN {chevronDown}
                   </button>
                 </li>
-              ))}
-              <li className="category-divider" role="separator"></li>
-              <li className="category-item">
-                <button type="button" className="category-item-btn category-sign-in">
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <div className="main-header-row">
+          <a href="/" className="logo-link" aria-label="Quarto home">
+            {quartoLogo}
+          </a>
+
+          <div className="browse-area">
+            <button
+              type="button"
+              className="browse-btn"
+              aria-expanded={menuOpen}
+              onClick={toggleMenu}
+            >
+              {hamburgerIcon}
+              <span className="browse-label">Browse</span>
+            </button>
+            <div className={`category-dropdown${menuOpen ? " open" : ""}`} aria-hidden={!menuOpen}>
+              <ul className="category-list">
+                {categories.map((cat) => (
+                  <li key={cat} className="category-item">
+                    <button type="button" className="category-item-btn">
+                      {cat} {chevronRight}
+                    </button>
+                  </li>
+                ))}
+                <li className="category-divider" role="separator"></li>
+                <li className="category-item">
+                  <button type="button" className="category-item-btn category-sign-in">
+                    Sign In / Register
+                  </button>
+                </li>
+              </ul>
+              <div className="close-menu-area">
+                <button type="button" className="close-menu-btn" onClick={closeMenu}>
+                  Close Menu
+                </button>
+              </div>
+            </div>
+            <div
+              className={`dropdown-overlay${menuOpen ? " open" : ""}`}
+              aria-hidden={!menuOpen}
+              onClick={closeMenu}
+            />
+          </div>
+
+          <div className="search-area">
+            <div className="search-field">
+              <div className="search-input-wrapper">
+                <input
+                  type="text"
+                  placeholder="Search Quarto"
+                  aria-label="Search Quarto"
+                  className="search-input"
+                  autoComplete="off"
+                />
+              </div>
+              <div className="search-btn-wrapper">
+                <button type="button" aria-label="Search" className="search-btn">
+                  {searchIcon}
+                </button>
+              </div>
+              <fieldset aria-hidden="true" className="search-fieldset">
+                <legend className="search-legend">
+                  <span>&#8203;</span>
+                </legend>
+              </fieldset>
+            </div>
+          </div>
+
+          <nav aria-label="User actions" className="user-actions-nav">
+            <ul className="user-actions-list">
+              <li className="user-action-item">
+                <button type="button" className="sign-in-btn">
                   Sign In / Register
                 </button>
               </li>
+              <li className="user-action-item user-action-divider">
+                <a href="#" className="user-action-link">
+                  Orders &amp; Returns
+                </a>
+              </li>
+              <li className="user-action-item user-action-divider">{renderCartButton()}</li>
             </ul>
-            <div className="close-menu-area">
-              <button type="button" className="close-menu-btn" onClick={closeMenu}>
-                Close Menu
-              </button>
-            </div>
-          </div>
-          <div
-            className={`dropdown-overlay${menuOpen ? " open" : ""}`}
-            aria-hidden={!menuOpen}
-            onClick={closeMenu}
-          />
+          </nav>
+
+          <nav aria-label="Shopping tools" className="tools-nav">
+            <ul className="tools-list">
+              <li className="tools-item">
+                <a href="#" className="tool-link">
+                  {locationIcon}
+                  <span>Locations</span>
+                </a>
+              </li>
+              <li className="tools-item tools-item-divider">
+                <button type="button" className="sign-in-btn">
+                  Sign In / Register
+                </button>
+              </li>
+              <li className="tools-item tools-item-divider">{renderCartButton()}</li>
+            </ul>
+          </nav>
         </div>
 
-        <div className="search-area">
-          <div className="search-field">
-            <div className="search-input-wrapper">
-              <input
-                type="text"
-                placeholder="Search Quarto"
-                aria-label="Search Quarto"
-                className="search-input"
-                autoComplete="off"
-              />
-            </div>
-            <div className="search-btn-wrapper">
-              <button type="button" aria-label="Search" className="search-btn">
-                {searchIcon}
-              </button>
-            </div>
-            <fieldset aria-hidden="true" className="search-fieldset">
-              <legend className="search-legend">
-                <span>&#8203;</span>
-              </legend>
-            </fieldset>
-          </div>
-        </div>
-
-        <nav aria-label="User actions" className="user-actions-nav">
-          <ul className="user-actions-list">
-            <li className="user-action-item">
-              <button type="button" className="sign-in-btn">
-                Sign In / Register
-              </button>
-            </li>
-            <li className="user-action-item user-action-divider">
-              <a href="#" className="user-action-link">
-                Orders &amp; Returns
-              </a>
-            </li>
-            <li className="user-action-item user-action-divider">{renderCartButton()}</li>
-          </ul>
-        </nav>
-
-        <nav aria-label="Shopping tools" className="tools-nav">
-          <ul className="tools-list">
-            <li className="tools-item">
-              <a href="#" className="tool-link">
-                {locationIcon}
-                <span>Locations</span>
-              </a>
-            </li>
-            <li className="tools-item tools-item-divider">
-              <button type="button" className="sign-in-btn">
-                Sign In / Register
-              </button>
-            </li>
-            <li className="tools-item tools-item-divider">{renderCartButton()}</li>
-          </ul>
-        </nav>
-      </div>
-
-      <Dialog open={cartOpen} onOpenChange={handleCartOpenChange}>
         <DialogContent className="cart-dialog">
           <DialogHeader className="cart-dialog-header">
             <div>
@@ -417,7 +426,7 @@ export function Header() {
                           type="button"
                           className="cart-quantity-btn"
                           aria-label={`Decrease quantity for ${item.title}`}
-                          onClick={() => changeCartItemQuantity(item.id, item.quantity - 1)}
+                          onClick={() => changeCartItemQuantity(item.id, -1)}
                         >
                           −
                         </button>
@@ -426,7 +435,7 @@ export function Header() {
                           type="button"
                           className="cart-quantity-btn"
                           aria-label={`Increase quantity for ${item.title}`}
-                          onClick={() => changeCartItemQuantity(item.id, item.quantity + 1)}
+                          onClick={() => changeCartItemQuantity(item.id, 1)}
                         >
                           +
                         </button>
@@ -457,7 +466,7 @@ export function Header() {
             <p className="cart-empty-message">Your cart is empty.</p>
           )}
         </DialogContent>
-      </Dialog>
-    </header>
+      </header>
+    </Dialog>
   );
 }

@@ -32,10 +32,16 @@ function readStoredCart(): CartItem[] {
 }
 
 function writeStoredCart(cartItems: CartItem[]) {
-  if (typeof window === "undefined") return;
+  if (typeof window === "undefined") return false;
 
-  window.localStorage.setItem(cartStorageKey, JSON.stringify(cartItems));
+  try {
+    window.localStorage.setItem(cartStorageKey, JSON.stringify(cartItems));
+  } catch {
+    return false;
+  }
+
   window.dispatchEvent(new Event(cartChangedEvent));
+  return true;
 }
 
 export function getCartItems(): CartItem[] {
