@@ -48,20 +48,22 @@ type StoreGroup = {
 };
 
 function groupStores(stores: Store[]): StoreGroup[] {
-  const groups: Record<string, Store[]> = {};
+  const groups: Record<string, Store[]> = {
+    "United States": [],
+    International: [],
+  };
 
   stores.forEach((store) => {
-    const groupKey =
-      store.country === "United States" ? store.state || "Other" : store.country || "Other";
-    if (!groups[groupKey]) {
-      groups[groupKey] = [];
+    if (store.country === "United States") {
+      groups["United States"].push(store);
+    } else {
+      groups.International.push(store);
     }
-    groups[groupKey].push(store);
   });
 
   return Object.entries(groups)
-    .map(([name, storeList]) => ({ name, stores: storeList }))
-    .sort((a, b) => a.name.localeCompare(b.name));
+    .filter(([, storeList]) => storeList.length > 0)
+    .map(([name, storeList]) => ({ name, stores: storeList }));
 }
 
 export function StoresPage() {
