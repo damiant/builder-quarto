@@ -177,19 +177,18 @@ export function FeaturedProducts({
     fetchTagDetails(tag).then(setTagDetails).catch(console.error);
   }, [tag]);
 
+  const headingTitle = tagDetails?.title ?? title;
+
   return (
     <section className="featured-products" aria-labelledby="featured-products-title">
       <div className="featured-products-header">
         <p className="featured-products-eyebrow">{eyebrow}</p>
         <h2 id="featured-products-title" className="featured-products-title">
-          {title}
+          {headingTitle}
         </h2>
-        {tagDetails && (
+        {tagDetails?.description && (
           <div className="featured-products-tag-summary">
-            <p className="featured-products-tag-title">{tagDetails.title}</p>
-            {tagDetails.description && (
-              <p className="featured-products-tag-description">{tagDetails.description}</p>
-            )}
+            <p className="featured-products-tag-description">{tagDetails.description}</p>
           </div>
         )}
       </div>

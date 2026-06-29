@@ -959,16 +959,8 @@ code {
   margin-top: 12px;
 }
 
-.featured-products-tag-title {
-  margin: 0;
-  color: var(--text-high);
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.4;
-}
-
 .featured-products-tag-description {
-  margin: 4px 0 0;
+  margin: 0;
   color: var(--text);
   font-size: 16px;
   line-height: 1.5;
