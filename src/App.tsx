@@ -1,16 +1,10 @@
-import { type FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BuilderComponent, builder } from "@builder.io/react";
 import {
   BUILDER_PUBLIC_API_KEY,
   BUILDER_PAGE_MODEL,
   isBuilderPreviewRequest,
 } from "./builder-page.ts";
-import {
-  getStoredAccountEmail,
-  signInAccount,
-  signOutAccount,
-  subscribeToAccountChanges,
-} from "./components/account.ts";
 import { Header } from "./components/Header.tsx";
 import { Footer } from "./components/Footer.tsx";
 import { FooterLinks } from "./components/FooterLinks.tsx";
@@ -46,72 +40,6 @@ function PageError() {
       <h1 id="builder-page-status-title" className="builder-page-status-title">
         This page could not be loaded right now.
       </h1>
-    </main>
-  );
-}
-
-function AccountPage() {
-  const [accountEmail, setAccountEmail] = useState(() => getStoredAccountEmail());
-  const [emailInput, setEmailInput] = useState("");
-
-  useEffect(() => subscribeToAccountChanges(() => setAccountEmail(getStoredAccountEmail())), []);
-
-  function handleSignInSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (!signInAccount(emailInput)) return;
-
-    setAccountEmail(getStoredAccountEmail());
-    setEmailInput("");
-  }
-
-  function handleSignOut() {
-    signOutAccount();
-    setAccountEmail(null);
-  }
-
-  return (
-    <main className="account-page" aria-labelledby="account-page-title">
-      <p className="account-page-eyebrow">Account</p>
-      <h1 id="account-page-title" className="account-page-title">
-        Your Quarto account
-      </h1>
-      {accountEmail ? (
-        <section className="account-panel" aria-label="Signed in account details">
-          <p className="account-panel-label">Signed in as</p>
-          <p className="account-panel-email">{accountEmail}</p>
-          <button type="button" className="account-sign-out-btn" onClick={handleSignOut}>
-            Sign out
-          </button>
-        </section>
-      ) : (
-        <section className="account-panel" aria-label="Sign in or create account">
-          <p className="account-panel-label">Sign in or create an account</p>
-          <h2 className="account-panel-title">Access your Quarto account</h2>
-          <p className="account-panel-text">
-            Enter your email to save gadgets, view account details, and continue faster next time.
-          </p>
-          <form className="account-cta-form" onSubmit={handleSignInSubmit}>
-            <label className="account-cta-label" htmlFor="account-email">
-              Email address
-            </label>
-            <div className="account-cta-row">
-              <input
-                id="account-email"
-                className="account-cta-input"
-                type="email"
-                value={emailInput}
-                onChange={(event) => setEmailInput(event.target.value)}
-                placeholder="you@example.com"
-                autoComplete="email"
-                required
-              />
-              <button type="submit" className="account-cta-submit">
-                Sign in / Sign up
-              </button>
-            </div>
-          </form>
-        </section>
-      )}
     </main>
   );
 }
