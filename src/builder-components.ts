@@ -1,5 +1,5 @@
 import { Builder, builder, type Component } from "@builder.io/sdk";
-import { BUILDER_PUBLIC_API_KEY } from "./builder-page.ts";
+import { BUILDER_PUBLIC_API_KEY, type BuilderPageBlock } from "./builder-page.ts";
 import { escapeHtml, getFeaturedProducts, renderProductCard } from "./featured-products.ts";
 
 type BuilderComponentProps = Record<string, unknown> | undefined;
@@ -63,6 +63,43 @@ function renderBuilderFeaturedProductCard(props?: Record<string, unknown>): stri
     image: getStringProp(props, "image", ""),
     price: getNumberProp(props, "price", 99),
   });
+}
+
+function getBuilderBlockClassName(blockId: string): string {
+  return blockId.replace(/^builder-/, "builder-");
+}
+
+function getBuilderCustomComponentHtml(block: BuilderPageBlock): Promise<string | null> | string | null {
+  const componentName = block.component?.name;
+  const componentOptions = block.component?.options;
+
+  if (componentName === featuredProductsRegistration.name) {
+    return renderBuilderFeaturedProducts(componentOptions);
+  }
+
+  if (componentName === featuredProductCardRegistration.name) {
+    return renderBuilderFeaturedProductCard(componentOptions);
+  }
+
+  return null;
+}
+
+async function hydrateBuilderCustomComponent(block: BuilderPageBlock): Promise<void> {
+  if (block.id) {
+    const blockClassName = getBuilderBlockClassName(block.id);
+    const blockElement = document.getElementsByClassName(blockClassName)[0];
+    const customComponentHtml = await getBuilderCustomComponentHtml(block);
+
+    if (blockElement && customComponentHtml) {
+      blockElement.innerHTML = customComponentHtml;
+    }
+  }
+
+  await Promise.all((block.children ?? []).map(hydrateBuilderCustomComponent));
+}
+
+export async function hydrateBuilderCustomComponents(blocks: BuilderPageBlock[]): Promise<void> {
+  await Promise.all(blocks.map(hydrateBuilderCustomComponent));
 }
 
 export function registerBuilderComponents(): void {

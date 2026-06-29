@@ -1,6 +1,6 @@
 import "./style.css";
-import { registerBuilderComponents } from "./builder-components.ts";
-import { getBuilderPage, isBuilderPreviewRequest, loadBuilderWebComponents } from "./builder-page.ts";
+import { hydrateBuilderCustomComponents, registerBuilderComponents } from "./builder-components.ts";
+import { getBuilderPage, isBuilderPreviewRequest, type BuilderPageBlock } from "./builder-page.ts";
 import { renderFeaturedProducts } from "./featured-products.ts";
 import { renderFooter } from "./footer.ts";
 import { renderFooterLinks } from "./footer-links.ts";
@@ -29,6 +29,11 @@ function renderPageNotFound(urlPath: string): string {
   `;
 }
 
+type RenderedMainContent = {
+  html: string;
+  blocks: BuilderPageBlock[];
+};
+
 function renderPageError(): string {
   return `
     <main class="builder-page-status" aria-labelledby="builder-page-status-title">
@@ -38,29 +43,33 @@ function renderPageError(): string {
   `;
 }
 
-async function renderMainContent(urlPath: string, searchParams: URLSearchParams): Promise<string> {
+async function renderMainContent(urlPath: string, searchParams: URLSearchParams): Promise<RenderedMainContent> {
   if (urlPath === "/" && !isBuilderPreviewRequest(searchParams)) {
-    return renderFeaturedProducts();
+    return { html: await renderFeaturedProducts(), blocks: [] };
   }
 
   try {
     const builderPage = await getBuilderPage(urlPath, searchParams);
 
     if (!builderPage) {
-      return urlPath === "/" ? renderFeaturedProducts() : renderPageNotFound(urlPath);
+      return {
+        html: urlPath === "/" ? await renderFeaturedProducts() : renderPageNotFound(urlPath),
+        blocks: [],
+      };
     }
 
     if (builderPage.title) {
       document.title = builderPage.title;
     }
 
-    loadBuilderWebComponents();
-
-    return `<main class="builder-page-content">${builderPage.html}</main>`;
+    return {
+      html: `<main class="builder-page-content">${builderPage.html}</main>`,
+      blocks: builderPage.blocks,
+    };
   } catch (error) {
     console.error(error);
 
-    return renderPageError();
+    return { html: renderPageError(), blocks: [] };
   }
 }
 
@@ -68,14 +77,17 @@ async function renderApp(): Promise<void> {
   const urlPath = window.location.pathname;
   const searchParams = new URLSearchParams(window.location.search);
 
+  const mainContent = await renderMainContent(urlPath, searchParams);
+
   document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
 ${renderHeader()}
-${await renderMainContent(urlPath, searchParams)}
+${mainContent.html}
 ${renderFooterLinks()}
 ${renderFooter()}
 `;
 
   initHeaderInteractions();
+  await hydrateBuilderCustomComponents(mainContent.blocks);
 }
 
 registerBuilderComponents();
