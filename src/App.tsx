@@ -14,6 +14,7 @@ import { PageHero } from "./components/PageHero.tsx";
 import { StaticCardGrid } from "./components/StaticCardGrid.tsx";
 import { LargeStaticCard } from "./components/LargeStaticCard.tsx";
 import { ProductDetailPage } from "./components/ProductDetailPage.tsx";
+import { StoresPage } from "./components/StoresPage.tsx";
 import "./builder-components.tsx";
 
 builder.init(BUILDER_PUBLIC_API_KEY);
@@ -316,7 +317,9 @@ export function App() {
     ? getCategorySlug(decodeURIComponent(urlPath.slice("/categories/".length)))
     : null;
   const isTestRoute = urlPath === "/test";
-  const useBuilder = !isTestRoute && !productId && !categoryId && (urlPath !== "/" || isPreview);
+  const isStoresRoute = urlPath === "/stores";
+  const useBuilder =
+    !isTestRoute && !isStoresRoute && !productId && !categoryId && (urlPath !== "/" || isPreview);
 
   const [content, setContent] = useState<BuilderContent | null | undefined>(undefined);
   const [error, setError] = useState(false);
@@ -337,6 +340,7 @@ export function App() {
 
   function renderMain() {
     if (isTestRoute) return <TestPage />;
+    if (isStoresRoute) return <StoresPage />;
     if (productId) return <ProductDetailPage productId={productId} />;
     if (categoryId) {
       const categoryLabel = getCategoryLabel(categoryId);
