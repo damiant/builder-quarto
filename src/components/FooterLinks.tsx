@@ -151,7 +151,7 @@ const footerColumns: FooterSection[][] = [
         { label: "Sustainability", href: "/sustainability" },
         { label: "Responsible Sourcing", href: "#responsible-sourcing" },
         { label: "Accessibility", href: "/accessibility" },
-        { label: "Privacy", href: "#privacy" },
+        { label: "Privacy", href: "/privacy" },
         { label: "Product Safety", href: "#product-safety" },
         { label: "Repair & Reuse", href: "#repair-reuse" },
         { label: "Community Impact", href: "#community-impact" },
