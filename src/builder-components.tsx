@@ -24,7 +24,7 @@ Builder.registerComponent(PageHero, {
 });
 
 Builder.registerComponent(StaticCardGrid, {
-  name: "StaticCardGrid",
+  name: "Static Card Grid",
   inputs: [
     {
       name: "cards",
@@ -53,7 +53,7 @@ Builder.registerComponent(StaticCardGrid, {
 });
 
 Builder.registerComponent(ContentHeader, {
-  name: "ContentHeader",
+  name: "Content Header",
   inputs: [
     { name: "title", type: "text", defaultValue: "Our commitment to privacy" },
     {
