@@ -75,7 +75,7 @@ const footerColumns: FooterSection[][] = [
     {
       title: "Account",
       links: [
-        { label: "Manage Your Account", href: "#account" },
+        { label: "Manage Your Account", href: "/account" },
         { label: "Order History", href: "#order-history" },
         { label: "Saved Gadgets", href: "#saved-gadgets" },
       ],
