@@ -8,7 +8,7 @@ import {
 import { Header } from "./components/Header.tsx";
 import { Footer } from "./components/Footer.tsx";
 import { FooterLinks } from "./components/FooterLinks.tsx";
-import { FeaturedProducts } from "./components/FeaturedProducts.tsx";
+import { FeaturedProducts, getCategorySlug } from "./components/FeaturedProducts.tsx";
 import { ContentHeader } from "./components/ContentHeader.tsx";
 import { PageHero } from "./components/PageHero.tsx";
 import { StaticCardGrid } from "./components/StaticCardGrid.tsx";
@@ -40,6 +40,16 @@ function PageError() {
       </h1>
     </main>
   );
+}
+
+function getCategoryLabel(category: string): string {
+  return category
+    .split("-")
+    .filter(Boolean)
+    .map((word) =>
+      word.length <= 2 ? word.toUpperCase() : `${word[0].toUpperCase()}${word.slice(1)}`,
+    )
+    .join(" ");
 }
 
 const privacyCommitments = [
@@ -302,8 +312,11 @@ export function App() {
   const productId = urlPath.startsWith("/products/")
     ? decodeURIComponent(urlPath.slice("/products/".length))
     : null;
+  const categoryId = urlPath.startsWith("/categories/")
+    ? getCategorySlug(decodeURIComponent(urlPath.slice("/categories/".length)))
+    : null;
   const isTestRoute = urlPath === "/test";
-  const useBuilder = !isTestRoute && !productId && (urlPath !== "/" || isPreview);
+  const useBuilder = !isTestRoute && !productId && !categoryId && (urlPath !== "/" || isPreview);
 
   const [content, setContent] = useState<BuilderContent | null | undefined>(undefined);
   const [error, setError] = useState(false);
@@ -325,6 +338,17 @@ export function App() {
   function renderMain() {
     if (isTestRoute) return <TestPage />;
     if (productId) return <ProductDetailPage productId={productId} />;
+    if (categoryId) {
+      const categoryLabel = getCategoryLabel(categoryId);
+      return (
+        <FeaturedProducts
+          eyebrow="Category"
+          title={`Shop ${categoryLabel}`}
+          productCount={12}
+          category={categoryId}
+        />
+      );
+    }
     if (!useBuilder) {
       return <FeaturedProducts />;
     }

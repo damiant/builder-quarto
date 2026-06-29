@@ -4,6 +4,7 @@ export type Product = {
   description?: string;
   image?: string;
   price: number;
+  categoryId?: string;
 };
 
 export const currencyFormatter = new Intl.NumberFormat("en-US", {

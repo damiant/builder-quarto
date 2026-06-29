@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { BUILDER_PUBLIC_API_KEY } from "../builder-page.ts";
+import { getCategorySlug } from "./FeaturedProducts.tsx";
 
 type FooterLink = {
   label: string;
@@ -21,17 +22,10 @@ type BuilderCategoriesResponse = {
   results?: BuilderCategoryContent[];
 };
 
-function getCategorySlug(title: string): string {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
-}
-
 function normalizeCategory(content: BuilderCategoryContent): FooterLink | null {
   const title = content.data?.title;
   if (!title) return null;
-  return { label: title, href: `#${getCategorySlug(title)}` };
+  return { label: title, href: `/categories/${getCategorySlug(title)}` };
 }
 
 async function fetchCategoryLinks(): Promise<FooterLink[]> {
