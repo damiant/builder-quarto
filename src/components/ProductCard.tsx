@@ -1,17 +1,25 @@
 export type Product = {
   title: string;
+  slug?: string;
   description?: string;
   image?: string;
   price: number;
 };
 
-const currencyFormatter = new Intl.NumberFormat("en-US", {
+export const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
   maximumFractionDigits: 0,
 });
 
-function getProductImageUrl(image: string): string {
+export function getProductSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+export function getProductImageUrl(image: string): string {
   const imageUrl = new URL(image);
   imageUrl.searchParams.set("width", "520");
   imageUrl.searchParams.set("quality", "85");
@@ -19,10 +27,13 @@ function getProductImageUrl(image: string): string {
   return imageUrl.toString();
 }
 
-export function ProductCard({ title, description, image, price }: Product) {
+export function ProductCard({ title, slug, description, image, price }: Product) {
+  const productSlug = slug ?? getProductSlug(title);
+
   return (
     <article className="product-card">
-      <div className="product-card-media">
+      <a className="product-card-link" href={`/products/${productSlug}`} aria-label={`View ${title}`}>
+        <div className="product-card-media">
         {image ? (
           <img
             className="product-card-image"
@@ -35,12 +46,13 @@ export function ProductCard({ title, description, image, price }: Product) {
             <span className="product-card-image-initial">{title.charAt(0)}</span>
           </div>
         )}
-      </div>
-      <div className="product-card-details">
-        <h3 className="product-card-title">{title}</h3>
-        {description && <p className="product-card-description">{description}</p>}
-        <p className="product-card-price">{currencyFormatter.format(price)}</p>
-      </div>
+        </div>
+        <div className="product-card-details">
+          <h3 className="product-card-title">{title}</h3>
+          {description && <p className="product-card-description">{description}</p>}
+          <p className="product-card-price">{currencyFormatter.format(price)}</p>
+        </div>
+      </a>
     </article>
   );
 }

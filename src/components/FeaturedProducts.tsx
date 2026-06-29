@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { BUILDER_PUBLIC_API_KEY } from "../builder-page.ts";
-import { ProductCard, type Product } from "./ProductCard.tsx";
+import { ProductCard, getProductSlug, type Product } from "./ProductCard.tsx";
 
 type BuilderProductContent = {
   data?: Partial<Product>;
@@ -13,7 +13,7 @@ type BuilderProductsResponse = {
 function normalizeProduct(content: BuilderProductContent): Product | null {
   const { title, description, image, price } = content.data ?? {};
   if (!title || typeof price !== "number") return null;
-  return { title, description, image, price };
+  return { title, slug: getProductSlug(title), description, image, price };
 }
 
 export async function fetchFeaturedProducts(productCount = 12): Promise<Product[]> {

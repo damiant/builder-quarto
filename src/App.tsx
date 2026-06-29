@@ -13,6 +13,7 @@ import { ContentHeader } from "./components/ContentHeader.tsx";
 import { PageHero } from "./components/PageHero.tsx";
 import { StaticCardGrid } from "./components/StaticCardGrid.tsx";
 import { LargeStaticCard } from "./components/LargeStaticCard.tsx";
+import { ProductDetailPage } from "./components/ProductDetailPage.tsx";
 import "./builder-components.tsx";
 
 builder.init(BUILDER_PUBLIC_API_KEY);
@@ -294,8 +295,9 @@ export function App() {
   const urlPath = window.location.pathname;
   const searchParams = new URLSearchParams(window.location.search);
   const isPreview = isBuilderPreviewRequest(searchParams);
+  const productId = urlPath.startsWith("/products/") ? decodeURIComponent(urlPath.slice("/products/".length)) : null;
   const isTestRoute = urlPath === "/test";
-  const useBuilder = !isTestRoute && (urlPath !== "/" || isPreview);
+  const useBuilder = !isTestRoute && !productId && (urlPath !== "/" || isPreview);
 
   const [content, setContent] = useState<BuilderContent | null | undefined>(undefined);
   const [error, setError] = useState(false);
@@ -316,6 +318,7 @@ export function App() {
 
   function renderMain() {
     if (isTestRoute) return <TestPage />;
+    if (productId) return <ProductDetailPage productId={productId} />;
     if (!useBuilder) {
       return <FeaturedProducts />;
     }
