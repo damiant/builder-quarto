@@ -1,3 +1,6 @@
+import { useEffect, useMemo, useState } from "react";
+import { BUILDER_PUBLIC_API_KEY } from "../builder-page.ts";
+
 type FooterLink = {
   label: string;
   href: string;
@@ -7,6 +10,42 @@ type FooterSection = {
   title: string;
   links: FooterLink[];
 };
+
+type BuilderCategoryContent = {
+  data?: {
+    title?: string;
+  };
+};
+
+type BuilderCategoriesResponse = {
+  results?: BuilderCategoryContent[];
+};
+
+function getCategorySlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function normalizeCategory(content: BuilderCategoryContent): FooterLink | null {
+  const title = content.data?.title;
+  if (!title) return null;
+  return { label: title, href: `#${getCategorySlug(title)}` };
+}
+
+async function fetchCategoryLinks(): Promise<FooterLink[]> {
+  const categoriesUrl = new URL("https://cdn.builder.io/api/v3/content/categories");
+  categoriesUrl.searchParams.set("apiKey", BUILDER_PUBLIC_API_KEY);
+  categoriesUrl.searchParams.set("limit", "20");
+  categoriesUrl.searchParams.set("fields", "data.title");
+
+  const response = await fetch(categoriesUrl);
+  if (!response.ok) throw new Error(`Failed to load categories: ${response.status}`);
+
+  const data = (await response.json()) as BuilderCategoriesResponse;
+  return (data.results ?? []).map(normalizeCategory).filter((link): link is FooterLink => Boolean(link));
+}
 
 const footerColumns: FooterSection[][] = [
   [
@@ -174,10 +213,28 @@ function FooterSection({ title, links }: FooterSection) {
 }
 
 export function FooterLinks() {
+  const [categoryLinks, setCategoryLinks] = useState<FooterLink[]>([]);
+
+  useEffect(() => {
+    fetchCategoryLinks().then(setCategoryLinks).catch(console.error);
+  }, []);
+
+  const columns = useMemo(
+    () =>
+      footerColumns.map((column) =>
+        column.map((section) =>
+          section.title === "Quarto Store" && categoryLinks.length > 0
+            ? { ...section, links: categoryLinks }
+            : section,
+        ),
+      ),
+    [categoryLinks],
+  );
+
   return (
     <footer className="footer-links" aria-label="Footer Links">
       <nav aria-label="Quarto Directory" role="navigation" className="footer-links-directory">
-        {footerColumns.map((column, i) => (
+        {columns.map((column, i) => (
           <div key={i} className="footer-links-column">
             {column.map((section) => (
               <FooterSection key={section.title} {...section} />
