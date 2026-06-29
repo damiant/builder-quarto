@@ -315,8 +315,12 @@ export function App() {
   const categoryId = urlPath.startsWith("/categories/")
     ? getCategorySlug(decodeURIComponent(urlPath.slice("/categories/".length)))
     : null;
+  const discoverTag = urlPath.startsWith("/discover/")
+    ? getCategorySlug(decodeURIComponent(urlPath.slice("/discover/".length)))
+    : null;
   const isTestRoute = urlPath === "/test";
-  const useBuilder = !isTestRoute && !productId && !categoryId && (urlPath !== "/" || isPreview);
+  const useBuilder =
+    !isTestRoute && !productId && !categoryId && !discoverTag && (urlPath !== "/" || isPreview);
 
   const [content, setContent] = useState<BuilderContent | null | undefined>(undefined);
   const [error, setError] = useState(false);
@@ -346,6 +350,17 @@ export function App() {
           title={`Shop ${categoryLabel}`}
           productCount={12}
           category={categoryId}
+        />
+      );
+    }
+    if (discoverTag) {
+      const tagLabel = getCategoryLabel(discoverTag);
+      return (
+        <FeaturedProducts
+          eyebrow="Discover"
+          title={`Shop ${tagLabel}`}
+          productCount={12}
+          tag={discoverTag}
         />
       );
     }

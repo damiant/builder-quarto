@@ -6,6 +6,7 @@ export type Product = {
   image?: string;
   price: number;
   categoryId?: string;
+  tagId?: string;
 };
 
 export const currencyFormatter = new Intl.NumberFormat("en-US", {

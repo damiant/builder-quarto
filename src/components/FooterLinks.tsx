@@ -64,10 +64,10 @@ const footerColumns: FooterSection[][] = [
     {
       title: "Deals & Drops",
       links: [
-        { label: "Daily Deals", href: "#daily-deals" },
-        { label: "Limited Drops", href: "#limited-drops" },
+        { label: "Daily Deals", href: "/discover/daily-deal" },
+        { label: "Limited Drops", href: "/discover/limited-drop" },
         { label: "Bundle Savings", href: "#bundle-savings" },
-        { label: "Clearance Finds", href: "#clearance-finds" },
+        { label: "Clearance Finds", href: "/discover/clearance" },
       ],
     },
   ],
@@ -84,9 +84,9 @@ const footerColumns: FooterSection[][] = [
       title: "Discover",
       links: [
         { label: "Buying Guides", href: "#buying-guides" },
-        { label: "Staff Picks", href: "#staff-picks" },
-        { label: "Tech Trends", href: "#tech-trends" },
-        { label: "Gift Ideas", href: "#gift-ideas" },
+        { label: "Staff Picks", href: "/discover/staff-pick" },
+        { label: "Tech Trends", href: "/discover/tech-trend" },
+        { label: "Gift Ideas", href: "/discover/gift-idea" },
         { label: "Setup Inspiration", href: "#setup-inspiration" },
         { label: "How-To Videos", href: "#how-to-videos" },
         { label: "Compare Gadgets", href: "#compare-gadgets" },
