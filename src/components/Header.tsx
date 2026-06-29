@@ -294,11 +294,6 @@ export function Header() {
                   </li>
                   <li>
                     <a href="#" className="utility-link">
-                      Extensions
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="utility-link">
                       Gallery
                     </a>
                   </li>
