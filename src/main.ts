@@ -1,5 +1,5 @@
 import "./style.css";
-import { getBuilderPage, loadBuilderWebComponents } from "./builder-page.ts";
+import { getBuilderPage, isBuilderPreviewRequest, loadBuilderWebComponents } from "./builder-page.ts";
 import { renderFeaturedProducts } from "./featured-products.ts";
 import { renderFooter } from "./footer.ts";
 import { renderFooterLinks } from "./footer-links.ts";
@@ -37,13 +37,13 @@ function renderPageError(): string {
   `;
 }
 
-async function renderMainContent(urlPath: string): Promise<string> {
-  if (urlPath === "/") {
+async function renderMainContent(urlPath: string, searchParams: URLSearchParams): Promise<string> {
+  if (urlPath === "/" && !isBuilderPreviewRequest(searchParams)) {
     return renderFeaturedProducts();
   }
 
   try {
-    const builderPage = await getBuilderPage(urlPath);
+    const builderPage = await getBuilderPage(urlPath, searchParams);
 
     if (!builderPage) {
       return renderPageNotFound(urlPath);
@@ -65,10 +65,11 @@ async function renderMainContent(urlPath: string): Promise<string> {
 
 async function renderApp(): Promise<void> {
   const urlPath = window.location.pathname;
+  const searchParams = new URLSearchParams(window.location.search);
 
   document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
 ${renderHeader()}
-${await renderMainContent(urlPath)}
+${await renderMainContent(urlPath, searchParams)}
 ${renderFooterLinks()}
 ${renderFooter()}
 `;

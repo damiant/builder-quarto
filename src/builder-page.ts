@@ -1,6 +1,26 @@
 const BUILDER_PUBLIC_API_KEY = "b9fca26fe967446595da74f3f38325f1";
 const BUILDER_PAGE_MODEL = "page";
 const BUILDER_WEBCOMPONENTS_SCRIPT_ID = "builder-webcomponents-script";
+const BUILDER_PREVIEW_PARAMS = new Set([
+  "builder.preview",
+  "builder.editing",
+  "builder.frameEditing",
+  "builder.overrides.page",
+  "includeUnpublished",
+  "preview",
+]);
+const BUILDER_PASSTHROUGH_PARAMS = new Set([
+  "builder.preview",
+  "builder.editing",
+  "builder.frameEditing",
+  "builder.overrides.page",
+  "builder.space",
+  "builder.cachebust",
+  "cachebust",
+  "noCache",
+  "includeUnpublished",
+  "preview",
+]);
 
 export type BuilderPageResult = {
   html: string;
@@ -18,16 +38,45 @@ type BuilderHtmlResponse = {
 
 export { BUILDER_PUBLIC_API_KEY };
 
-function getBuilderPageUrl(urlPath: string): URL {
+export function isBuilderPreviewRequest(searchParams: URLSearchParams): boolean {
+  for (const [paramName, paramValue] of searchParams) {
+    if (BUILDER_PREVIEW_PARAMS.has(paramName) && paramValue !== "false") {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function appendBuilderPreviewParams(builderPageUrl: URL, searchParams: URLSearchParams): void {
+  for (const [paramName, paramValue] of searchParams) {
+    if (BUILDER_PASSTHROUGH_PARAMS.has(paramName) || paramName.startsWith("builder.")) {
+      builderPageUrl.searchParams.append(paramName, paramValue);
+    }
+  }
+
+  if (isBuilderPreviewRequest(searchParams)) {
+    builderPageUrl.searchParams.set("includeUnpublished", "true");
+    builderPageUrl.searchParams.set("cachebust", "true");
+    builderPageUrl.searchParams.set("noCache", "true");
+  }
+}
+
+function getBuilderPageUrl(urlPath: string, searchParams: URLSearchParams): URL {
   const builderPageUrl = new URL(`https://cdn.builder.io/api/v1/html/${BUILDER_PAGE_MODEL}`);
   builderPageUrl.searchParams.set("apiKey", BUILDER_PUBLIC_API_KEY);
   builderPageUrl.searchParams.set("url", urlPath);
+  appendBuilderPreviewParams(builderPageUrl, searchParams);
 
   return builderPageUrl;
 }
 
-export async function getBuilderPage(urlPath: string): Promise<BuilderPageResult | null> {
-  const response = await fetch(getBuilderPageUrl(urlPath));
+export async function getBuilderPage(urlPath: string, searchParams: URLSearchParams): Promise<BuilderPageResult | null> {
+  const response = await fetch(getBuilderPageUrl(urlPath, searchParams));
+
+  if (response.status === 404) {
+    return null;
+  }
 
   if (!response.ok) {
     throw new Error(`Failed to load Builder page: ${response.status}`);
