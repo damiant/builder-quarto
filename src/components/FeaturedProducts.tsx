@@ -35,6 +35,15 @@ type FeaturedProductsProps = {
   productCount?: number;
 };
 
+export const featuredProductsBuilderConfig = {
+  name: "Featured Products",
+  inputs: [
+    { name: "eyebrow", type: "text", defaultValue: "Featured products" },
+    { name: "title", type: "text", defaultValue: "Shop our latest essentials" },
+    { name: "productCount", type: "number", defaultValue: 12 },
+  ],
+};
+
 export function FeaturedProducts({
   eyebrow = "Featured products",
   title = "Shop our latest essentials",

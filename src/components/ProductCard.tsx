@@ -27,6 +27,20 @@ export function getProductImageUrl(image: string): string {
   return imageUrl.toString();
 }
 
+export const productCardBuilderConfig = {
+  name: "Featured Product Card",
+  inputs: [
+    { name: "title", type: "text", defaultValue: "Featured gadget" },
+    {
+      name: "description",
+      type: "longText",
+      defaultValue: "A curated Quarto product ready to feature on your page.",
+    },
+    { name: "image", type: "file" },
+    { name: "price", type: "number", defaultValue: 99 },
+  ],
+};
+
 export function ProductCard({ title, slug, description, image, price }: Product) {
   const productSlug = slug ?? getProductSlug(title);
 
@@ -34,18 +48,18 @@ export function ProductCard({ title, slug, description, image, price }: Product)
     <article className="product-card">
       <a className="product-card-link" href={`/products/${productSlug}`} aria-label={`View ${title}`}>
         <div className="product-card-media">
-        {image ? (
-          <img
-            className="product-card-image"
-            src={getProductImageUrl(image)}
-            alt={title}
-            loading="lazy"
-          />
-        ) : (
-          <div className="product-card-image product-card-image-placeholder" aria-hidden="true">
-            <span className="product-card-image-initial">{title.charAt(0)}</span>
-          </div>
-        )}
+          {image ? (
+            <img
+              className="product-card-image"
+              src={getProductImageUrl(image)}
+              alt={title}
+              loading="lazy"
+            />
+          ) : (
+            <div className="product-card-image product-card-image-placeholder" aria-hidden="true">
+              <span className="product-card-image-initial">{title.charAt(0)}</span>
+            </div>
+          )}
         </div>
         <div className="product-card-details">
           <h3 className="product-card-title">{title}</h3>

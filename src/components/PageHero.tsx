@@ -4,6 +4,24 @@ type PageHeroProps = {
   image: string;
 };
 
+export const pageHeroBuilderConfig = {
+  name: "PageHero",
+  inputs: [
+    { name: "title", type: "text", defaultValue: "Privacy at Quarto" },
+    {
+      name: "text",
+      type: "longText",
+      defaultValue: "Your data is private at work, at home, and on the go",
+    },
+    {
+      name: "image",
+      type: "file",
+      defaultValue:
+        "https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/MSPrivacy_HeroBanner_CROP_4000x1250?scl=1",
+    },
+  ],
+};
+
 export function PageHero({ title, text, image }: PageHeroProps) {
   return (
     <section className="static-hero" aria-labelledby="test-page-title">
