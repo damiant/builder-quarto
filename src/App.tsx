@@ -9,6 +9,7 @@ import { Header } from "./components/Header.tsx";
 import { Footer } from "./components/Footer.tsx";
 import { FooterLinks } from "./components/FooterLinks.tsx";
 import { FeaturedProducts } from "./components/FeaturedProducts.tsx";
+import { ContentHeader } from "./components/ContentHeader.tsx";
 import "./builder-components.tsx";
 
 builder.init(BUILDER_PUBLIC_API_KEY);
@@ -196,16 +197,11 @@ function TestPage() {
 
       <section className="privacy-section" aria-labelledby="privacy-commitment-title">
         <div className="privacy-section-inner">
-          <div className="privacy-heading-block">
-            <h2 id="privacy-commitment-title" className="privacy-section-title">
-              Our commitment to privacy
-            </h2>
-            <p className="privacy-section-description">
-              We ground our privacy commitments in strong data governance practices, so you can trust
-              that we'll protect the privacy and confidentiality of your data and will only use it in a
-              way that's consistent with the reasons you provided it.
-            </p>
-          </div>
+          <ContentHeader
+            titleId="privacy-commitment-title"
+            title="Our commitment to privacy"
+            text="We ground our privacy commitments in strong data governance practices, so you can trust that we'll protect the privacy and confidentiality of your data and will only use it in a way that's consistent with the reasons you provided it."
+          />
           <div className="privacy-card-grid privacy-card-grid-four">
             {privacyCommitments.map((item) => (
               <article className="privacy-card" key={item.title}>
@@ -222,16 +218,11 @@ function TestPage() {
 
       <section className="privacy-section" aria-labelledby="privacy-control-title">
         <div className="privacy-section-inner">
-          <div className="privacy-heading-block">
-            <h2 id="privacy-control-title" className="privacy-section-title">
-              Discover and control your data
-            </h2>
-            <p className="privacy-section-description">
-              Privacy is at the center of how we build the products and services that customers use
-              every day. See privacy resources and controls below where you can manage your data and
-              how it is used.
-            </p>
-          </div>
+          <ContentHeader
+            titleId="privacy-control-title"
+            title="Discover and control your data"
+            text="Privacy is at the center of how we build the products and services that customers use every day. See privacy resources and controls below where you can manage your data and how it is used."
+          />
           <div className="privacy-card-grid privacy-card-grid-three">
             {privacyControls.map((item) => (
               <article id={item.id} className="privacy-card privacy-action-card" key={item.title}>
@@ -273,15 +264,11 @@ function TestPage() {
 
       <section className="privacy-section" aria-labelledby="privacy-resources-title">
         <div className="privacy-section-inner">
-          <div className="privacy-heading-block">
-            <h2 id="privacy-resources-title" className="privacy-section-title">
-              Learn more about privacy at Quarto
-            </h2>
-            <p className="privacy-section-description">
-              Learn more about privacy at Quarto and how we put our privacy principles into practice
-              in the following links and resources.
-            </p>
-          </div>
+          <ContentHeader
+            titleId="privacy-resources-title"
+            title="Learn more about privacy at Quarto"
+            text="Learn more about privacy at Quarto and how we put our privacy principles into practice in the following links and resources."
+          />
           <h3 className="privacy-resource-kicker">Privacy Statement</h3>
           <div className="privacy-resource-list">
             {privacyResources.map((item) => (
@@ -300,15 +287,11 @@ function TestPage() {
 
       <section className="privacy-section" aria-labelledby="privacy-news-title">
         <div className="privacy-section-inner">
-          <div className="privacy-heading-block">
-            <h2 id="privacy-news-title" className="privacy-section-title">
-              What's new?
-            </h2>
-            <p className="privacy-section-description">
-              Check out the latest articles, blog posts, and news from Quarto about protecting your
-              privacy at home and at work.
-            </p>
-          </div>
+          <ContentHeader
+            titleId="privacy-news-title"
+            title="What's new?"
+            text="Check out the latest articles, blog posts, and news from Quarto about protecting your privacy at home and at work."
+          />
           <div className="privacy-card-grid privacy-card-grid-four">
             {privacyNews.map((item) => (
               <article className="privacy-card privacy-news-card" key={item.title}>
@@ -335,7 +318,10 @@ function TestPage() {
               Contact our team
             </h2>
             <p className="privacy-section-description">
-              If you have a privacy concern, request or question, <a className="privacy-inline-link" href="#contact-privacy">please contact us</a>
+              If you have a privacy concern, request or question,{" "}
+              <a className="privacy-inline-link" href="#contact-privacy">
+                please contact us
+              </a>
             </p>
           </div>
         </div>
