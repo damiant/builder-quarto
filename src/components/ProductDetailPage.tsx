@@ -11,7 +11,11 @@ export function ProductDetailPage({ productId }: ProductDetailPageProps) {
 
   useEffect(() => {
     fetchFeaturedProducts(50)
-      .then((products) => setProduct(products.find((item) => item.slug === productId) ?? null))
+      .then((products) =>
+        setProduct(
+          products.find((item) => item.sku === productId || item.slug === productId) ?? null,
+        ),
+      )
       .catch(() => setProduct(null));
   }, [productId]);
 

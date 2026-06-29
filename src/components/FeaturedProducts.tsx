@@ -35,11 +35,12 @@ export function getCategorySlug(title: string): string {
 }
 
 function normalizeProduct(content: BuilderProductContent): Product | null {
-  const { title, description, image, price, category } = content.data ?? {};
+  const { title, description, image, price, category, sku } = content.data ?? {};
   if (!title || typeof price !== "number") return null;
   return {
     title,
     slug: getProductSlug(title),
+    sku,
     description,
     image,
     price,
@@ -75,7 +76,7 @@ export async function fetchFeaturedProducts(
   productsUrl.searchParams.set("limit", category ? "100" : productCount.toString());
   productsUrl.searchParams.set(
     "fields",
-    "data.title,data.description,data.image,data.price,data.category",
+    "data.title,data.description,data.image,data.price,data.category,data.sku",
   );
 
   const [response, categoryId] = await Promise.all([

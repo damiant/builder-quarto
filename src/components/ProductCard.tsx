@@ -1,6 +1,7 @@
 export type Product = {
   title: string;
   slug?: string;
+  sku?: string;
   description?: string;
   image?: string;
   price: number;
@@ -42,14 +43,14 @@ export const productCardBuilderConfig = {
   ],
 };
 
-export function ProductCard({ title, slug, description, image, price }: Product) {
-  const productSlug = slug ?? getProductSlug(title);
+export function ProductCard({ title, slug, sku, description, image, price }: Product) {
+  const productPath = sku ?? slug ?? getProductSlug(title);
 
   return (
     <article className="product-card">
       <a
         className="product-card-link"
-        href={`/products/${productSlug}`}
+        href={`/products/${productPath}`}
         aria-label={`View ${title}`}
       >
         <div className="product-card-media">
