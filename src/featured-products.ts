@@ -23,7 +23,7 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0,
 });
 
-function escapeHtml(value: string): string {
+export function escapeHtml(value: string): string {
   return value.replace(/[&<>'"]/g, (character) => {
     const entities: Record<string, string> = {
       "&": "&amp;",
@@ -65,10 +65,10 @@ function normalizeProduct(content: BuilderProductContent): Product | null {
   };
 }
 
-async function getFeaturedProducts(): Promise<Product[]> {
+export async function getFeaturedProducts(productCount = PRODUCT_COUNT): Promise<Product[]> {
   const productsUrl = new URL("https://cdn.builder.io/api/v3/content/products");
   productsUrl.searchParams.set("apiKey", BUILDER_PUBLIC_API_KEY);
-  productsUrl.searchParams.set("limit", PRODUCT_COUNT.toString());
+  productsUrl.searchParams.set("limit", productCount.toString());
   productsUrl.searchParams.set("fields", "data.title,data.description,data.image,data.price");
 
   const response = await fetch(productsUrl);
@@ -96,7 +96,7 @@ function renderProductImage(product: Product): string {
   return `<img class="product-card-image" src="${escapeHtml(getProductImageUrl(product.image))}" alt="${escapeHtml(product.title)}" loading="lazy">`;
 }
 
-function renderProductCard(product: Product): string {
+export function renderProductCard(product: Product): string {
   const description = product.description
     ? `<p class="product-card-description">${escapeHtml(product.description)}</p>`
     : "";

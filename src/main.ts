@@ -1,4 +1,5 @@
 import "./style.css";
+import { loadBuilderComponentRegistry } from "./builder-components.ts";
 import { getBuilderPage, isBuilderPreviewRequest, loadBuilderWebComponents } from "./builder-page.ts";
 import { renderFeaturedProducts } from "./featured-products.ts";
 import { renderFooter } from "./footer.ts";
@@ -46,7 +47,7 @@ async function renderMainContent(urlPath: string, searchParams: URLSearchParams)
     const builderPage = await getBuilderPage(urlPath, searchParams);
 
     if (!builderPage) {
-      return renderPageNotFound(urlPath);
+      return urlPath === "/" ? renderFeaturedProducts() : renderPageNotFound(urlPath);
     }
 
     if (builderPage.title) {
@@ -77,4 +78,5 @@ ${renderFooter()}
   initHeaderInteractions();
 }
 
+loadBuilderComponentRegistry();
 void renderApp();
