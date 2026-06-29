@@ -1,26 +1,14 @@
 import { Builder } from "@builder.io/react";
-import { FeaturedProducts } from "./components/FeaturedProducts.tsx";
-import { ProductCard } from "./components/ProductCard.tsx";
+import { FeaturedProducts, featuredProductsBuilderConfig } from "./components/FeaturedProducts.tsx";
+import { ProductCard, productCardBuilderConfig } from "./components/ProductCard.tsx";
+import { ContentHeader, contentHeaderBuilderConfig } from "./components/ContentHeader.tsx";
+import { PageHero, pageHeroBuilderConfig } from "./components/PageHero.tsx";
+import { StaticCardGrid, staticCardGridBuilderConfig } from "./components/StaticCardGrid.tsx";
+import { LargeStaticCard, largeStaticCardBuilderConfig } from "./components/LargeStaticCard.tsx";
 
-Builder.registerComponent(FeaturedProducts, {
-  name: "Featured Products",
-  inputs: [
-    { name: "eyebrow", type: "text", defaultValue: "Featured products" },
-    { name: "title", type: "text", defaultValue: "Shop our latest essentials" },
-    { name: "productCount", type: "number", defaultValue: 12 },
-  ],
-});
-
-Builder.registerComponent(ProductCard, {
-  name: "Featured Product Card",
-  inputs: [
-    { name: "title", type: "text", defaultValue: "Featured gadget" },
-    {
-      name: "description",
-      type: "longText",
-      defaultValue: "A curated Quarto product ready to feature on your page.",
-    },
-    { name: "image", type: "file" },
-    { name: "price", type: "number", defaultValue: 99 },
-  ],
-});
+Builder.registerComponent(PageHero, pageHeroBuilderConfig);
+Builder.registerComponent(StaticCardGrid, staticCardGridBuilderConfig);
+Builder.registerComponent(LargeStaticCard, largeStaticCardBuilderConfig);
+Builder.registerComponent(ContentHeader, contentHeaderBuilderConfig);
+Builder.registerComponent(FeaturedProducts, featuredProductsBuilderConfig);
+Builder.registerComponent(ProductCard, productCardBuilderConfig);
