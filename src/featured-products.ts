@@ -1,3 +1,5 @@
+import { BUILDER_PUBLIC_API_KEY } from "./builder-page.ts";
+
 type Product = {
   title: string;
   description?: string;
@@ -13,7 +15,6 @@ type BuilderProductsResponse = {
   results?: BuilderProductContent[];
 };
 
-const BUILDER_PUBLIC_API_KEY = "b9fca26fe967446595da74f3f38325f1";
 const PRODUCT_COUNT = 12;
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
