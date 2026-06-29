@@ -1,7 +1,7 @@
 export type Store = {
   title: string;
   address: string;
-  phone?: string;
+  phoneNumber?: string;
   hours?: string;
   image?: string;
   state?: string;
@@ -15,7 +15,7 @@ export function getStoreSlug(title: string): string {
     .replace(/^-|-$/g, "");
 }
 
-export function StoreCard({ title, address, phone, hours, image, state, country }: Store) {
+export function StoreCard({ title, address, phoneNumber, hours, image, state, country }: Store) {
   const location = [address, state, country].filter(Boolean).join(", ");
   const storeSlug = getStoreSlug(title);
 
@@ -32,7 +32,7 @@ export function StoreCard({ title, address, phone, hours, image, state, country 
         <div className="store-card-details">
           <h3 className="store-card-title">{title}</h3>
           <p className="store-card-location">{location}</p>
-          {phone && <p className="store-card-phone">{phone}</p>}
+          {phoneNumber && <p className="store-card-phone">{phoneNumber}</p>}
           {hours && <p className="store-card-hours">{hours}</p>}
         </div>
       </a>

@@ -16,7 +16,7 @@ function normalizeStore(content: BuilderStoreContent): Store | null {
   return {
     title,
     address,
-    phone: content.data?.phone,
+    phoneNumber: content.data?.phoneNumber,
     hours: content.data?.hours,
     image: content.data?.image,
     state: content.data?.state,
@@ -30,7 +30,7 @@ export async function fetchStores(): Promise<Store[]> {
   storesUrl.searchParams.set("limit", "100");
   storesUrl.searchParams.set(
     "fields",
-    "data.title,data.address,data.phone,data.hours,data.image,data.state,data.country",
+    "data.title,data.address,data.phoneNumber,data.hours,data.image,data.state,data.country",
   );
 
   const response = await fetch(storesUrl);
@@ -57,7 +57,7 @@ function filterStores(stores: Store[], query: string): Store[] {
       store.address,
       store.state,
       store.country,
-      store.phone,
+      store.phoneNumber,
       store.hours,
     ]
       .filter(Boolean)

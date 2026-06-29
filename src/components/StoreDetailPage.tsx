@@ -17,7 +17,7 @@ async function fetchAllStores(): Promise<Store[]> {
   storesUrl.searchParams.set("limit", "100");
   storesUrl.searchParams.set(
     "fields",
-    "data.title,data.address,data.phone,data.hours,data.image,data.state,data.country",
+    "data.title,data.address,data.phoneNumber,data.hours,data.image,data.state,data.country",
   );
 
   const response = await fetch(storesUrl);
@@ -31,7 +31,7 @@ async function fetchAllStores(): Promise<Store[]> {
       return {
         title,
         address,
-        phone: content.data?.phone,
+        phoneNumber: content.data?.phoneNumber,
         hours: content.data?.hours,
         image: content.data?.image,
         state: content.data?.state,
@@ -119,11 +119,11 @@ export function StoreDetailPage({ storeSlug }: { storeSlug: string }) {
               {store.country && <p className="store-detail-text">{store.country}</p>}
             </div>
 
-            {store.phone && (
+            {store.phoneNumber && (
               <div className="store-detail-section">
                 <h2 className="store-detail-section-title">Phone</h2>
-                <a href={`tel:${store.phone}`} className="store-detail-link">
-                  {store.phone}
+                <a href={`tel:${store.phoneNumber}`} className="store-detail-link">
+                  {store.phoneNumber}
                 </a>
               </div>
             )}
