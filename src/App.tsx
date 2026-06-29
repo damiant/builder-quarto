@@ -37,11 +37,26 @@ function PageError() {
   );
 }
 
+function TestPage() {
+  return (
+    <main className="test-page" aria-labelledby="test-page-title">
+      <p className="test-page-eyebrow">Test route</p>
+      <h1 id="test-page-title" className="test-page-title">
+        Hardcoded test component
+      </h1>
+      <p className="test-page-description">
+        This page is rendered locally for the /test route.
+      </p>
+    </main>
+  );
+}
+
 export function App() {
   const urlPath = window.location.pathname;
   const searchParams = new URLSearchParams(window.location.search);
   const isPreview = isBuilderPreviewRequest(searchParams);
-  const useBuilder = urlPath !== "/" || isPreview;
+  const isTestRoute = urlPath === "/test";
+  const useBuilder = !isTestRoute && (urlPath !== "/" || isPreview);
 
   const [content, setContent] = useState<BuilderContent | null | undefined>(undefined);
   const [error, setError] = useState(false);
@@ -61,6 +76,7 @@ export function App() {
   }, [urlPath, useBuilder]);
 
   function renderMain() {
+    if (isTestRoute) return <TestPage />;
     if (!useBuilder) {
       return <FeaturedProducts />;
     }
