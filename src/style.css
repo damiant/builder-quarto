@@ -1052,11 +1052,70 @@ code {
   overflow-wrap: anywhere;
 }
 
+.account-panel-title {
+  margin: 6px 0 0;
+  color: var(--text-high);
+  font-size: 24px;
+  line-height: 1.2;
+  letter-spacing: -0.24px;
+}
+
 .account-panel-text {
   margin: 4px 0 0;
   color: var(--text-secondary);
   font-size: 16px;
   line-height: 1.5;
+}
+
+.account-cta-form {
+  margin-top: 20px;
+}
+
+.account-cta-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-high);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.account-cta-row {
+  display: flex;
+  gap: 10px;
+}
+
+.account-cta-input {
+  min-width: 0;
+  flex: 1;
+  padding: 11px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  color: var(--text-high);
+  font: inherit;
+}
+
+.account-cta-input:focus {
+  border-color: var(--primary-blue);
+  outline: 2px solid var(--primary-blue-soft);
+}
+
+.account-cta-submit {
+  padding: 12px 18px;
+  border: 2px solid var(--primary-blue);
+  border-radius: 4px;
+  background: var(--primary-blue);
+  color: var(--white);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.account-cta-submit:hover {
+  background: var(--primary-blue-dark);
+  border-color: var(--primary-blue-dark);
 }
 
 .account-sign-out-btn {
@@ -1075,6 +1134,16 @@ code {
 .account-sign-out-btn:hover {
   background: var(--primary-blue-dark);
   border-color: var(--primary-blue-dark);
+}
+
+@media (max-width: 640px) {
+  .account-cta-row {
+    flex-direction: column;
+  }
+
+  .account-cta-submit {
+    width: 100%;
+  }
 }
 
 .featured-products {
