@@ -783,16 +783,19 @@ code {
 
 .static-card-grid {
   display: grid;
+  justify-content: center;
   gap: 24px;
-  margin-bottom: 48px;
+  margin: 0 auto 48px;
 }
 
 .static-card-grid-four {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 252px));
+  width: 100%;
 }
 
 .static-card-grid-three {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 330px));
+  width: 100%;
 }
 
 .static-card {
@@ -955,7 +958,7 @@ code {
   }
 
   .static-card-grid-four {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 252px));
   }
 
   .static-hero-title {
