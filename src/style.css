@@ -169,6 +169,7 @@ body {
   align-items: center;
   text-decoration: none;
   margin-right: 4px;
+  order: 1;
 }
 
 .logo-link svg {
@@ -179,6 +180,7 @@ body {
 .browse-area {
   position: relative;
   flex-shrink: 0;
+  order: 4;
 }
 
 .browse-btn {
@@ -305,6 +307,7 @@ body {
 .search-area {
   flex-grow: 1;
   min-width: 0;
+  order: 2;
 }
 
 .search-field {
@@ -380,6 +383,7 @@ body {
 /* User actions (desktop) */
 .user-actions-nav {
   flex-shrink: 0;
+  order: 3;
 }
 
 .user-actions-list {
@@ -465,6 +469,7 @@ body {
 .tools-nav {
   display: none;
   flex-shrink: 0;
+  order: 5;
 }
 
 .tools-list {
