@@ -8,7 +8,9 @@ export type Store = {
   country?: string;
 };
 
-export function StoreCard({ title, address, phone, hours, image }: Store) {
+export function StoreCard({ title, address, phone, hours, image, state, country }: Store) {
+  const location = [address, state, country].filter(Boolean).join(", ");
+
   return (
     <article className="store-card">
       {image ? (
@@ -20,7 +22,7 @@ export function StoreCard({ title, address, phone, hours, image }: Store) {
       )}
       <div className="store-card-details">
         <h3 className="store-card-title">{title}</h3>
-        <p className="store-card-address">{address}</p>
+        <p className="store-card-location">{location}</p>
         {phone && <p className="store-card-phone">{phone}</p>}
         {hours && <p className="store-card-hours">{hours}</p>}
       </div>
