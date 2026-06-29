@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@builder.io/react": "^9.4.0",
+    "@radix-ui/react-dialog": "^1.1.17",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
   },

@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
 import { getCartItemCount, getCartItems, subscribeToCartChanges, type CartItem } from "./cart.ts";
 import { currencyFormatter } from "./ProductCard.tsx";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "./ui/Dialog.tsx";
 
 const quartoLogo = (
   <svg
@@ -174,8 +182,9 @@ export function Header() {
     setCartItems(getCartItems());
     setCartOpen(true);
   }
-  function closeCart() {
-    setCartOpen(false);
+  function handleCartOpenChange(open: boolean) {
+    if (open) setCartItems(getCartItems());
+    setCartOpen(open);
   }
 
   function renderCartButton() {
@@ -348,52 +357,47 @@ export function Header() {
         </nav>
       </div>
 
-      {cartOpen && (
-        <div className="cart-dialog-backdrop" role="presentation" onClick={closeCart}>
-          <section
-            className="cart-dialog"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="cart-dialog-title"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <div className="cart-dialog-header">
-              <h2 id="cart-dialog-title" className="cart-dialog-title">
-                Cart
-              </h2>
-              <button type="button" className="cart-dialog-close" onClick={closeCart}>
-                Close
-              </button>
+      <Dialog open={cartOpen} onOpenChange={handleCartOpenChange}>
+        <DialogContent className="cart-dialog">
+          <DialogHeader className="cart-dialog-header">
+            <div>
+              <DialogTitle className="cart-dialog-title">Cart</DialogTitle>
+              <DialogDescription className="cart-dialog-summary">
+                {cartItemCount > 0
+                  ? `${cartItemCount} ${cartItemCount === 1 ? "item" : "items"} in your cart`
+                  : "Your cart is empty"}
+              </DialogDescription>
             </div>
+            <DialogClose className="cart-dialog-close">Close</DialogClose>
+          </DialogHeader>
 
-            {cartItems.length > 0 ? (
-              <>
-                <ul className="cart-item-list">
-                  {cartItems.map((item) => (
-                    <li className="cart-item" key={item.id}>
-                      <div className="cart-item-copy">
-                        <p className="cart-item-title">{item.title}</p>
-                        <p className="cart-item-meta">
-                          {item.quantity} × {currencyFormatter.format(item.price)}
-                        </p>
-                      </div>
-                      <p className="cart-item-subtotal">
-                        {currencyFormatter.format(item.price * item.quantity)}
+          {cartItems.length > 0 ? (
+            <>
+              <ul className="cart-item-list">
+                {cartItems.map((item) => (
+                  <li className="cart-item" key={item.id}>
+                    <div className="cart-item-copy">
+                      <p className="cart-item-title">{item.title}</p>
+                      <p className="cart-item-meta">
+                        {item.quantity} × {currencyFormatter.format(item.price)}
                       </p>
-                    </li>
-                  ))}
-                </ul>
-                <div className="cart-dialog-total">
-                  <span>Total</span>
-                  <strong>{currencyFormatter.format(cartTotal)}</strong>
-                </div>
-              </>
-            ) : (
-              <p className="cart-empty-message">Your cart is empty.</p>
-            )}
-          </section>
-        </div>
-      )}
+                    </div>
+                    <p className="cart-item-subtotal">
+                      {currencyFormatter.format(item.price * item.quantity)}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+              <div className="cart-dialog-total">
+                <span>Total</span>
+                <strong>{currencyFormatter.format(cartTotal)}</strong>
+              </div>
+            </>
+          ) : (
+            <p className="cart-empty-message">Your cart is empty.</p>
+          )}
+        </DialogContent>
+      </Dialog>
     </header>
   );
 }
