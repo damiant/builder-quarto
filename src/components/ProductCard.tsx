@@ -46,7 +46,11 @@ export function ProductCard({ title, slug, description, image, price }: Product)
 
   return (
     <article className="product-card">
-      <a className="product-card-link" href={`/products/${productSlug}`} aria-label={`View ${title}`}>
+      <a
+        className="product-card-link"
+        href={`/products/${productSlug}`}
+        aria-label={`View ${title}`}
+      >
         <div className="product-card-media">
           {image ? (
             <img

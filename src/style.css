@@ -937,7 +937,9 @@ code {
   flex-direction: column;
   overflow-wrap: break-word;
   background: rgb(255, 255, 255);
-  box-shadow: rgba(0, 0, 0, 0.13) 0 3px 7px, rgba(0, 0, 0, 0.11) 0 1px 2px;
+  box-shadow:
+    rgba(0, 0, 0, 0.13) 0 3px 7px,
+    rgba(0, 0, 0, 0.11) 0 1px 2px;
 }
 
 .static-card-image {

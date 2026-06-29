@@ -44,7 +44,9 @@ async function fetchCategoryLinks(): Promise<FooterLink[]> {
   if (!response.ok) throw new Error(`Failed to load categories: ${response.status}`);
 
   const data = (await response.json()) as BuilderCategoriesResponse;
-  return (data.results ?? []).map(normalizeCategory).filter((link): link is FooterLink => Boolean(link));
+  return (data.results ?? [])
+    .map(normalizeCategory)
+    .filter((link): link is FooterLink => Boolean(link));
 }
 
 const footerColumns: FooterSection[][] = [

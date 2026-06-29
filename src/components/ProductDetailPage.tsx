@@ -39,9 +39,16 @@ export function ProductDetailPage({ productId }: ProductDetailPageProps) {
       <section className="product-detail-layout">
         <div className="product-detail-media">
           {product.image ? (
-            <img className="product-detail-image" src={getProductImageUrl(product.image)} alt={product.title} />
+            <img
+              className="product-detail-image"
+              src={getProductImageUrl(product.image)}
+              alt={product.title}
+            />
           ) : (
-            <div className="product-detail-image product-detail-image-placeholder" aria-hidden="true">
+            <div
+              className="product-detail-image product-detail-image-placeholder"
+              aria-hidden="true"
+            >
               <span className="product-detail-image-initial">{product.title.charAt(0)}</span>
             </div>
           )}
@@ -51,7 +58,9 @@ export function ProductDetailPage({ productId }: ProductDetailPageProps) {
           <h1 id="product-detail-title" className="product-detail-title">
             {product.title}
           </h1>
-          {product.description && <p className="product-detail-description">{product.description}</p>}
+          {product.description && (
+            <p className="product-detail-description">{product.description}</p>
+          )}
           <p className="product-detail-price">{currencyFormatter.format(product.price)}</p>
           <button className="product-detail-button" type="button">
             Add to cart

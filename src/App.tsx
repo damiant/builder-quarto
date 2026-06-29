@@ -272,7 +272,11 @@ function TestPage() {
         </div>
       </section>
 
-      <section id="contact-static" className="static-section static-contact-section" aria-labelledby="static-contact-title">
+      <section
+        id="contact-static"
+        className="static-section static-contact-section"
+        aria-labelledby="static-contact-title"
+      >
         <div className="static-section-inner">
           <div className="static-heading-block">
             <h2 id="static-contact-title" className="static-section-title">
@@ -295,7 +299,9 @@ export function App() {
   const urlPath = window.location.pathname;
   const searchParams = new URLSearchParams(window.location.search);
   const isPreview = isBuilderPreviewRequest(searchParams);
-  const productId = urlPath.startsWith("/products/") ? decodeURIComponent(urlPath.slice("/products/".length)) : null;
+  const productId = urlPath.startsWith("/products/")
+    ? decodeURIComponent(urlPath.slice("/products/".length))
+    : null;
   const isTestRoute = urlPath === "/test";
   const useBuilder = !isTestRoute && !productId && (urlPath !== "/" || isPreview);
 
