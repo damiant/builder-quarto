@@ -47,6 +47,26 @@ type StoreGroup = {
   stores: Store[];
 };
 
+function filterStores(stores: Store[], query: string): Store[] {
+  if (!query.trim()) return stores;
+
+  const lowerQuery = query.toLowerCase();
+  return stores.filter((store) => {
+    const searchText = [
+      store.title,
+      store.address,
+      store.state,
+      store.country,
+      store.phone,
+      store.hours,
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+    return searchText.includes(lowerQuery);
+  });
+}
+
 function groupStores(stores: Store[]): StoreGroup[] {
   const groups: Record<string, Store[]> = {
     "United States": [],
@@ -70,6 +90,7 @@ export function StoresPage() {
   const [stores, setStores] = useState<Store[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     fetchStores()
@@ -111,7 +132,8 @@ export function StoresPage() {
     );
   }
 
-  const storeGroups = groupStores(stores);
+  const filteredStores = filterStores(stores, searchQuery);
+  const storeGroups = groupStores(filteredStores);
 
   return (
     <main className="stores-page" aria-labelledby="stores-title">
@@ -121,25 +143,41 @@ export function StoresPage() {
             Find a Store
           </h1>
           <p className="stores-subtitle">Visit one of our locations near you</p>
+          <div className="stores-search-container">
+            <input
+              type="text"
+              className="stores-search-input"
+              placeholder="Search by location, address, or phone..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              aria-label="Search stores"
+            />
+          </div>
         </div>
-        <div className="stores-groups-container">
-          {storeGroups.map((group) => (
-            <section
-              key={group.name}
-              className="stores-section"
-              aria-labelledby={`group-${group.name}`}
-            >
-              <h2 id={`group-${group.name}`} className="stores-group-title">
-                {group.name}
-              </h2>
-              <div className="stores-group-grid">
-                {group.stores.map((store) => (
-                  <StoreCard key={store.title} {...store} />
-                ))}
-              </div>
-            </section>
-          ))}
-        </div>
+        {filteredStores.length === 0 ? (
+          <div className="stores-no-results">
+            No stores match your search. Try a different query.
+          </div>
+        ) : (
+          <div className="stores-groups-container">
+            {storeGroups.map((group) => (
+              <section
+                key={group.name}
+                className="stores-section"
+                aria-labelledby={`group-${group.name}`}
+              >
+                <h2 id={`group-${group.name}`} className="stores-group-title">
+                  {group.name}
+                </h2>
+                <div className="stores-group-grid">
+                  {group.stores.map((store) => (
+                    <StoreCard key={store.title} {...store} />
+                  ))}
+                </div>
+              </section>
+            ))}
+          </div>
+        )}
       </div>
     </main>
   );
