@@ -28,18 +28,26 @@ export function ProductDetailPage({ productId }: ProductDetailPageProps) {
         <h1 id="product-detail-status-title" className="product-detail-status-title">
           We couldn't find that product.
         </h1>
-        <a className="product-detail-back-link" href="/">
-          Back to featured products
-        </a>
+        <button
+          className="product-detail-back-link"
+          type="button"
+          onClick={() => (history.length > 1 ? history.back() : (location.href = "/"))}
+        >
+          Back
+        </button>
       </main>
     );
   }
 
   return (
     <main className="product-detail-page" aria-labelledby="product-detail-title">
-      <a className="product-detail-back-link" href="/">
-        Back to featured products
-      </a>
+      <button
+        className="product-detail-back-link"
+        type="button"
+        onClick={() => (history.length > 1 ? history.back() : (location.href = "/"))}
+      >
+        Back
+      </button>
       <section className="product-detail-layout">
         <div className="product-detail-media">
           {product.image ? (
