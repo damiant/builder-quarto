@@ -8,16 +8,16 @@ const quartoLogo = (
     xmlns="http://www.w3.org/2000/svg"
     aria-label="Quarto"
   >
-    <rect x="0" y="0" width="17" height="17" rx="3" fill="#005dab" />
-    <rect x="20" y="0" width="17" height="17" rx="3" fill="#005dab" opacity="0.7" />
-    <rect x="0" y="20" width="17" height="17" rx="3" fill="#005dab" opacity="0.7" />
-    <rect x="20" y="20" width="17" height="17" rx="3" fill="#005dab" opacity="0.4" />
+    <rect x="0" y="0" width="17" height="17" rx="3" fill="rgb(0, 93, 171)" />
+    <rect x="20" y="0" width="17" height="17" rx="3" fill="rgb(0, 93, 171)" opacity="0.7" />
+    <rect x="0" y="20" width="17" height="17" rx="3" fill="rgb(0, 93, 171)" opacity="0.7" />
+    <rect x="20" y="20" width="17" height="17" rx="3" fill="rgb(0, 93, 171)" opacity="0.4" />
     <text
       x="46"
       y="28"
       fontSize="22"
       fontWeight="700"
-      fill="#08060d"
+      fill="var(--text-h)"
       fontFamily="system-ui, -apple-system, sans-serif"
       letterSpacing="-0.5"
     >
@@ -164,7 +164,7 @@ export function Header() {
   }
 
   return (
-    <header className="site-header">
+    <header className="site-header header-sans">
       <div className="utility-bar">
         <div className="utility-bar-inner">
           <nav aria-label="Quick links" className="utility-nav">
@@ -239,6 +239,11 @@ export function Header() {
                 </li>
               ))}
               <li className="category-divider" role="separator"></li>
+              <li className="category-item">
+                <button type="button" className="category-item-btn category-sign-in">
+                  Sign In / Register
+                </button>
+              </li>
             </ul>
             <div className="close-menu-area">
               <button type="button" className="close-menu-btn" onClick={closeMenu}>

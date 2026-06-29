@@ -208,7 +208,7 @@ function TestPage() {
           />
           <div className="static-card-grid static-card-grid-three">
             {privacyControls.map((item) => (
-              <article id={item.id} className="static-card static-action-card" key={item.title}>
+              <article id={item.id} className="static-card" key={item.title}>
                 <img loading="lazy" alt={item.alt} src={item.image} className="static-card-image" />
                 <div className="static-card-body">
                   <h3 className="static-card-title">{item.title}</h3>
@@ -265,7 +265,7 @@ function TestPage() {
           />
           <div className="static-card-grid static-card-grid-four">
             {privacyNews.map((item) => (
-              <article className="static-card static-news-card" key={item.title}>
+              <article className="static-card" key={item.title}>
                 <img loading="lazy" alt={item.alt} src={item.image} className="static-card-image" />
                 <div className="static-card-body">
                   <h3 className="static-card-title">{item.title}</h3>

@@ -74,7 +74,7 @@ export function ProductDetailPage({ productId }: ProductDetailPageProps) {
             <p className="product-detail-description">{product.description}</p>
           )}
           <p className="product-detail-price">{currencyFormatter.format(product.price)}</p>
-          <button className="product-detail-button" type="button">
+          <button className="product-detail-btn" type="button">
             Add to cart
           </button>
         </div>
