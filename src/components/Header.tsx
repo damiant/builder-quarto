@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getCartItemCount, getCartItems, subscribeToCartChanges, type CartItem } from "./cart.ts";
 import { currencyFormatter } from "./ProductCard.tsx";
 import {
@@ -169,8 +169,18 @@ export function Header() {
   const [cartItems, setCartItems] = useState<CartItem[]>(() => getCartItems());
   const cartItemCount = getCartItemCount(cartItems);
   const cartTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  const previousCartItemCount = useRef(cartItemCount);
+  const [badgeAnimationKey, setBadgeAnimationKey] = useState(0);
 
   useEffect(() => subscribeToCartChanges(() => setCartItems(getCartItems())), []);
+
+  useEffect(() => {
+    if (cartItemCount > 0 && cartItemCount !== previousCartItemCount.current) {
+      setBadgeAnimationKey((key) => key + 1);
+    }
+
+    previousCartItemCount.current = cartItemCount;
+  }, [cartItemCount]);
 
   function closeMenu() {
     setMenuOpen(false);
@@ -197,7 +207,14 @@ export function Header() {
       >
         <span className="cart-icon-wrap">
           {cartIcon}
-          {cartItemCount > 0 && <span className="cart-badge">{cartItemCount}</span>}
+          {cartItemCount > 0 && (
+            <span
+              key={badgeAnimationKey}
+              className={`cart-badge${badgeAnimationKey > 0 ? " cart-badge-animate" : ""}`}
+            >
+              {cartItemCount}
+            </span>
+          )}
         </span>
         <span className="cart-label">Cart</span>
       </button>

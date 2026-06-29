@@ -488,6 +488,37 @@ body {
   line-height: 18px;
   text-align: center;
   box-sizing: border-box;
+  transform-origin: center;
+}
+
+.cart-badge-animate {
+  animation: cart-badge-jiggle-pop 650ms ease-out;
+}
+
+@keyframes cart-badge-jiggle-pop {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+
+  20% {
+    transform: scale(1.35) rotate(-14deg);
+  }
+
+  40% {
+    transform: scale(0.92) rotate(12deg);
+  }
+
+  60% {
+    transform: scale(1.16) rotate(-8deg);
+  }
+
+  80% {
+    transform: scale(1.04) rotate(4deg);
+  }
+
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
 }
 
 .cart-label {
@@ -1003,6 +1034,11 @@ code {
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
+}
+
+.product-detail-btn:disabled {
+  opacity: 0.72;
+  cursor: not-allowed;
 }
 
 .product-detail-back-link {
