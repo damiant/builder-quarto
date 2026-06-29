@@ -48,7 +48,7 @@ const footerColumns: FooterSection[][] = [
     {
       title: "Shop Gadgets",
       links: [
-        { label: "New Arrivals", href: "#new-arrivals" },
+        { label: "New Arrivals", href: "/discover/new-arrivals" },
         { label: "Smart Home", href: "#smart-home" },
         { label: "Wearable Tech", href: "#wearable-tech" },
         { label: "Audio Gadgets", href: "#audio-gadgets" },
