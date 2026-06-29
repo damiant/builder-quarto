@@ -1,0 +1,270 @@
+---
+description: Design system rules for this project. Enforced by the design-system skill.
+globs:
+  - "**/*.css"
+  - "**/*.scss"
+  - "**/*.tsx"
+  - "**/*.jsx"
+  - "**/*.ts"
+  - "**/*.js"
+alwaysApply: false
+---
+
+# Design System — Quarto
+
+## Colors
+
+### CSS Variables (defined in `:root`)
+
+| Token | Light Value | Dark Value | Usage |
+|-------|-------------|------------|-------|
+| `--text` | `#6b6375` | `#9ca3af` | Body text |
+| `--text-h` | `#08060d` | `#f3f4f6` | Heading text |
+| `--bg` | `#fff` | `#16171d` | Page background |
+| `--border` | `#e5e4e7` | `#2e303a` | Borders, dividers |
+| `--code-bg` | `#f4f3ec` | `#1f2028` | Code block background |
+| `--accent` | `#aa3bff` | `#c084fc` | Accent (purple) |
+| `--accent-bg` | `rgba(170, 59, 255, 0.1)` | `rgba(192, 132, 252, 0.15)` | Accent-tinted background |
+| `--accent-border` | `rgba(170, 59, 255, 0.5)` | `rgba(192, 132, 252, 0.5)` | Accent-tinted border |
+| `--social-bg` | `rgba(244, 243, 236, 0.5)` | `rgba(47, 48, 58, 0.5)` | Social area background |
+| `--shadow` | `rgba(0,0,0,0.1) 0 10px 15px -3px, rgba(0,0,0,0.05) 0 4px 6px -2px` | `rgba(0,0,0,0.4) 0 10px 15px -3px, rgba(0,0,0,0.25) 0 4px 6px -2px` | Box shadow |
+
+### Named Color Values (hardcoded — used consistently across the codebase)
+
+| Name | Value | Usage |
+|------|-------|-------|
+| `color-primary` | `rgb(0, 93, 171)` | Primary blue — buttons, links, icons, eyebrows |
+| `color-primary-hover` | `rgb(0, 75, 140)` | Primary blue hover state |
+| `color-primary-alt` | `rgb(0, 103, 184)` | Slightly lighter blue — static page links, CTA buttons |
+| `color-footer-link` | `rgb(0, 102, 204)` | Footer shop links |
+| `color-surface-header` | `rgb(250, 250, 250)` | Site header background |
+| `color-surface-subtle` | `rgb(245, 245, 247)` | Product card media bg, footer background |
+| `color-surface-white` | `rgb(255, 255, 255)` | Cards, dropdown background |
+| `color-text-dark` | `rgb(51, 51, 51)` | Search input, category item text |
+| `color-text-near-black` | `rgb(26, 26, 26)` | Static page body text |
+| `color-text-strong` | `rgba(0, 0, 0, 0.88)` | Card titles, product titles, headings |
+| `color-text-medium` | `rgba(0, 0, 0, 0.72)` | Prices, footer country links, legal links |
+| `color-text-secondary` | `rgba(0, 0, 0, 0.64)` | Product detail description |
+| `color-text-muted` | `rgba(0, 0, 0, 0.56)` | Product card description, footer text |
+| `color-divider` | `rgba(0, 0, 0, 0.16)` | Footer dividers |
+| `color-divider-subtle` | `rgba(0, 0, 0, 0.12)` | Category dropdown divider |
+| `color-overlay` | `rgba(0, 0, 0, 0.45)` | Modal/dropdown overlay backdrop |
+| `color-input-placeholder` | `#999` | Input placeholder text |
+| `color-divider-border` | `rgb(204, 204, 204)` | User action divider border |
+
+## Spacing Scale
+
+Base unit: **4px**
+
+| Step | Value | Common uses |
+|------|-------|-------------|
+| 0.5 | 2px | Small gaps, cart label padding |
+| 1 | 4px | Tiny gaps, small padding |
+| 1.5 | 6px | Button icon gap |
+| 2 | 8px | Gaps, small padding, category item gap |
+| 2.5 | 10px | Utility bar padding, mobile header gap |
+| 3 | 12px | Browse button padding, static card title margin |
+| 3.5 | 14px | Browse button padding |
+| 4 | 16px | Standard padding, gutter, item margin |
+| 4.5 | 18px | Product detail button padding |
+| 5 | 20px | Grid gap, header padding, responsive gutter |
+| 6 | 24px | Card grid gap, card body padding, section inner padding |
+| 7 | 28px | Featured products header margin, product detail gap (mobile) |
+| 8 | 32px | Featured products padding, h1 margin, business content side padding |
+| 10 | 40px | Min-height (buttons), mobile featured padding |
+| 12 | 48px | Static section padding, business content |
+| 14 | 56px | Featured products top padding, product detail padding |
+| 16 | 64px | Featured products bottom padding |
+| 18 | 72px | Builder page status padding |
+| 20 | 80px | Builder page status bottom padding |
+
+## Typography
+
+### Font Families
+
+| Token | Stack | Usage |
+|-------|-------|-------|
+| `--sans` | `system-ui, "Segoe UI", Roboto, sans-serif` | Body text |
+| `--heading` | `system-ui, "Segoe UI", Roboto, sans-serif` | Headings (h1, h2) |
+| `--mono` | `ui-monospace, Consolas, monospace` | Code blocks |
+| footer-font | `"SF Pro Text", "Myriad Set Pro", "SF Pro Icons", "Apple Legacy Chevron", "Helvetica Neue", Helvetica, Arial, sans-serif` | Footer legal & directory text |
+| static-font | `"Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif` | Static content pages |
+
+### Type Scale
+
+| Token | font-size | font-weight | line-height | Usage |
+|-------|-----------|-------------|-------------|-------|
+| `text-footer` | 12px | 400 | 16px | Footer directory & legal |
+| `text-xs` | 13px | 400 | 1.4 | Product card description |
+| `text-sm` | 14px | 400–700 | 1.2–1.7 | Utility links, eyebrows, buttons, category items |
+| `text-base` | 15px | 400–700 | 1.4 | Search input, product price, code blocks |
+| `text-md` | 16px | 400–600 | 1.3–1.5 | Body base, product card title, section empty state |
+| `text-lg` | 17px | 400 | 1.55 | Product detail description |
+| `text-body` | 18px | 400 | 145% | Root body font |
+| `text-xl` | 24px | 500–600 | 118%–1.2 | h2, product detail price, static card title, static hero subtitle |
+| `text-2xl` | 29px | 600 | 34.8px | Feature title, resource title |
+| `text-3xl` | 32px | 400–500 | 1.15 | Featured products title, page status title, h1 (tablet) |
+| `text-section` | 37px | 600 | 44.4px | Static section title |
+| `text-detail` | 40px | 500 | 1.1 | Product detail title |
+| `text-hero` | 50px | 600 | 60px | Static hero title |
+| `text-display` | 56px | 500 | auto | h1 (desktop) |
+
+### Letter Spacing
+
+- `-1.68px` — h1
+- `-0.64px` — featured products title, page status title
+- `-0.8px` — product detail title
+- `-0.24px` — h2
+- `-0.12px` — footer
+- `0.18px` — body default
+- `0.56px` — eyebrow text (uppercase)
+- `-0.5` (SVG) — logo text
+
+## Component Patterns
+
+### Button — Primary
+
+
+<button class="browse-btn" type="button">
+  Label
+</button>
+```
+
+- `background: rgb(0, 93, 171)`, `color: #fff`
+- `border: 2px solid rgb(0, 93, 171)`, `border-radius: 3px`
+- `padding: 8px 14px 8px 10px`, `font-size: 14px`, `font-weight: 700`
+- `min-height: 40px`
+- Hover: `background: rgb(0, 75, 140)`, `border-color: rgb(0, 75, 140)`
+
+### Button — Ghost / Text
+
+```
+<button class="sign-in-btn" type="button">
+  Label
+</button>
+```
+
+- `background: none`, `border: none`
+- `color: rgb(0, 93, 171)`, `font-size: 14px`, `min-height: 40px`
+- Hover: `text-decoration: underline` or `color: rgb(0, 60, 120)`
+
+### Button — Static CTA
+
+```
+<a class="static-button" href="...">Label</a>
+```
+
+- `background: rgb(0, 103, 184)`, `color: rgb(255, 255, 255)`
+- `border: 2px solid transparent`, `border-radius: 2px`
+- `padding: 10px 12px`, `font-weight: 600`, `line-height: 16px`
+
+### Product Card
+
+```
+<article class="product-card">
+  <a class="product-card-link" href="...">
+    <div class="product-card-media">
+      <img class="product-card-image" ... />
+    </div>
+    <div class="product-card-details">
+      <h3 class="product-card-title">...</h3>
+      <p class="product-card-description">...</p>
+      <p class="product-card-price">...</p>
+    </div>
+  </a>
+</article>
+```
+
+- Border: `1px solid var(--border)`, `border-radius: 12px`
+- Background: `rgb(255, 255, 255)`, `box-shadow: 0 1px 2px rgba(0,0,0,0.04)`
+- Media: `aspect-ratio: 4/3`, `background: rgb(245, 245, 247)`
+- Details padding: `16px`
+
+### Static Content Card
+
+```
+<article class="static-card">
+  <img class="static-card-image" ... />
+  <div class="static-card-body">
+    <h3 class="static-card-title">...</h3>
+    <p class="static-card-text">...</p>
+  </div>
+  <div class="static-card-footer">
+    <a class="static-text-link" href="...">CTA</a>
+  </div>
+</article>
+```
+
+- No border-radius, white background
+- `box-shadow: rgba(0,0,0,0.13) 0 3px 7px, rgba(0,0,0,0.11) 0 1px 2px`
+- Body padding: `24px 24px 0`
+- Footer padding: `16px 24px 24px`
+
+### Eyebrow Text
+
+```
+<p class="featured-products-eyebrow">Label</p>
+```
+
+- `font-size: 14px`, `font-weight: 700`, `text-transform: uppercase`
+- `letter-spacing: 0.56px`, `color: rgb(0, 93, 171)`
+
+### Section Header
+
+```
+<div class="static-heading-block">
+  <h2 class="static-section-title">Title</h2>
+  <p class="static-section-description">Subtitle</p>
+</div>
+```
+
+- Centered, `max-width: 66.6667%`, `margin: 0 auto 48px`
+
+### Navigation Link
+
+```
+<a class="utility-link" href="...">Label</a>
+```
+
+- `color: rgb(0, 93, 171)`, `text-decoration: none`
+- `font-size: 14px`, `padding: 2px 12px`
+- Hover: `text-decoration: underline`
+
+### Footer Links
+
+```
+<a class="footer-links-anchor" href="...">Label</a>
+```
+
+- `color: rgba(0, 0, 0, 0.72)`, `text-decoration: none`
+- Hover: `text-decoration: underline`
+
+## Layout
+
+- **App container**: `max-width: 1126px`, centered, `border-inline: 1px solid var(--border)`
+- **Header**: `max-width: 1440px` inner row, full-viewport-width bleed via `width: 100vw; left: 50%; transform: translateX(-50%)`
+- **Footer**: Same full-bleed pattern, `max-width: 1126px` inner content
+- **Static pages**: `width: 90%; max-width: 1600px; padding: 0 5%`
+
+## Breakpoints
+
+| Breakpoint | Value | Effect |
+|------------|-------|--------|
+| Desktop → Tablet | `1024px` | Font sizes reduce, grid changes, padding adjusts |
+| Tablet → Mobile | `900px` | Utility bar hides, tools nav shows |
+| Small Tablet | `800px` | Product detail stacks to 1 column |
+| Mobile | `700px` | Static pages collapse, footer nav collapses |
+| Small Mobile | `600px` | Browse label hides, cart label hides |
+| Extra Small | `480px` | Product grid goes 1 column |
+
+## Rules
+
+- **Never use hardcoded hex/rgb/hsl color values** for new code; use the named tokens above or CSS variables.
+- **Spacing values must come from the spacing scale.** Avoid magic numbers like `13px` or `7px`.
+- **Font sizes must come from the type scale.** Do not introduce new one-off sizes.
+- **Buttons** must follow one of the three button patterns; do not create ad-hoc button styles.
+- **Cards** must follow either the Product Card or Static Card pattern.
+- **Eyebrow text** (uppercase labels above titles) always uses `font-size: 14px`, `font-weight: 700`, `text-transform: uppercase`, `letter-spacing: 0.56px`, and `color: rgb(0, 93, 171)`.
+- **Full-bleed sections** (header, footer) use the `width: 100vw; left: 50%; transform: translateX(-50%)` pattern.
+- **Media queries** must use the documented breakpoints; do not introduce custom breakpoints.
+- **Dark mode** is handled exclusively via the CSS variables in the `@media (prefers-color-scheme: dark)` block; do not hardcode dark-mode-specific colors elsewhere.
