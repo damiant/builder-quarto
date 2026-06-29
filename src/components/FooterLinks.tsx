@@ -21,13 +21,13 @@ const footerColumns: FooterSection[][] = [
         { label: "Travel Tech", href: "#travel-tech" },
         { label: "Desktop Gadgets", href: "#desktop-gadgets" },
         { label: "Kitchen Tech", href: "#kitchen-tech" },
-        { label: "Charge &amp; Power", href: "#charge-power" },
+        { label: "Charge & Power", href: "#charge-power" },
         { label: "Quarto Exclusives", href: "#quarto-exclusives" },
         { label: "Gift Cards", href: "#gift-cards" },
       ],
     },
     {
-      title: "Deals &amp; Drops",
+      title: "Deals & Drops",
       links: [
         { label: "Daily Deals", href: "#daily-deals" },
         { label: "Limited Drops", href: "#limited-drops" },
@@ -97,9 +97,7 @@ const footerColumns: FooterSection[][] = [
     },
     {
       title: "For Students",
-      links: [
-        { label: "Student Tech", href: "#student-tech" },
-      ],
+      links: [{ label: "Student Tech", href: "#student-tech" }],
     },
     {
       title: "For Teams",
@@ -120,7 +118,7 @@ const footerColumns: FooterSection[][] = [
         { label: "Accessibility", href: "#accessibility" },
         { label: "Privacy", href: "#privacy" },
         { label: "Product Safety", href: "#product-safety" },
-        { label: "Repair &amp; Reuse", href: "#repair-reuse" },
+        { label: "Repair & Reuse", href: "#repair-reuse" },
         { label: "Community Impact", href: "#community-impact" },
       ],
     },
@@ -131,7 +129,7 @@ const footerColumns: FooterSection[][] = [
         { label: "Careers", href: "#careers" },
         { label: "Press", href: "#press" },
         { label: "Partner With Us", href: "#partners" },
-        { label: "Ethics &amp; Compliance", href: "#compliance" },
+        { label: "Ethics & Compliance", href: "#compliance" },
         { label: "Events", href: "#events" },
         { label: "Contact Quarto", href: "#contact" },
       ],
@@ -139,38 +137,54 @@ const footerColumns: FooterSection[][] = [
   ],
 ];
 
-const footerChevron = `
-<svg class="footer-links-chevron" width="11" height="6" viewBox="0 0 11 6" aria-hidden="true">
-  <polyline stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" fill-rule="evenodd" points="10.075 0.675 5.5 5.323 0.925 0.675"></polyline>
-</svg>`;
+const footerChevron = (
+  <svg className="footer-links-chevron" width="11" height="6" viewBox="0 0 11 6" aria-hidden="true">
+    <polyline
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+      fillRule="evenodd"
+      points="10.075 0.675 5.5 5.323 0.925 0.675"
+    />
+  </svg>
+);
 
-function renderFooterSection(section: FooterSection): string {
-  return `
-  <section class="footer-links-section">
-    <h3 class="footer-links-heading">
-      <span class="footer-links-heading-text">${section.title}</span>
-      <button disabled class="footer-links-toggle" type="button">
-        <span>${section.title}</span>
-        <span class="footer-links-toggle-icon">${footerChevron}</span>
-      </button>
-    </h3>
-    <ul role="list" class="footer-links-list">
-      ${section.links.map(link => `
-      <li role="listitem" class="footer-links-item">
-        <a href="${link.href}" class="footer-links-anchor">${link.label}</a>
-      </li>`).join("")}
-    </ul>
-  </section>`;
+function FooterSection({ title, links }: FooterSection) {
+  return (
+    <section className="footer-links-section">
+      <h3 className="footer-links-heading">
+        <span className="footer-links-heading-text">{title}</span>
+        <button disabled className="footer-links-toggle" type="button">
+          <span>{title}</span>
+          <span className="footer-links-toggle-icon">{footerChevron}</span>
+        </button>
+      </h3>
+      <ul role="list" className="footer-links-list">
+        {links.map((link) => (
+          <li key={link.href} role="listitem" className="footer-links-item">
+            <a href={link.href} className="footer-links-anchor">
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
 }
 
-export function renderFooterLinks(): string {
-  return `
-<footer class="footer-links" aria-label="Footer Links">
-  <nav aria-label="Quarto Directory" role="navigation" class="footer-links-directory">
-    ${footerColumns.map(column => `
-    <div class="footer-links-column">
-      ${column.map(renderFooterSection).join("")}
-    </div>`).join("")}
-  </nav>
-</footer>`;
+export function FooterLinks() {
+  return (
+    <footer className="footer-links" aria-label="Footer Links">
+      <nav aria-label="Quarto Directory" role="navigation" className="footer-links-directory">
+        {footerColumns.map((column, i) => (
+          <div key={i} className="footer-links-column">
+            {column.map((section) => (
+              <FooterSection key={section.title} {...section} />
+            ))}
+          </div>
+        ))}
+      </nav>
+    </footer>
+  );
 }
