@@ -17,7 +17,7 @@ export function ProductDetailPage({ productId }: ProductDetailPageProps) {
   }, []);
 
   useEffect(() => {
-    fetchFeaturedProducts(50)
+    fetchFeaturedProducts(100)
       .then((products) =>
         setProduct(
           products.find((item) => item.sku === productId || item.slug === productId) ?? null,
