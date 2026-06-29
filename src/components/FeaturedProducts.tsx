@@ -17,7 +17,13 @@ type BuilderContentWithTitle = {
   id?: string;
   data?: {
     title?: string;
+    description?: string;
   };
+};
+
+type TagDetails = {
+  title: string;
+  description?: string;
 };
 
 type BuilderProductsResponse = {
@@ -50,23 +56,42 @@ function normalizeProduct(content: BuilderProductContent): Product | null {
   };
 }
 
-async function getContentIdByTitle(modelName: string, value: string): Promise<string | null> {
+async function getContentByTitle(
+  modelName: string,
+  value: string,
+): Promise<BuilderContentWithTitle | null> {
   const contentUrl = new URL(`https://cdn.builder.io/api/v3/content/${modelName}`);
   contentUrl.searchParams.set("apiKey", BUILDER_PUBLIC_API_KEY);
   contentUrl.searchParams.set("limit", "100");
-  contentUrl.searchParams.set("fields", "id,data.title");
+  contentUrl.searchParams.set("fields", "id,data.title,data.description");
 
   const response = await fetch(contentUrl);
   if (!response.ok) throw new Error(`Failed to load ${modelName}: ${response.status}`);
 
   const data = (await response.json()) as BuilderContentWithTitleResponse;
   const valueSlug = getCategorySlug(value);
-  const match = (data.results ?? []).find((item) => {
-    const title = item.data?.title;
-    return title ? getCategorySlug(title) === valueSlug : false;
-  });
 
-  return match?.id ?? null;
+  return (
+    (data.results ?? []).find((item) => {
+      const title = item.data?.title;
+      return title ? getCategorySlug(title) === valueSlug : false;
+    }) ?? null
+  );
+}
+
+async function getContentIdByTitle(modelName: string, value: string): Promise<string | null> {
+  const content = await getContentByTitle(modelName, value);
+  return content?.id ?? null;
+}
+
+async function fetchTagDetails(tag: string): Promise<TagDetails | null> {
+  const content = await getContentByTitle("tags", tag);
+  const title = content?.data?.title;
+  if (!title) return null;
+  return {
+    title,
+    description: content.data?.description,
+  };
 }
 
 export async function fetchFeaturedProducts(
@@ -137,10 +162,20 @@ export function FeaturedProducts({
   tag,
 }: FeaturedProductsProps) {
   const [products, setProducts] = useState<Product[]>([]);
+  const [tagDetails, setTagDetails] = useState<TagDetails | null>(null);
 
   useEffect(() => {
     fetchFeaturedProducts(productCount, category, tag).then(setProducts).catch(console.error);
   }, [productCount, category, tag]);
+
+  useEffect(() => {
+    if (!tag) {
+      setTagDetails(null);
+      return;
+    }
+
+    fetchTagDetails(tag).then(setTagDetails).catch(console.error);
+  }, [tag]);
 
   return (
     <section className="featured-products" aria-labelledby="featured-products-title">
@@ -149,6 +184,14 @@ export function FeaturedProducts({
         <h2 id="featured-products-title" className="featured-products-title">
           {title}
         </h2>
+        {tagDetails && (
+          <div className="featured-products-tag-summary">
+            <p className="featured-products-tag-title">{tagDetails.title}</p>
+            {tagDetails.description && (
+              <p className="featured-products-tag-description">{tagDetails.description}</p>
+            )}
+          </div>
+        )}
       </div>
       {products.length > 0 ? (
         <div className="featured-products-grid">
