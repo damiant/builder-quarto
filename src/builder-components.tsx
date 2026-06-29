@@ -3,7 +3,7 @@ import { FeaturedProducts } from "./components/FeaturedProducts.tsx";
 import { ProductCard } from "./components/ProductCard.tsx";
 import { ContentHeader } from "./components/ContentHeader.tsx";
 import { PageHero } from "./components/PageHero.tsx";
-import { PrivacyCardGrid } from "./components/PrivacyCardGrid.tsx";
+import { StaticCardGrid } from "./components/StaticCardGrid.tsx";
 
 Builder.registerComponent(PageHero, {
   name: "PageHero",
@@ -23,8 +23,8 @@ Builder.registerComponent(PageHero, {
   ],
 });
 
-Builder.registerComponent(PrivacyCardGrid, {
-  name: "PrivacyCardGrid",
+Builder.registerComponent(StaticCardGrid, {
+  name: "StaticCardGrid",
   inputs: [
     {
       name: "cards",

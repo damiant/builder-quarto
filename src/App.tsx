@@ -11,7 +11,7 @@ import { FooterLinks } from "./components/FooterLinks.tsx";
 import { FeaturedProducts } from "./components/FeaturedProducts.tsx";
 import { ContentHeader } from "./components/ContentHeader.tsx";
 import { PageHero } from "./components/PageHero.tsx";
-import { PrivacyCardGrid } from "./components/PrivacyCardGrid.tsx";
+import { StaticCardGrid } from "./components/StaticCardGrid.tsx";
 import "./builder-components.tsx";
 
 builder.init(BUILDER_PUBLIC_API_KEY);
@@ -69,7 +69,7 @@ const privacyCommitments = [
 
 const privacyControls = [
   {
-    id: "privacy-dashboard",
+    id: "static-dashboard",
     title: "Visit your privacy dashboard",
     description:
       "The privacy dashboard is where you can manage privacy settings and review data associated with your Quarto account.",
@@ -89,7 +89,7 @@ const privacyControls = [
     alt: "A blue shield with a white checkmark in the center.",
   },
   {
-    id: "privacy-controls",
+    id: "static-controls",
     title: "Find your privacy controls",
     description:
       "Learn where to find privacy settings and related information in Quarto products and services.",
@@ -169,41 +169,41 @@ const privacyNews = [
 
 function TestPage() {
   return (
-    <main className="test-page quarto-privacy" aria-labelledby="test-page-title" tabIndex={-1}>
+    <main className="test-page quarto-static" aria-labelledby="test-page-title" tabIndex={-1}>
       <PageHero
         title="Privacy at Quarto"
         text="Your data is private at work, at home, and on the go"
         image="https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/MSPrivacy_HeroBanner_CROP_4000x1250?scl=1"
       />
 
-      <section className="privacy-section" aria-labelledby="privacy-commitment-title">
-        <div className="privacy-section-inner">
+      <section className="static-section" aria-labelledby="static-commitment-title">
+        <div className="static-section-inner">
           <ContentHeader
-            titleId="privacy-commitment-title"
+            titleId="static-commitment-title"
             title="Our commitment to privacy"
             text="We ground our privacy commitments in strong data governance practices, so you can trust that we'll protect the privacy and confidentiality of your data and will only use it in a way that's consistent with the reasons you provided it."
           />
-          <PrivacyCardGrid cards={privacyCommitments} />
+          <StaticCardGrid cards={privacyCommitments} />
         </div>
       </section>
 
-      <section className="privacy-section" aria-labelledby="privacy-control-title">
-        <div className="privacy-section-inner">
+      <section className="static-section" aria-labelledby="static-control-title">
+        <div className="static-section-inner">
           <ContentHeader
-            titleId="privacy-control-title"
+            titleId="static-control-title"
             title="Discover and control your data"
             text="Privacy is at the center of how we build the products and services that customers use every day. See privacy resources and controls below where you can manage your data and how it is used."
           />
-          <div className="privacy-card-grid privacy-card-grid-three">
+          <div className="static-card-grid static-card-grid-three">
             {privacyControls.map((item) => (
-              <article id={item.id} className="privacy-card privacy-action-card" key={item.title}>
-                <img loading="lazy" alt={item.alt} src={item.image} className="privacy-card-image" />
-                <div className="privacy-card-body">
-                  <h3 className="privacy-card-title">{item.title}</h3>
-                  <p className="privacy-card-text">{item.description}</p>
+              <article id={item.id} className="static-card static-action-card" key={item.title}>
+                <img loading="lazy" alt={item.alt} src={item.image} className="static-card-image" />
+                <div className="static-card-body">
+                  <h3 className="static-card-title">{item.title}</h3>
+                  <p className="static-card-text">{item.description}</p>
                 </div>
-                <div className="privacy-card-footer">
-                  <a className="privacy-text-link" href={`#${item.id}`}>
+                <div className="static-card-footer">
+                  <a className="static-text-link" href={`#${item.id}`}>
                     {item.cta}
                   </a>
                 </div>
@@ -211,21 +211,21 @@ function TestPage() {
             ))}
           </div>
 
-          <article className="privacy-business-card">
+          <article className="static-business-card">
             <img
               loading="lazy"
               alt="A colorful collection of 3D shapes that depict applications, files, calendar items, and reminder notifications."
               src="https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/MSPrivacy_05_BUSINESS_NEW_1920x1440:VP5-800x450"
-              className="privacy-business-image"
+              className="static-business-image"
             />
-            <div className="privacy-business-content">
-              <h3 className="privacy-feature-title">Data protection for your business</h3>
-              <p className="privacy-feature-text">
+            <div className="static-business-content">
+              <h3 className="static-feature-title">Data protection for your business</h3>
+              <p className="static-feature-text">
                 For enterprise and business customers, IT admins, or anyone using Quarto products at
                 work, visit the Quarto Trust Center to get information about privacy and security
                 practices in our products and services.
               </p>
-              <a className="privacy-button" href="#privacy-resources-title">
+              <a className="static-button" href="#static-resources-title">
                 Quarto Trust Center
               </a>
             </div>
@@ -233,46 +233,46 @@ function TestPage() {
         </div>
       </section>
 
-      <section className="privacy-section" aria-labelledby="privacy-resources-title">
-        <div className="privacy-section-inner">
+      <section className="static-section" aria-labelledby="static-resources-title">
+        <div className="static-section-inner">
           <ContentHeader
-            titleId="privacy-resources-title"
+            titleId="static-resources-title"
             title="Learn more about privacy at Quarto"
             text="Learn more about privacy at Quarto and how we put our privacy principles into practice in the following links and resources."
           />
-          <h3 className="privacy-resource-kicker">Privacy Statement</h3>
-          <div className="privacy-resource-list">
+          <h3 className="static-resource-kicker">Privacy Statement</h3>
+          <div className="static-resource-list">
             {privacyResources.map((item) => (
-              <article className="privacy-resource-item" key={item.title}>
-                <h3 className="privacy-resource-title">
-                  <a className="privacy-resource-link" href="#privacy-resources-title">
+              <article className="static-resource-item" key={item.title}>
+                <h3 className="static-resource-title">
+                  <a className="static-resource-link" href="#static-resources-title">
                     {item.title}
                   </a>
                 </h3>
-                <p className="privacy-resource-text">{item.description}</p>
+                <p className="static-resource-text">{item.description}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="privacy-section" aria-labelledby="privacy-news-title">
-        <div className="privacy-section-inner">
+      <section className="static-section" aria-labelledby="static-news-title">
+        <div className="static-section-inner">
           <ContentHeader
-            titleId="privacy-news-title"
+            titleId="static-news-title"
             title="What's new?"
             text="Check out the latest articles, blog posts, and news from Quarto about protecting your privacy at home and at work."
           />
-          <div className="privacy-card-grid privacy-card-grid-four">
+          <div className="static-card-grid static-card-grid-four">
             {privacyNews.map((item) => (
-              <article className="privacy-card privacy-news-card" key={item.title}>
-                <img loading="lazy" alt={item.alt} src={item.image} className="privacy-card-image" />
-                <div className="privacy-card-body">
-                  <h3 className="privacy-card-title">{item.title}</h3>
-                  <p className="privacy-card-text">{item.description}</p>
+              <article className="static-card static-news-card" key={item.title}>
+                <img loading="lazy" alt={item.alt} src={item.image} className="static-card-image" />
+                <div className="static-card-body">
+                  <h3 className="static-card-title">{item.title}</h3>
+                  <p className="static-card-text">{item.description}</p>
                 </div>
-                <div className="privacy-card-footer">
-                  <a className="privacy-text-link" href="#privacy-news-title">
+                <div className="static-card-footer">
+                  <a className="static-text-link" href="#static-news-title">
                     Read more
                   </a>
                 </div>
@@ -282,15 +282,15 @@ function TestPage() {
         </div>
       </section>
 
-      <section id="contact-privacy" className="privacy-section privacy-contact-section" aria-labelledby="privacy-contact-title">
-        <div className="privacy-section-inner">
-          <div className="privacy-heading-block">
-            <h2 id="privacy-contact-title" className="privacy-section-title">
+      <section id="contact-static" className="static-section static-contact-section" aria-labelledby="static-contact-title">
+        <div className="static-section-inner">
+          <div className="static-heading-block">
+            <h2 id="static-contact-title" className="static-section-title">
               Contact our team
             </h2>
-            <p className="privacy-section-description">
+            <p className="static-section-description">
               If you have a privacy concern, request or question,{" "}
-              <a className="privacy-inline-link" href="#contact-privacy">
+              <a className="static-inline-link" href="#contact-static">
                 please contact us
               </a>
             </p>

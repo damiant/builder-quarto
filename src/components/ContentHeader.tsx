@@ -6,11 +6,11 @@ type ContentHeaderProps = {
 
 export function ContentHeader({ title, text, titleId }: ContentHeaderProps) {
   return (
-    <div className="privacy-heading-block">
-      <h2 id={titleId} className="privacy-section-title">
+    <div className="static-heading-block">
+      <h2 id={titleId} className="static-section-title">
         {title}
       </h2>
-      <p className="privacy-section-description">{text}</p>
+      <p className="static-section-description">{text}</p>
     </div>
   );
 }

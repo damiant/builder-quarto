@@ -693,7 +693,7 @@ code {
   text-align: initial;
 }
 
-.test-page.quarto-privacy {
+.test-page.quarto-static {
   width: 100vw;
   position: relative;
   left: 50%;
@@ -713,20 +713,20 @@ code {
   box-sizing: border-box;
 }
 
-.privacy-hero,
-.privacy-section {
+.static-hero,
+.static-section {
   padding-bottom: 48px;
 }
 
-.privacy-hero {
+.static-hero {
   padding-top: 48px;
 }
 
-.privacy-contact-section {
+.static-contact-section {
   padding-bottom: 48px;
 }
 
-.privacy-section-inner {
+.static-section-inner {
   width: 90%;
   max-width: 1600px;
   margin: 0 auto;
@@ -734,26 +734,26 @@ code {
   box-sizing: border-box;
 }
 
-.privacy-heading-block {
+.static-heading-block {
   max-width: 66.6667%;
   margin: 0 auto 48px;
   text-align: center;
 }
 
-.privacy-hero-title,
-.privacy-section-title {
+.static-hero-title,
+.static-section-title {
   margin: 0 0 16px;
   color: rgb(0, 0, 0);
   font-weight: 600;
   text-align: center;
 }
 
-.privacy-hero-title {
+.static-hero-title {
   font-size: 50px;
   line-height: 60px;
 }
 
-.privacy-hero-subtitle {
+.static-hero-subtitle {
   max-width: 50%;
   margin: 0 auto;
   color: rgb(0, 0, 0);
@@ -762,40 +762,40 @@ code {
   line-height: 28.8px;
 }
 
-.privacy-section-title {
+.static-section-title {
   font-size: 37px;
   line-height: 44.4px;
 }
 
-.privacy-section-description {
+.static-section-description {
   max-width: 50%;
   margin: 0 auto;
   color: rgb(26, 26, 26);
   text-align: center;
 }
 
-.privacy-hero-image {
+.static-hero-image {
   display: block;
   max-width: 100%;
   margin: 0 auto;
   vertical-align: middle;
 }
 
-.privacy-card-grid {
+.static-card-grid {
   display: grid;
   gap: 24px;
   margin-bottom: 48px;
 }
 
-.privacy-card-grid-four {
+.static-card-grid-four {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-.privacy-card-grid-three {
+.static-card-grid-three {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.privacy-card {
+.static-card {
   display: flex;
   min-width: 0;
   height: 100%;
@@ -805,18 +805,18 @@ code {
   box-shadow: rgba(0, 0, 0, 0.13) 0 3px 7px, rgba(0, 0, 0, 0.11) 0 1px 2px;
 }
 
-.privacy-card-image {
+.static-card-image {
   display: block;
   width: 100%;
   vertical-align: middle;
 }
 
-.privacy-card-body {
+.static-card-body {
   flex: 1;
   padding: 24px 24px 0;
 }
 
-.privacy-card-title {
+.static-card-title {
   margin: 0 0 12px;
   color: rgb(0, 0, 0);
   font-size: 24px;
@@ -824,17 +824,17 @@ code {
   line-height: 28.8px;
 }
 
-.privacy-card-text {
+.static-card-text {
   margin: 0;
   color: rgb(26, 26, 26);
 }
 
-.privacy-card-footer {
+.static-card-footer {
   min-height: 40px;
   padding: 16px 24px 24px;
 }
 
-.privacy-text-link {
+.static-text-link {
   display: inline-block;
   position: relative;
   margin: 16px 24px 16px 0;
@@ -844,7 +844,7 @@ code {
   text-decoration: none;
 }
 
-.privacy-text-link::after {
+.static-text-link::after {
   content: "›";
   position: absolute;
   right: 10px;
@@ -853,17 +853,17 @@ code {
   transition: right 0.15s ease;
 }
 
-.privacy-text-link:hover,
-.privacy-resource-link:hover,
-.privacy-inline-link:hover {
+.static-text-link:hover,
+.static-resource-link:hover,
+.static-inline-link:hover {
   text-decoration: underline;
 }
 
-.privacy-text-link:hover::after {
+.static-text-link:hover::after {
   right: 6px;
 }
 
-.privacy-business-card {
+.static-business-card {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   overflow: hidden;
@@ -871,19 +871,19 @@ code {
   background: rgb(255, 255, 255);
 }
 
-.privacy-business-image {
+.static-business-image {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.privacy-business-content {
+.static-business-content {
   align-self: center;
   padding: 48px;
 }
 
-.privacy-feature-title {
+.static-feature-title {
   margin: 0 0 16px;
   color: rgb(0, 0, 0);
   font-size: 29px;
@@ -891,12 +891,12 @@ code {
   line-height: 34.8px;
 }
 
-.privacy-feature-text {
+.static-feature-text {
   margin: 0 0 16px;
   color: rgb(26, 26, 26);
 }
 
-.privacy-button {
+.static-button {
   display: inline-block;
   margin: 8px 0;
   padding: 10px 12px;
@@ -909,7 +909,7 @@ code {
   text-decoration: none;
 }
 
-.privacy-resource-kicker {
+.static-resource-kicker {
   margin: 0 0 12px;
   color: rgb(0, 0, 0);
   font-size: 24px;
@@ -917,103 +917,103 @@ code {
   line-height: 28.8px;
 }
 
-.privacy-resource-list {
+.static-resource-list {
   margin-bottom: 48px;
 }
 
-.privacy-resource-item {
+.static-resource-item {
   margin-bottom: 16px;
 }
 
-.privacy-resource-title {
+.static-resource-title {
   margin: 0 0 16px;
   font-size: 29px;
   font-weight: 600;
   line-height: 34.8px;
 }
 
-.privacy-resource-link {
+.static-resource-link {
   color: rgb(0, 103, 184);
   text-decoration: underline;
 }
 
-.privacy-resource-text {
+.static-resource-text {
   margin: 0 0 16px;
   color: rgb(26, 26, 26);
 }
 
-.privacy-inline-link {
+.static-inline-link {
   color: rgb(0, 103, 184);
   text-decoration: underline;
 }
 
 @media (max-width: 1024px) {
-  .privacy-heading-block,
-  .privacy-hero-subtitle,
-  .privacy-section-description {
+  .static-heading-block,
+  .static-hero-subtitle,
+  .static-section-description {
     max-width: 80%;
   }
 
-  .privacy-card-grid-four {
+  .static-card-grid-four {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .privacy-hero-title {
+  .static-hero-title {
     font-size: 42px;
     line-height: 50px;
   }
 
-  .privacy-section-title {
+  .static-section-title {
     font-size: 32px;
     line-height: 38px;
   }
 }
 
 @media (max-width: 700px) {
-  .privacy-hero,
-  .privacy-section,
-  .privacy-contact-section {
+  .static-hero,
+  .static-section,
+  .static-contact-section {
     padding-bottom: 40px;
   }
 
-  .privacy-hero {
+  .static-hero {
     padding-top: 40px;
   }
 
-  .privacy-section-inner {
+  .static-section-inner {
     width: 100%;
     padding: 0 20px;
   }
 
-  .privacy-heading-block,
-  .privacy-hero-subtitle,
-  .privacy-section-description {
+  .static-heading-block,
+  .static-hero-subtitle,
+  .static-section-description {
     max-width: 100%;
   }
 
-  .privacy-card-grid,
-  .privacy-business-card {
+  .static-card-grid,
+  .static-business-card {
     grid-template-columns: 1fr;
   }
 
-  .privacy-hero-title {
+  .static-hero-title {
     font-size: 34px;
     line-height: 40px;
   }
 
-  .privacy-hero-subtitle,
-  .privacy-card-title,
-  .privacy-resource-kicker {
+  .static-hero-subtitle,
+  .static-card-title,
+  .static-resource-kicker {
     font-size: 22px;
     line-height: 27px;
   }
 
-  .privacy-section-title {
+  .static-section-title {
     font-size: 29px;
     line-height: 35px;
   }
 
-  .privacy-business-content {
+  .static-business-content {
     padding: 32px 24px;
   }
 }
