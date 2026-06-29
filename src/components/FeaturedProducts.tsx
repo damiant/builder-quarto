@@ -15,6 +15,7 @@ type BuilderProductContent = {
 
 type BuilderContentWithTitle = {
   id?: string;
+  name?: string;
   data?: {
     title?: string;
     description?: string;
@@ -63,7 +64,7 @@ async function getContentByTitle(
   const contentUrl = new URL(`https://cdn.builder.io/api/v3/content/${modelName}`);
   contentUrl.searchParams.set("apiKey", BUILDER_PUBLIC_API_KEY);
   contentUrl.searchParams.set("limit", "100");
-  contentUrl.searchParams.set("fields", "id,data.title,data.description");
+  contentUrl.searchParams.set("fields", "id,name,data.title,data.description");
 
   const response = await fetch(contentUrl);
   if (!response.ok) throw new Error(`Failed to load ${modelName}: ${response.status}`);
@@ -74,7 +75,9 @@ async function getContentByTitle(
   return (
     (data.results ?? []).find((item) => {
       const title = item.data?.title;
-      return title ? getCategorySlug(title) === valueSlug : false;
+      return [title, item.name].some((label) =>
+        label ? getCategorySlug(label) === valueSlug : false,
+      );
     }) ?? null
   );
 }
