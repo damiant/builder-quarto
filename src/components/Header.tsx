@@ -205,7 +205,7 @@ export function Header() {
         aria-label={`Cart with ${cartItemCount} ${cartItemCount === 1 ? "item" : "items"}`}
         onClick={openCart}
       >
-        <span className="cart-icon-wrap">
+        <span className={`cart-icon-wrap${badgeAnimationKey > 0 ? " cart-icon-wrap-animate" : ""}`}>
           {cartIcon}
           {cartItemCount > 0 && (
             <span
