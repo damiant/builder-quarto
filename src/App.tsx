@@ -5,6 +5,11 @@ import {
   BUILDER_PAGE_MODEL,
   isBuilderPreviewRequest,
 } from "./builder-page.ts";
+import {
+  getStoredAccountEmail,
+  signOutAccount,
+  subscribeToAccountChanges,
+} from "./components/account.ts";
 import { Header } from "./components/Header.tsx";
 import { Footer } from "./components/Footer.tsx";
 import { FooterLinks } from "./components/FooterLinks.tsx";
@@ -38,6 +43,40 @@ function PageError() {
       <h1 id="builder-page-status-title" className="builder-page-status-title">
         This page could not be loaded right now.
       </h1>
+    </main>
+  );
+}
+
+function AccountPage() {
+  const [accountEmail, setAccountEmail] = useState(() => getStoredAccountEmail());
+
+  useEffect(() => subscribeToAccountChanges(() => setAccountEmail(getStoredAccountEmail())), []);
+
+  function handleSignOut() {
+    signOutAccount();
+    setAccountEmail(null);
+  }
+
+  return (
+    <main className="account-page" aria-labelledby="account-page-title">
+      <p className="account-page-eyebrow">Account</p>
+      <h1 id="account-page-title" className="account-page-title">
+        Your Quarto account
+      </h1>
+      {accountEmail ? (
+        <section className="account-panel" aria-label="Signed in account details">
+          <p className="account-panel-label">Signed in as</p>
+          <p className="account-panel-email">{accountEmail}</p>
+          <button type="button" className="account-sign-out-btn" onClick={handleSignOut}>
+            Sign out
+          </button>
+        </section>
+      ) : (
+        <section className="account-panel" aria-label="Signed out account details">
+          <p className="account-panel-label">You are signed out.</p>
+          <p className="account-panel-text">Use the header to sign in with an email address.</p>
+        </section>
+      )}
     </main>
   );
 }
@@ -319,8 +358,14 @@ export function App() {
     ? getCategorySlug(decodeURIComponent(urlPath.slice("/discover/".length)))
     : null;
   const isTestRoute = urlPath === "/test";
+  const isAccountRoute = urlPath === "/account";
   const useBuilder =
-    !isTestRoute && !productId && !categoryId && !discoverTag && (urlPath !== "/" || isPreview);
+    !isTestRoute &&
+    !isAccountRoute &&
+    !productId &&
+    !categoryId &&
+    !discoverTag &&
+    (urlPath !== "/" || isPreview);
 
   const [content, setContent] = useState<BuilderContent | null | undefined>(undefined);
   const [error, setError] = useState(false);
@@ -341,6 +386,7 @@ export function App() {
 
   function renderMain() {
     if (isTestRoute) return <TestPage />;
+    if (isAccountRoute) return <AccountPage />;
     if (productId) return <ProductDetailPage productId={productId} />;
     if (categoryId) {
       const categoryLabel = getCategoryLabel(categoryId);
