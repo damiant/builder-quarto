@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import { fetchFeaturedProducts } from "./FeaturedProducts.tsx";
+import { useEffect, useRef, useState } from "react";
+import { addCartItem } from "./cart.ts";
+import { fetchProductBySku } from "./FeaturedProducts.tsx";
 import { currencyFormatter, getProductImageUrl, type Product } from "./ProductCard.tsx";
 
 type ProductDetailPageProps = {
@@ -8,18 +9,35 @@ type ProductDetailPageProps = {
 
 export function ProductDetailPage({ productId }: ProductDetailPageProps) {
   const [product, setProduct] = useState<Product | null | undefined>(undefined);
+  const [cartButtonDisabled, setCartButtonDisabled] = useState(false);
+  const cartButtonTimer = useRef<number | undefined>(undefined);
 
   useEffect(() => {
-    fetchFeaturedProducts(50)
-      .then((products) =>
-        setProduct(
-          products.find((item) => item.sku === productId || item.slug === productId) ?? null,
-        ),
-      )
+    return () => window.clearTimeout(cartButtonTimer.current);
+  }, []);
+
+  useEffect(() => {
+    fetchProductBySku(productId)
+      .then(setProduct)
       .catch(() => setProduct(null));
   }, [productId]);
 
   if (product === undefined) return null;
+
+  function handleAddToCart() {
+    if (cartButtonDisabled) return;
+
+    addCartItem({
+      id: product?.sku ?? product?.slug ?? productId,
+      title: product?.title ?? productId,
+      price: product?.price ?? 0,
+      image: product?.image,
+    });
+
+    setCartButtonDisabled(true);
+    window.clearTimeout(cartButtonTimer.current);
+    cartButtonTimer.current = window.setTimeout(() => setCartButtonDisabled(false), 3000);
+  }
 
   if (product === null) {
     return (
@@ -74,8 +92,13 @@ export function ProductDetailPage({ productId }: ProductDetailPageProps) {
             <p className="product-detail-description">{product.description}</p>
           )}
           <p className="product-detail-price">{currencyFormatter.format(product.price)}</p>
-          <button className="product-detail-btn" type="button">
-            Add to cart
+          <button
+            className="product-detail-btn"
+            type="button"
+            onClick={handleAddToCart}
+            disabled={cartButtonDisabled}
+          >
+            {cartButtonDisabled ? "Added to cart" : "Add to cart"}
           </button>
         </div>
       </section>

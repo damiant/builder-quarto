@@ -317,6 +317,9 @@ export function App() {
   const categoryId = urlPath.startsWith("/categories/")
     ? getCategorySlug(decodeURIComponent(urlPath.slice("/categories/".length)))
     : null;
+  const discoverTag = urlPath.startsWith("/discover/")
+    ? getCategorySlug(decodeURIComponent(urlPath.slice("/discover/".length)))
+    : null;
   const isTestRoute = urlPath === "/test";
   const isStoresRoute = urlPath === "/stores";
   const storeDetailSlug = urlPath.startsWith("/stores/")
@@ -360,6 +363,17 @@ export function App() {
           title={`Shop ${categoryLabel}`}
           productCount={12}
           category={categoryId}
+        />
+      );
+    }
+    if (discoverTag) {
+      const tagLabel = getCategoryLabel(discoverTag);
+      return (
+        <FeaturedProducts
+          eyebrow="Discover"
+          title={`Shop ${tagLabel}`}
+          productCount={12}
+          tag={discoverTag}
         />
       );
     }

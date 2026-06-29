@@ -48,7 +48,7 @@ const footerColumns: FooterSection[][] = [
     {
       title: "Shop Gadgets",
       links: [
-        { label: "New Arrivals", href: "#new-arrivals" },
+        { label: "New Arrivals", href: "/discover/new-arrivals" },
         { label: "Smart Home", href: "#smart-home" },
         { label: "Wearable Tech", href: "#wearable-tech" },
         { label: "Audio Gadgets", href: "#audio-gadgets" },
@@ -64,10 +64,10 @@ const footerColumns: FooterSection[][] = [
     {
       title: "Deals & Drops",
       links: [
-        { label: "Daily Deals", href: "#daily-deals" },
-        { label: "Limited Drops", href: "#limited-drops" },
+        { label: "Daily Deals", href: "/discover/daily-deal" },
+        { label: "Limited Drops", href: "/discover/limited-drop" },
         { label: "Bundle Savings", href: "#bundle-savings" },
-        { label: "Clearance Finds", href: "#clearance-finds" },
+        { label: "Clearance Finds", href: "/discover/clearance" },
       ],
     },
   ],
@@ -75,7 +75,7 @@ const footerColumns: FooterSection[][] = [
     {
       title: "Account",
       links: [
-        { label: "Manage Your Account", href: "#account" },
+        { label: "Manage Your Account", href: "/account" },
         { label: "Order History", href: "#order-history" },
         { label: "Saved Gadgets", href: "#saved-gadgets" },
       ],
@@ -84,9 +84,9 @@ const footerColumns: FooterSection[][] = [
       title: "Discover",
       links: [
         { label: "Buying Guides", href: "#buying-guides" },
-        { label: "Staff Picks", href: "#staff-picks" },
-        { label: "Tech Trends", href: "#tech-trends" },
-        { label: "Gift Ideas", href: "#gift-ideas" },
+        { label: "Staff Picks", href: "/discover/staff-pick" },
+        { label: "Tech Trends", href: "/discover/tech-trend" },
+        { label: "Gift Ideas", href: "/discover/gift-idea" },
         { label: "Setup Inspiration", href: "#setup-inspiration" },
         { label: "How-To Videos", href: "#how-to-videos" },
         { label: "Compare Gadgets", href: "#compare-gadgets" },
@@ -150,8 +150,8 @@ const footerColumns: FooterSection[][] = [
       links: [
         { label: "Sustainability", href: "/sustainability" },
         { label: "Responsible Sourcing", href: "#responsible-sourcing" },
-        { label: "Accessibility", href: "#accessibility" },
-        { label: "Privacy", href: "#privacy" },
+        { label: "Accessibility", href: "/accessibility" },
+        { label: "Privacy", href: "/privacy" },
         { label: "Product Safety", href: "#product-safety" },
         { label: "Repair & Reuse", href: "#repair-reuse" },
         { label: "Community Impact", href: "#community-impact" },
