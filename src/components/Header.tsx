@@ -288,7 +288,7 @@ export function Header() {
               <nav aria-label="Quick links" className="utility-nav">
                 <ul className="utility-links">
                   <li>
-                    <a href="#" className="utility-link">
+                    <a href="/new-arrivals" className="utility-link">
                       What's New
                     </a>
                   </li>
