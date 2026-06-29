@@ -529,6 +529,10 @@ body {
     display: none;
   }
 
+  .browse-area {
+    margin-left: auto;
+  }
+
   .category-sign-in {
     border-top: 1px solid var(--border-light);
     padding-top: 10px;
