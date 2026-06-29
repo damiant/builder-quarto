@@ -28,7 +28,7 @@ export function Footer() {
       <section className="footer-legal-content">
         <div className="footer-shop-message">
           More ways to shop Quarto:{" "}
-          <a href="#stores" className="footer-shop-link">
+          <a href="/stores" className="footer-shop-link">
             Find a Quarto store
           </a>{" "}
           or{" "}
