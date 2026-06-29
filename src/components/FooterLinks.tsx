@@ -99,7 +99,7 @@ const footerColumns: FooterSection[][] = [
     {
       title: "Quarto Store",
       links: [
-        { label: "Find a Store", href: "#stores" },
+        { label: "Find a Store", href: "/stores" },
         { label: "Store Events", href: "#store-events" },
         { label: "Product Demos", href: "#product-demos" },
         { label: "Personal Shopping", href: "#personal-shopping" },
