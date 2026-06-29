@@ -4,7 +4,7 @@ description: >
   Analyzes a project to infer and document its design system, then audits the
   codebase for violations (hardcoded colors, non-standard spacing, typography
   inconsistencies, and inconsistent component patterns). Writes and maintains a
-  design system definition at agents/rules/design-system.mdc. Use when the user
+  design system definition at .agents/rules/design-system.mdc. Use when the user
   asks to apply a design system, audit design consistency, find hardcoded colors
   or magic numbers, check spacing or typography violations, document design
   tokens, or enforce visual consistency across the codebase. Also triggers when
@@ -18,7 +18,7 @@ description: >
 
 This skill has two modes that run in sequence:
 
-1. **Infer & document** — Scan the project, extract design tokens, write `agents/rules/design-system.mdc`
+1. **Infer & document** — Scan the project, extract design tokens, write `.agents/rules/design-system.mdc`
 2. **Audit** — Scan for violations of that design system and report them in chat
 
 After reporting violations, offer to fix them on request.
@@ -36,9 +36,9 @@ Scan the project's styles (CSS, SCSS, Tailwind config, CSS-in-JS, inline styles)
 
 **Important:** Only infer from what actually exists in the codebase. Do not invent tokens not present in the code. When values are ambiguous, include them as-is and flag them for human review.
 
-### Writing agents/rules/design-system.mdc
+### Writing .agents/rules/design-system.mdc
 
-Create or overwrite `agents/rules/design-system.mdc` with:
+Create or overwrite `.agents/rules/design-system.mdc` with:
 
 ```markdown
 ---
@@ -94,7 +94,7 @@ After writing the file, show the user a summary of what was inferred and ask: **
 
 ## Step 2: Audit for Violations
 
-Once the design system is confirmed (or already exists in `agents/rules/design-system.mdc`), scan the codebase for violations.
+Once the design system is confirmed (or already exists in `.agents/rules/design-system.mdc`), scan the codebase for violations.
 
 ### What to scan
 
@@ -170,7 +170,7 @@ Always show a diff or summary of what was changed. Never fix silently.
 - **Tailwind arbitrary values** like `text-[13px]` or `bg-[#ff0000]` are violations — flag them.
 - **CSS-in-JS** (styled-components, emotion) — scan template literals and object styles, not just `.css` files.
 - **Near-duplicate colors** — `#3b82f6` and `#3B82F6` are the same. Normalize to lowercase before deduplication.
-- **`agents/rules/design-system.mdc` path** — This is project-relative. Always write to this exact path, not `.builder/rules/` or anywhere else.
-- **If `agents/rules/` doesn't exist** — create it with `mkdir -p agents/rules` before writing the file.
-- **Skipping Step 1 when the file already exists** — If `agents/rules/design-system.mdc` already exists, read it first and ask the user: "A design system file already exists. Should I use it as-is, update it, or start fresh?"
+- **`.agents/rules/design-system.mdc` path** — This is project-relative. Always write to this exact path, not `agents/rules/` or `.builder/rules/` or anywhere else.
+- **If `.agents/rules/` doesn't exist** — create it with `mkdir -p .agents/rules` before writing the file.
+- **Skipping Step 1 when the file already exists** — If `.agents/rules/design-system.mdc` already exists, read it first and ask the user: "A design system file already exists. Should I use it as-is, update it, or start fresh?"
 - **Large codebases** — If scanning would take too long, tell the user and offer to scope to specific directories.
