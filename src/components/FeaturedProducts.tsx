@@ -37,6 +37,9 @@ type BuilderContentWithTitleResponse = {
   results?: BuilderContentWithTitle[];
 };
 
+const PRODUCT_FIELDS =
+  "data.title,data.description,data.image,data.price,data.category,data.tags,data.sku";
+
 export function getCategorySlug(title: string): string {
   return title
     .toLowerCase()
@@ -125,6 +128,20 @@ async function fetchTagDiscounts(): Promise<Map<string, number>> {
   );
 }
 
+export async function fetchProductBySku(sku: string): Promise<Product | null> {
+  const productsUrl = new URL("https://cdn.builder.io/api/v3/content/products");
+  productsUrl.searchParams.set("apiKey", BUILDER_PUBLIC_API_KEY);
+  productsUrl.searchParams.set("limit", "1");
+  productsUrl.searchParams.set("fields", PRODUCT_FIELDS);
+  productsUrl.searchParams.set("query", JSON.stringify({ "data.sku": sku }));
+
+  const response = await fetch(productsUrl);
+  if (!response.ok) throw new Error(`Failed to load product: ${response.status}`);
+
+  const data = (await response.json()) as BuilderProductsResponse;
+  return normalizeProduct(data.results?.[0] ?? {}) ?? null;
+}
+
 export async function fetchFeaturedProducts(
   productCount = 12,
   category?: string,
@@ -133,10 +150,7 @@ export async function fetchFeaturedProducts(
   const productsUrl = new URL("https://cdn.builder.io/api/v3/content/products");
   productsUrl.searchParams.set("apiKey", BUILDER_PUBLIC_API_KEY);
   productsUrl.searchParams.set("limit", category || tag ? "100" : productCount.toString());
-  productsUrl.searchParams.set(
-    "fields",
-    "data.title,data.description,data.image,data.price,data.category,data.tags,data.sku",
-  );
+  productsUrl.searchParams.set("fields", PRODUCT_FIELDS);
 
   const [response, categoryId, tagId, tagDiscounts] = await Promise.all([
     fetch(productsUrl),

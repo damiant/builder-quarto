@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { addCartItem } from "./cart.ts";
-import { fetchFeaturedProducts } from "./FeaturedProducts.tsx";
+import { fetchProductBySku } from "./FeaturedProducts.tsx";
 import { currencyFormatter, getProductImageUrl, type Product } from "./ProductCard.tsx";
 
 type ProductDetailPageProps = {
@@ -17,12 +17,8 @@ export function ProductDetailPage({ productId }: ProductDetailPageProps) {
   }, []);
 
   useEffect(() => {
-    fetchFeaturedProducts(100)
-      .then((products) =>
-        setProduct(
-          products.find((item) => item.sku === productId || item.slug === productId) ?? null,
-        ),
-      )
+    fetchProductBySku(productId)
+      .then(setProduct)
       .catch(() => setProduct(null));
   }, [productId]);
 
