@@ -19,12 +19,14 @@ type BuilderContentWithTitle = {
   data?: {
     title?: string;
     description?: string;
+    discountPercentage?: number;
   };
 };
 
 type TagDetails = {
   title: string;
   description?: string;
+  discountPercentage?: number;
 };
 
 type BuilderProductsResponse = {
@@ -64,7 +66,10 @@ async function getContentByTitle(
   const contentUrl = new URL(`https://cdn.builder.io/api/v3/content/${modelName}`);
   contentUrl.searchParams.set("apiKey", BUILDER_PUBLIC_API_KEY);
   contentUrl.searchParams.set("limit", "100");
-  contentUrl.searchParams.set("fields", "id,name,data.title,data.description");
+  contentUrl.searchParams.set(
+    "fields",
+    "id,name,data.title,data.description,data.discountPercentage",
+  );
 
   const response = await fetch(contentUrl);
   if (!response.ok) throw new Error(`Failed to load ${modelName}: ${response.status}`);
@@ -87,6 +92,10 @@ async function getContentIdByTitle(modelName: string, value: string): Promise<st
   return content?.id ?? null;
 }
 
+function getValidDiscountPercentage(value: unknown): number | undefined {
+  return typeof value === "number" && value >= 0 && value <= 100 ? value : undefined;
+}
+
 async function fetchTagDetails(tag: string): Promise<TagDetails | null> {
   const content = await getContentByTitle("tags", tag);
   const title = content?.data?.title;
@@ -94,7 +103,26 @@ async function fetchTagDetails(tag: string): Promise<TagDetails | null> {
   return {
     title,
     description: content.data?.description,
+    discountPercentage: getValidDiscountPercentage(content.data?.discountPercentage),
   };
+}
+
+async function fetchTagDiscounts(): Promise<Map<string, number>> {
+  const tagsUrl = new URL("https://cdn.builder.io/api/v3/content/tags");
+  tagsUrl.searchParams.set("apiKey", BUILDER_PUBLIC_API_KEY);
+  tagsUrl.searchParams.set("limit", "100");
+  tagsUrl.searchParams.set("fields", "id,data.discountPercentage");
+
+  const response = await fetch(tagsUrl);
+  if (!response.ok) throw new Error(`Failed to load tags: ${response.status}`);
+
+  const data = (await response.json()) as BuilderContentWithTitleResponse;
+  return new Map(
+    (data.results ?? []).flatMap((item) => {
+      const discountPercentage = getValidDiscountPercentage(item.data?.discountPercentage);
+      return item.id && discountPercentage !== undefined ? [[item.id, discountPercentage]] : [];
+    }),
+  );
 }
 
 export async function fetchFeaturedProducts(
@@ -110,17 +138,22 @@ export async function fetchFeaturedProducts(
     "data.title,data.description,data.image,data.price,data.category,data.tags,data.sku",
   );
 
-  const [response, categoryId, tagId] = await Promise.all([
+  const [response, categoryId, tagId, tagDiscounts] = await Promise.all([
     fetch(productsUrl),
     category ? getContentIdByTitle("categories", category) : Promise.resolve(null),
     tag ? getContentIdByTitle("tags", tag) : Promise.resolve(null),
+    fetchTagDiscounts(),
   ]);
   if (!response.ok) throw new Error(`Failed to load products: ${response.status}`);
 
   const data = (await response.json()) as BuilderProductsResponse;
   const products = (data.results ?? [])
     .map(normalizeProduct)
-    .filter((p): p is Product => Boolean(p));
+    .filter((p): p is Product => Boolean(p))
+    .map((product) => ({
+      ...product,
+      discountPercentage: product.tagId ? tagDiscounts.get(product.tagId) : undefined,
+    }));
   const filteredProducts = products.filter((product) => {
     if (category && (!categoryId || product.categoryId !== categoryId)) return false;
     if (tag && (!tagId || product.tagId !== tagId)) return false;

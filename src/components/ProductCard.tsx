@@ -7,6 +7,7 @@ export type Product = {
   price: number;
   categoryId?: string;
   tagId?: string;
+  discountPercentage?: number;
 };
 
 export const currencyFormatter = new Intl.NumberFormat("en-US", {
@@ -41,11 +42,23 @@ export const productCardBuilderConfig = {
     },
     { name: "image", type: "file" },
     { name: "price", type: "number", defaultValue: 99 },
+    { name: "discountPercentage", type: "number" },
   ],
 };
 
-export function ProductCard({ title, slug, sku, description, image, price }: Product) {
+export function ProductCard({
+  title,
+  slug,
+  sku,
+  description,
+  image,
+  price,
+  discountPercentage,
+}: Product) {
   const productPath = sku ?? slug ?? getProductSlug(title);
+  const hasDiscount =
+    typeof discountPercentage === "number" && discountPercentage > 0 && discountPercentage <= 100;
+  const discountedPrice = hasDiscount ? price * (1 - discountPercentage / 100) : price;
 
   return (
     <article className="product-card">
@@ -71,7 +84,14 @@ export function ProductCard({ title, slug, sku, description, image, price }: Pro
         <div className="product-card-details">
           <h3 className="product-card-title">{title}</h3>
           {description && <p className="product-card-description">{description}</p>}
-          <p className="product-card-price">{currencyFormatter.format(price)}</p>
+          <p className="product-card-price">
+            <span className="product-card-price-current">
+              {currencyFormatter.format(discountedPrice)}
+            </span>
+            {hasDiscount && (
+              <span className="product-card-price-original">{currencyFormatter.format(price)}</span>
+            )}
+          </p>
         </div>
       </a>
     </article>
