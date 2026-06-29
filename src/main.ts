@@ -1,5 +1,5 @@
 import "./style.css";
-import { loadBuilderComponentRegistry } from "./builder-components.ts";
+import { registerBuilderComponents } from "./builder-components.ts";
 import { getBuilderPage, isBuilderPreviewRequest, loadBuilderWebComponents } from "./builder-page.ts";
 import { renderFeaturedProducts } from "./featured-products.ts";
 import { renderFooter } from "./footer.ts";
@@ -78,5 +78,5 @@ ${renderFooter()}
   initHeaderInteractions();
 }
 
-loadBuilderComponentRegistry();
+registerBuilderComponents();
 void renderApp();

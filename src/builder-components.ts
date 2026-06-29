@@ -1,39 +1,37 @@
+import { Builder, builder, type Component } from "@builder.io/sdk";
 import { BUILDER_PUBLIC_API_KEY } from "./builder-page.ts";
 import { escapeHtml, getFeaturedProducts, renderProductCard } from "./featured-products.ts";
 
-type BuilderComponentInput = {
-  name: string;
-  type: string;
-  defaultValue?: string | number | boolean;
+type BuilderComponentProps = Record<string, unknown> | undefined;
+
+const featuredProductsRegistration: Component = {
+  name: "Featured Products",
+  inputs: [
+    { name: "eyebrow", type: "text", defaultValue: "Featured products" },
+    { name: "title", type: "text", defaultValue: "Shop our latest essentials" },
+    { name: "productCount", type: "number", defaultValue: 12 },
+  ],
 };
 
-type BuilderComponentOptions = {
-  name: string;
-  image?: string;
-  inputs?: BuilderComponentInput[];
+const featuredProductCardRegistration: Component = {
+  name: "Featured Product Card",
+  inputs: [
+    { name: "title", type: "text", defaultValue: "Featured gadget" },
+    { name: "description", type: "longText", defaultValue: "A curated Quarto product ready to feature on your page." },
+    { name: "image", type: "file" },
+    { name: "price", type: "number", defaultValue: 99 },
+  ],
 };
 
-type BuilderRuntime = {
-  init: (apiKey: string) => void;
-  registerComponent: (component: (props?: Record<string, unknown>) => string | Promise<string>, options: BuilderComponentOptions) => void;
-};
+let builderComponentsRegistered = false;
 
-declare global {
-  interface Window {
-    Builder?: BuilderRuntime;
-  }
-}
-
-const BUILDER_SDK_SCRIPT_ID = "builder-sdk-script";
-const BUILDER_SDK_SRC = "https://cdn.builder.io/js/builder.min.js";
-
-function getStringProp(props: Record<string, unknown> | undefined, name: string, defaultValue: string): string {
+function getStringProp(props: BuilderComponentProps, name: string, defaultValue: string): string {
   const value = props?.[name];
 
   return typeof value === "string" ? value : defaultValue;
 }
 
-function getNumberProp(props: Record<string, unknown> | undefined, name: string, defaultValue: number): number {
+function getNumberProp(props: BuilderComponentProps, name: string, defaultValue: number): number {
   const value = props?.[name];
 
   return typeof value === "number" ? value : defaultValue;
@@ -67,48 +65,13 @@ function renderBuilderFeaturedProductCard(props?: Record<string, unknown>): stri
   });
 }
 
-function registerBuilderComponents(): void {
-  if (!window.Builder) {
+export function registerBuilderComponents(): void {
+  if (builderComponentsRegistered) {
     return;
   }
 
-  window.Builder.init(BUILDER_PUBLIC_API_KEY);
-  window.Builder.registerComponent(renderBuilderFeaturedProducts, {
-    name: "Featured Products",
-    inputs: [
-      { name: "eyebrow", type: "text", defaultValue: "Featured products" },
-      { name: "title", type: "text", defaultValue: "Shop our latest essentials" },
-      { name: "productCount", type: "number", defaultValue: 12 },
-    ],
-  });
-  window.Builder.registerComponent(renderBuilderFeaturedProductCard, {
-    name: "Featured Product Card",
-    inputs: [
-      { name: "title", type: "text", defaultValue: "Featured gadget" },
-      { name: "description", type: "longText", defaultValue: "A curated Quarto product ready to feature on your page." },
-      { name: "image", type: "file" },
-      { name: "price", type: "number", defaultValue: 99 },
-    ],
-  });
-}
-
-export function loadBuilderComponentRegistry(): void {
-  if (window.Builder) {
-    registerBuilderComponents();
-    return;
-  }
-
-  const existingScript = document.getElementById(BUILDER_SDK_SCRIPT_ID) as HTMLScriptElement | null;
-
-  if (existingScript) {
-    existingScript.addEventListener("load", registerBuilderComponents, { once: true });
-    return;
-  }
-
-  const builderScript = document.createElement("script");
-  builderScript.id = BUILDER_SDK_SCRIPT_ID;
-  builderScript.async = true;
-  builderScript.src = BUILDER_SDK_SRC;
-  builderScript.addEventListener("load", registerBuilderComponents, { once: true });
-  document.head.append(builderScript);
+  builder.init(BUILDER_PUBLIC_API_KEY);
+  Builder.registerComponent(renderBuilderFeaturedProducts, featuredProductsRegistration);
+  Builder.registerComponent(renderBuilderFeaturedProductCard, featuredProductCardRegistration);
+  builderComponentsRegistered = true;
 }
