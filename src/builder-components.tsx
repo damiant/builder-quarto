@@ -3,6 +3,7 @@ import { FeaturedProducts } from "./components/FeaturedProducts.tsx";
 import { ProductCard } from "./components/ProductCard.tsx";
 import { ContentHeader } from "./components/ContentHeader.tsx";
 import { PageHero } from "./components/PageHero.tsx";
+import { PrivacyCardGrid } from "./components/PrivacyCardGrid.tsx";
 
 Builder.registerComponent(PageHero, {
   name: "PageHero",
@@ -18,6 +19,35 @@ Builder.registerComponent(PageHero, {
       type: "file",
       defaultValue:
         "https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/MSPrivacy_HeroBanner_CROP_4000x1250?scl=1",
+    },
+  ],
+});
+
+Builder.registerComponent(PrivacyCardGrid, {
+  name: "PrivacyCardGrid",
+  inputs: [
+    {
+      name: "cards",
+      type: "list",
+      defaultValue: [
+        {
+          title: "You control your information",
+          text: "We give you the ability to control your data, along with clear and meaningful choices over how your data is used.",
+          image:
+            "https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/MSPrivacy_01_CONTROL_NEW_2000x2000?wid=570&hei=570",
+        },
+        {
+          title: "Your data is protected",
+          text: "We rigorously protect your data using encryption and other security best practices.",
+          image:
+            "https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/MSPrivacy_02_IMAGERY_PROTECTION_NEW_2000x2000?wid=570&hei=570",
+        },
+      ],
+      subFields: [
+        { name: "image", type: "file" },
+        { name: "title", type: "text", defaultValue: "Card title" },
+        { name: "text", type: "longText", defaultValue: "Card supporting text." },
+      ],
     },
   ],
 });

@@ -11,6 +11,7 @@ import { FooterLinks } from "./components/FooterLinks.tsx";
 import { FeaturedProducts } from "./components/FeaturedProducts.tsx";
 import { ContentHeader } from "./components/ContentHeader.tsx";
 import { PageHero } from "./components/PageHero.tsx";
+import { PrivacyCardGrid } from "./components/PrivacyCardGrid.tsx";
 import "./builder-components.tsx";
 
 builder.init(BUILDER_PUBLIC_API_KEY);
@@ -42,35 +43,27 @@ function PageError() {
 const privacyCommitments = [
   {
     title: "You control your information",
-    description:
-      "We give you the ability to control your data, along with clear and meaningful choices over how your data is used.",
+    text: "We give you the ability to control your data, along with clear and meaningful choices over how your data is used.",
     image:
       "https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/MSPrivacy_01_CONTROL_NEW_2000x2000?wid=570&hei=570",
-    alt: "A stylized privacy interface with a document, image, comments, likes, and share controls.",
   },
   {
     title: "Your data is protected",
-    description:
-      "We rigorously protect your data using encryption and other security best practices.",
+    text: "We rigorously protect your data using encryption and other security best practices.",
     image:
       "https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/MSPrivacy_02_IMAGERY_PROTECTION_NEW_2000x2000?wid=570&hei=570",
-    alt: "A group of colorful applications and icons wrapped in transparent ribbon-like structures.",
   },
   {
     title: "You can expect privacy by design",
-    description:
-      "We design our products with a core commitment to uphold user privacy.",
+    text: "We design our products with a core commitment to uphold user privacy.",
     image:
       "https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/MSPrivacy_03_DESIGN_NEW_2000x2000?wid=570&hei=570",
-    alt: "Computer interface elements, applications, and files arranged in a privacy-themed graphic.",
   },
   {
     title: "We stand up for your rights",
-    description:
-      "We support stronger privacy protections and will protect your rights if a lawful request is made for data.",
+    text: "We support stronger privacy protections and will protect your rights if a lawful request is made for data.",
     image:
       "https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/MSPrivacy_04_LAW_NEW%202171x2171?wid=570&hei=570&resSharp=1",
-    alt: "An organizer containing documents and other privacy-related user information.",
   },
 ];
 
@@ -190,17 +183,7 @@ function TestPage() {
             title="Our commitment to privacy"
             text="We ground our privacy commitments in strong data governance practices, so you can trust that we'll protect the privacy and confidentiality of your data and will only use it in a way that's consistent with the reasons you provided it."
           />
-          <div className="privacy-card-grid privacy-card-grid-four">
-            {privacyCommitments.map((item) => (
-              <article className="privacy-card" key={item.title}>
-                <img loading="lazy" alt={item.alt} src={item.image} className="privacy-card-image" />
-                <div className="privacy-card-body">
-                  <h3 className="privacy-card-title">{item.title}</h3>
-                  <p className="privacy-card-text">{item.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
+          <PrivacyCardGrid cards={privacyCommitments} />
         </div>
       </section>
 
