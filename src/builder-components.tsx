@@ -4,6 +4,7 @@ import { ProductCard } from "./components/ProductCard.tsx";
 import { ContentHeader } from "./components/ContentHeader.tsx";
 import { PageHero } from "./components/PageHero.tsx";
 import { StaticCardGrid } from "./components/StaticCardGrid.tsx";
+import { LargeStaticCard } from "./components/LargeStaticCard.tsx";
 
 Builder.registerComponent(PageHero, {
   name: "PageHero",
@@ -49,6 +50,27 @@ Builder.registerComponent(StaticCardGrid, {
         { name: "text", type: "longText", defaultValue: "Card supporting text." },
       ],
     },
+  ],
+});
+
+Builder.registerComponent(LargeStaticCard, {
+  name: "LargeStaticCard",
+  inputs: [
+    {
+      name: "image",
+      type: "file",
+      defaultValue:
+        "https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/MSPrivacy_05_BUSINESS_NEW_1920x1440:VP5-800x450",
+    },
+    { name: "title", type: "text", defaultValue: "Data protection for your business" },
+    {
+      name: "text",
+      type: "longText",
+      defaultValue:
+        "For enterprise and business customers, IT admins, or anyone using Quarto products at work, visit the Quarto Trust Center to get information about privacy and security practices in our products and services.",
+    },
+    { name: "ctaLabel", type: "text", defaultValue: "Quarto Trust Center" },
+    { name: "ctaLink", type: "url", defaultValue: "#static-resources-title" },
   ],
 });
 

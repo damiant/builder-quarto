@@ -12,6 +12,7 @@ import { FeaturedProducts } from "./components/FeaturedProducts.tsx";
 import { ContentHeader } from "./components/ContentHeader.tsx";
 import { PageHero } from "./components/PageHero.tsx";
 import { StaticCardGrid } from "./components/StaticCardGrid.tsx";
+import { LargeStaticCard } from "./components/LargeStaticCard.tsx";
 import "./builder-components.tsx";
 
 builder.init(BUILDER_PUBLIC_API_KEY);
@@ -211,25 +212,13 @@ function TestPage() {
             ))}
           </div>
 
-          <article className="static-business-card">
-            <img
-              loading="lazy"
-              alt="A colorful collection of 3D shapes that depict applications, files, calendar items, and reminder notifications."
-              src="https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/MSPrivacy_05_BUSINESS_NEW_1920x1440:VP5-800x450"
-              className="static-business-image"
-            />
-            <div className="static-business-content">
-              <h3 className="static-feature-title">Data protection for your business</h3>
-              <p className="static-feature-text">
-                For enterprise and business customers, IT admins, or anyone using Quarto products at
-                work, visit the Quarto Trust Center to get information about privacy and security
-                practices in our products and services.
-              </p>
-              <a className="static-button" href="#static-resources-title">
-                Quarto Trust Center
-              </a>
-            </div>
-          </article>
+          <LargeStaticCard
+            image="https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/MSPrivacy_05_BUSINESS_NEW_1920x1440:VP5-800x450"
+            title="Data protection for your business"
+            text="For enterprise and business customers, IT admins, or anyone using Quarto products at work, visit the Quarto Trust Center to get information about privacy and security practices in our products and services."
+            ctaLabel="Quarto Trust Center"
+            ctaLink="#static-resources-title"
+          />
         </div>
       </section>
 
