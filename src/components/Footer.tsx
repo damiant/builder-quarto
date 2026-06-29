@@ -5,7 +5,7 @@ type LegalLink = {
 
 const legalLinks: LegalLink[] = [
   { label: "Privacy Policy", href: "/privacy" },
-  { label: "Terms of Use", href: "#terms" },
+  { label: "Terms of Use", href: "/terms-of-use" },
   { label: "Sales and Refunds", href: "#sales-refunds" },
   { label: "Legal", href: "#legal" },
   { label: "Site Map", href: "#site-map" },
