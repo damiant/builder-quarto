@@ -73,6 +73,7 @@ export function ProductDetailPage({ productId }: ProductDetailPageProps) {
               className="product-detail-image"
               src={getProductImageUrl(product.image)}
               alt={product.title}
+              loading="lazy"
             />
           ) : (
             <div
