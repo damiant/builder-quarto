@@ -1526,6 +1526,11 @@ code {
   text-align: initial;
 }
 
+.builder-page-content .privacy-page .subsection-title {
+  color: var(--primary-blue);
+  font-family: var(--sans);
+}
+
 .product-detail-page,
 .product-detail-status {
   padding: 56px 32px 64px;
