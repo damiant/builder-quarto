@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { addCartItem } from "./cart.ts";
 import { fetchProductBySku } from "./FeaturedProducts.tsx";
-import { currencyFormatter, getProductImageUrl } from "./ProductCard.tsx";
+import { currencyFormatter, getProductImageUrl, type Product } from "./ProductCard.tsx";
 
 type ProductDetailPageProps = {
   productId: string;
