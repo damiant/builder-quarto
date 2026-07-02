@@ -4,6 +4,7 @@ export type Product = {
   sku?: string;
   description?: string;
   image?: string;
+  videoURL?: string;
   price: number;
   categoryId?: string;
   tagId?: string;
