@@ -1,18 +1,20 @@
-import https from 'https';
+import https from "https";
 
-const apiKey = 'b9fca26fe967446595da74f3f38325f1';
+const apiKey = "b9fca26fe967446595da74f3f38325f1";
 
 const updates = [
   {
-    id: '2db82030a21c4925909f6f0fab89fa8b',
-    title: 'Dallas Uptown',
-    imageUrl: 'https://cdn.builder.io/api/v1/image/assets%2Fb9fca26fe967446595da74f3f38325f1%2F0c965756b1b446d5a8416a34ad2b0bc3'
+    id: "2db82030a21c4925909f6f0fab89fa8b",
+    title: "Dallas Uptown",
+    imageUrl:
+      "https://cdn.builder.io/api/v1/image/assets%2Fb9fca26fe967446595da74f3f38325f1%2F0c965756b1b446d5a8416a34ad2b0bc3",
   },
   {
-    id: '63af9076c4d346e6a8a85d233a0d315b',
-    title: 'Dubai Downtown',
-    imageUrl: 'https://cdn.builder.io/api/v1/image/assets%2Fb9fca26fe967446595da74f3f38325f1%2Fe13c9f35e4e14f2aa5234f49c9d43038'
-  }
+    id: "63af9076c4d346e6a8a85d233a0d315b",
+    title: "Dubai Downtown",
+    imageUrl:
+      "https://cdn.builder.io/api/v1/image/assets%2Fb9fca26fe967446595da74f3f38325f1%2Fe13c9f35e4e14f2aa5234f49c9d43038",
+  },
 ];
 
 function updateStore(storeId, imageUrl) {
@@ -20,22 +22,22 @@ function updateStore(storeId, imageUrl) {
     const payload = JSON.stringify({ data: { image: imageUrl } });
 
     const reqUrl = new URL(`https://cdn.builder.io/api/v3/content/${storeId}`);
-    reqUrl.searchParams.set('apiKey', apiKey);
+    reqUrl.searchParams.set("apiKey", apiKey);
 
     const options = {
       hostname: reqUrl.hostname,
       path: reqUrl.pathname + reqUrl.search,
-      method: 'PATCH',
+      method: "PATCH",
       headers: {
-        'Content-Type': 'application/json',
-        'Content-Length': payload.length
-      }
+        "Content-Type": "application/json",
+        "Content-Length": payload.length,
+      },
     };
 
     const req = https.request(options, (res) => {
-      let data = '';
-      res.on('data', chunk => data += chunk);
-      res.on('end', () => {
+      let data = "";
+      res.on("data", (chunk) => (data += chunk));
+      res.on("end", () => {
         try {
           const parsed = JSON.parse(data);
           if (res.statusCode >= 400) {
@@ -49,7 +51,7 @@ function updateStore(storeId, imageUrl) {
       });
     });
 
-    req.on('error', reject);
+    req.on("error", reject);
     req.write(payload);
     req.end();
   });
@@ -66,4 +68,4 @@ async function main() {
   }
 }
 
-main();
+void main();

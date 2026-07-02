@@ -36,7 +36,7 @@ export function ProductDetailPage({ productId }: ProductDetailPageProps) {
 
     setCartButtonDisabled(true);
     window.clearTimeout(cartButtonTimer.current);
-    cartButtonTimer.current = window.setTimeout(() => setCartButtonDisabled(false), 3000);
+    cartButtonTimer.current = window.setTimeout(() => setCartButtonDisabled(false), 1000);
   }
 
   if (product === null) {

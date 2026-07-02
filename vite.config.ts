@@ -1,6 +1,9 @@
 import { defineConfig } from "vite-plus";
 
 export default defineConfig({
-  fmt: {},
-  lint: { options: { typeAware: true, typeCheck: true } },
+  fmt: { ignorePatterns: [".builder/skills/**"] },
+  lint: {
+    ignorePatterns: [".builder/skills/**"],
+    options: { typeAware: true, typeCheck: true },
+  },
 });
