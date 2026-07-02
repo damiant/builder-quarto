@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import { fetchFeaturedProducts } from "./FeaturedProducts.tsx";
+import { useEffect, useRef, useState } from "react";
+import { addCartItem } from "./cart.ts";
+import { fetchProductBySku } from "./FeaturedProducts.tsx";
 import { currencyFormatter, getProductImageUrl, type Product } from "./ProductCard.tsx";
 
 type ProductDetailPageProps = {
@@ -9,15 +10,16 @@ type ProductDetailPageProps = {
 
 export function ProductDetailPage({ productId, onAddToCart }: ProductDetailPageProps) {
   const [product, setProduct] = useState<Product | null | undefined>(undefined);
-  const [addToCartDisabled, setAddToCartDisabled] = useState(false);
+  const [cartButtonDisabled, setCartButtonDisabled] = useState(false);
+  const cartButtonTimer = useRef<number | undefined>(undefined);
 
   useEffect(() => {
-    fetchFeaturedProducts(50)
-      .then((products) =>
-        setProduct(
-          products.find((item) => item.sku === productId || item.slug === productId) ?? null,
-        ),
-      )
+    return () => window.clearTimeout(cartButtonTimer.current);
+  }, []);
+
+  useEffect(() => {
+    fetchProductBySku(productId)
+      .then(setProduct)
       .catch(() => setProduct(null));
   }, [productId]);
 
@@ -28,6 +30,21 @@ export function ProductDetailPage({ productId, onAddToCart }: ProductDetailPageP
   }
 
   if (product === undefined) return null;
+
+  function handleAddToCart() {
+    if (cartButtonDisabled) return;
+
+    addCartItem({
+      id: product?.sku ?? product?.slug ?? productId,
+      title: product?.title ?? productId,
+      price: product?.price ?? 0,
+      image: product?.image,
+    });
+
+    setCartButtonDisabled(true);
+    window.clearTimeout(cartButtonTimer.current);
+    cartButtonTimer.current = window.setTimeout(() => setCartButtonDisabled(false), 3000);
+  }
 
   if (product === null) {
     return (
@@ -63,6 +80,7 @@ export function ProductDetailPage({ productId, onAddToCart }: ProductDetailPageP
               className="product-detail-image"
               src={getProductImageUrl(product.image)}
               alt={product.title}
+              loading="lazy"
             />
           ) : (
             <div
@@ -85,10 +103,10 @@ export function ProductDetailPage({ productId, onAddToCart }: ProductDetailPageP
           <button
             className="product-detail-btn"
             type="button"
-            onClick={() => handleAddToCart(product)}
-            disabled={addToCartDisabled}
+            onClick={handleAddToCart}
+            disabled={cartButtonDisabled}
           >
-            {addToCartDisabled ? "Added" : "Add to cart"}
+            {cartButtonDisabled ? "Added to cart" : "Add to cart"}
           </button>
         </div>
       </section>

@@ -1,4 +1,23 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
+import {
+  getCartItemCount,
+  getCartItems,
+  removeCartItem,
+  subscribeToCartChanges,
+  type CartItem,
+  updateCartItemQuantity,
+} from "./cart.ts";
+import { getStoredAccountEmail, signInAccount, subscribeToAccountChanges } from "./account.ts";
+import { currencyFormatter } from "./ProductCard.tsx";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/Dialog.tsx";
 
 const quartoLogo = (
   <svg
@@ -160,20 +179,22 @@ const categories = [
 
 export function Header({ cartItemCount, onCartOpen }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [badgeAnimating, setBadgeAnimating] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [signInOpen, setSignInOpen] = useState(false);
+  const [accountEmail, setAccountEmail] = useState(() => getStoredAccountEmail());
+  const [emailInput, setEmailInput] = useState("");
+  const [cartItems, setCartItems] = useState<CartItem[]>(() => getCartItems());
+  const cartItemCount = getCartItemCount(cartItems);
+  const cartTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   const previousCartItemCount = useRef(cartItemCount);
-  const badgeClassName = `cart-badge${badgeAnimating ? " cart-badge-animate" : ""}`;
+  const [badgeAnimationKey, setBadgeAnimationKey] = useState(0);
+
+  useEffect(() => subscribeToCartChanges(() => setCartItems(getCartItems())), []);
+  useEffect(() => subscribeToAccountChanges(() => setAccountEmail(getStoredAccountEmail())), []);
 
   useEffect(() => {
-    if (cartItemCount > previousCartItemCount.current) {
-      setBadgeAnimating(false);
-      const startAnimation = window.setTimeout(() => setBadgeAnimating(true), 0);
-      const stopAnimation = window.setTimeout(() => setBadgeAnimating(false), 700);
-      previousCartItemCount.current = cartItemCount;
-      return () => {
-        window.clearTimeout(startAnimation);
-        window.clearTimeout(stopAnimation);
-      };
+    if (cartItemCount > 0 && cartItemCount !== previousCartItemCount.current) {
+      setBadgeAnimationKey((key) => key + 1);
     }
 
     previousCartItemCount.current = cartItemCount;
@@ -185,185 +206,333 @@ export function Header({ cartItemCount, onCartOpen }: HeaderProps) {
   function toggleMenu() {
     setMenuOpen((open) => !open);
   }
+  function refreshCartItems() {
+    setCartItems(getCartItems());
+  }
+  function handleCartOpenChange(open: boolean) {
+    if (open) refreshCartItems();
+    setCartOpen(open);
+  }
+  function changeCartItemQuantity(itemId: string, quantityChange: number) {
+    const currentItem = getCartItems().find((item) => item.id === itemId);
+    if (!currentItem) return;
+
+    updateCartItemQuantity(itemId, currentItem.quantity + quantityChange);
+    refreshCartItems();
+  }
+  function removeCartDialogItem(itemId: string) {
+    removeCartItem(itemId);
+    refreshCartItems();
+  }
+  function openSignInDialog() {
+    closeMenu();
+    setEmailInput(accountEmail ?? "");
+    setSignInOpen(true);
+  }
+  function handleSignInSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!signInAccount(emailInput)) return;
+
+    setAccountEmail(getStoredAccountEmail());
+    setSignInOpen(false);
+  }
+  function openAccountPage() {
+    closeMenu();
+    window.location.assign("/account");
+  }
+  function renderHeaderAccountButton(className = "sign-in-btn") {
+    if (accountEmail) {
+      return (
+        <button type="button" className={className} onClick={openAccountPage}>
+          Account
+        </button>
+      );
+    }
+
+    return (
+      <button type="button" className={className} onClick={openSignInDialog}>
+        Sign In / Register
+      </button>
+    );
+  }
+
+  function renderCartButton() {
+    return (
+      <DialogTrigger asChild>
+        <button
+          type="button"
+          className="cart-link"
+          aria-label={`Cart with ${cartItemCount} ${cartItemCount === 1 ? "item" : "items"}`}
+          onClick={refreshCartItems}
+        >
+          <span
+            className={`cart-icon-wrap${badgeAnimationKey > 0 ? " cart-icon-wrap-animate" : ""}`}
+          >
+            {cartIcon}
+            {cartItemCount > 0 && (
+              <span
+                key={badgeAnimationKey}
+                className={`cart-badge${badgeAnimationKey > 0 ? " cart-badge-animate" : ""}`}
+              >
+                {cartItemCount}
+              </span>
+            )}
+          </span>
+          <span className="cart-label">Cart</span>
+        </button>
+      </DialogTrigger>
+    );
+  }
 
   return (
-    <header className="site-header header-sans">
-      <div className="utility-bar">
-        <div className="utility-bar-inner">
-          <nav aria-label="Quick links" className="utility-nav">
-            <ul className="utility-links">
-              <li>
-                <a href="#" className="utility-link">
-                  What's New
-                </a>
-              </li>
-              <li>
-                <a href="#" className="utility-link">
-                  Extensions
-                </a>
-              </li>
-              <li>
-                <a href="#" className="utility-link">
-                  Gallery
-                </a>
-              </li>
-              <li>
-                <a href="#" className="utility-link">
-                  Blog
-                </a>
-              </li>
-              <li>
-                <a href="#" className="utility-link">
-                  Community Forum
-                </a>
-              </li>
-              <li>
-                <a href="#" className="utility-link">
-                  Get Started
-                </a>
-              </li>
-              <li>
-                <a href="#" className="utility-link">
-                  Support
-                </a>
-              </li>
-              <li className="utility-region">
-                <button type="button" className="region-btn" aria-label="Language: English">
-                  EN {chevronDown}
-                </button>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </div>
-
-      <div className="main-header-row">
-        <a href="/" className="logo-link" aria-label="Quarto home">
-          {quartoLogo}
-        </a>
-
-        <div className="browse-area">
-          <button
-            type="button"
-            className="browse-btn"
-            aria-expanded={menuOpen}
-            onClick={toggleMenu}
-          >
-            {hamburgerIcon}
-            <span className="browse-label">Browse</span>
-          </button>
-          <div className={`category-dropdown${menuOpen ? " open" : ""}`} aria-hidden={!menuOpen}>
-            <ul className="category-list">
-              {categories.map((cat) => (
-                <li key={cat} className="category-item">
-                  <button type="button" className="category-item-btn">
-                    {cat} {chevronRight}
-                  </button>
-                </li>
-              ))}
-              <li className="category-divider" role="separator"></li>
-              <li className="category-item">
-                <button type="button" className="category-item-btn category-sign-in">
-                  Sign In / Register
-                </button>
-              </li>
-            </ul>
-            <div className="close-menu-area">
-              <button type="button" className="close-menu-btn" onClick={closeMenu}>
-                Close Menu
-              </button>
+    <>
+      <Dialog open={cartOpen} onOpenChange={handleCartOpenChange}>
+        <header className="site-header header-sans">
+          <div className="utility-bar">
+            <div className="utility-bar-inner">
+              <nav aria-label="Quick links" className="utility-nav">
+                <ul className="utility-links">
+                  <li>
+                    <a href="/discover/new-arrivals" className="utility-link">
+                      What's New
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="utility-link">
+                      Gallery
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="utility-link">
+                      Blog
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="utility-link">
+                      Community Forum
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="utility-link">
+                      Get Started
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="utility-link">
+                      Support
+                    </a>
+                  </li>
+                  <li className="utility-region">
+                    <button type="button" className="region-btn" aria-label="Language: English">
+                      EN {chevronDown}
+                    </button>
+                  </li>
+                </ul>
+              </nav>
             </div>
           </div>
-          <div
-            className={`dropdown-overlay${menuOpen ? " open" : ""}`}
-            aria-hidden={!menuOpen}
-            onClick={closeMenu}
-          />
-        </div>
 
-        <div className="search-area">
-          <div className="search-field">
-            <div className="search-input-wrapper">
-              <input
-                type="text"
-                placeholder="Search Quarto"
-                aria-label="Search Quarto"
-                className="search-input"
-                autoComplete="off"
+          <div className="main-header-row">
+            <a href="/" className="logo-link" aria-label="Quarto home">
+              {quartoLogo}
+            </a>
+
+            <div className="browse-area">
+              <button
+                type="button"
+                className="browse-btn"
+                aria-expanded={menuOpen}
+                onClick={toggleMenu}
+              >
+                {hamburgerIcon}
+                <span className="browse-label">Browse</span>
+              </button>
+              <div
+                className={`category-dropdown${menuOpen ? " open" : ""}`}
+                aria-hidden={!menuOpen}
+              >
+                <ul className="category-list">
+                  {categories.map((cat) => (
+                    <li key={cat} className="category-item">
+                      <button type="button" className="category-item-btn">
+                        {cat} {chevronRight}
+                      </button>
+                    </li>
+                  ))}
+                  <li className="category-divider" role="separator"></li>
+                  <li className="category-item">
+                    {renderHeaderAccountButton("category-item-btn category-sign-in")}
+                  </li>
+                </ul>
+                <div className="close-menu-area">
+                  <button type="button" className="close-menu-btn" onClick={closeMenu}>
+                    Close Menu
+                  </button>
+                </div>
+              </div>
+              <div
+                className={`dropdown-overlay${menuOpen ? " open" : ""}`}
+                aria-hidden={!menuOpen}
+                onClick={closeMenu}
               />
             </div>
-            <div className="search-btn-wrapper">
-              <button type="button" aria-label="Search" className="search-btn">
-                {searchIcon}
-              </button>
+
+            <div className="search-area">
+              <div className="search-field">
+                <div className="search-input-wrapper">
+                  <input
+                    type="text"
+                    placeholder="Search Quarto"
+                    aria-label="Search Quarto"
+                    className="search-input"
+                    autoComplete="off"
+                  />
+                </div>
+                <div className="search-btn-wrapper">
+                  <button type="button" aria-label="Search" className="search-btn">
+                    {searchIcon}
+                  </button>
+                </div>
+                <fieldset aria-hidden="true" className="search-fieldset">
+                  <legend className="search-legend">
+                    <span>&#8203;</span>
+                  </legend>
+                </fieldset>
+              </div>
             </div>
-            <fieldset aria-hidden="true" className="search-fieldset">
-              <legend className="search-legend">
-                <span>&#8203;</span>
-              </legend>
-            </fieldset>
+
+            <nav aria-label="User actions" className="user-actions-nav">
+              <ul className="user-actions-list">
+                <li className="user-action-item">{renderHeaderAccountButton()}</li>
+                <li className="user-action-item user-action-divider">
+                  <a href="#" className="user-action-link">
+                    Orders &amp; Returns
+                  </a>
+                </li>
+                <li className="user-action-item user-action-divider">{renderCartButton()}</li>
+              </ul>
+            </nav>
+
+            <nav aria-label="Shopping tools" className="tools-nav">
+              <ul className="tools-list">
+                <li className="tools-item">
+                  <a href="#" className="tool-link">
+                    {locationIcon}
+                    <span>Locations</span>
+                  </a>
+                </li>
+                <li className="tools-item tools-item-divider">{renderHeaderAccountButton()}</li>
+                <li className="tools-item tools-item-divider">{renderCartButton()}</li>
+              </ul>
+            </nav>
           </div>
-        </div>
 
-        <nav aria-label="User actions" className="user-actions-nav">
-          <ul className="user-actions-list">
-            <li className="user-action-item">
-              <button type="button" className="sign-in-btn">
-                Sign In / Register
-              </button>
-            </li>
-            <li className="user-action-item user-action-divider">
-              <a href="#" className="user-action-link">
-                Orders &amp; Returns
-              </a>
-            </li>
-            <li className="user-action-item user-action-divider">
-              <button
-                type="button"
-                className="cart-link cart-button"
-                aria-label="Open cart"
-                onClick={onCartOpen}
-              >
-                <span className="cart-icon-wrap">
-                  {cartIcon}
-                  {cartItemCount > 0 && <span className={badgeClassName}>{cartItemCount}</span>}
-                </span>
-                <span className="cart-label">Cart</span>
-              </button>
-            </li>
-          </ul>
-        </nav>
+          <DialogContent className="cart-dialog">
+            <DialogHeader className="cart-dialog-header">
+              <div>
+                <DialogTitle className="cart-dialog-title">Cart</DialogTitle>
+                <DialogDescription className="cart-dialog-summary">
+                  {cartItemCount > 0
+                    ? `${cartItemCount} ${cartItemCount === 1 ? "item" : "items"} in your cart`
+                    : "Your cart is empty"}
+                </DialogDescription>
+              </div>
+              <DialogClose className="cart-dialog-close">Close</DialogClose>
+            </DialogHeader>
 
-        <nav aria-label="Shopping tools" className="tools-nav">
-          <ul className="tools-list">
-            <li className="tools-item">
-              <a href="#" className="tool-link">
-                {locationIcon}
-                <span>Locations</span>
-              </a>
-            </li>
-            <li className="tools-item tools-item-divider">
-              <button type="button" className="sign-in-btn">
-                Sign In / Register
-              </button>
-            </li>
-            <li className="tools-item tools-item-divider">
-              <button
-                type="button"
-                className="cart-link cart-button"
-                aria-label="Open cart"
-                onClick={onCartOpen}
-              >
-                <span className="cart-icon-wrap">
-                  {cartIcon}
-                  {cartItemCount > 0 && <span className={badgeClassName}>{cartItemCount}</span>}
-                </span>
-                <span className="cart-label">Cart</span>
-              </button>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+            {cartItems.length > 0 ? (
+              <>
+                <ul className="cart-item-list">
+                  {cartItems.map((item) => (
+                    <li className="cart-item" key={item.id}>
+                      <div className="cart-item-copy">
+                        <p className="cart-item-title">{item.title}</p>
+                        <p className="cart-item-meta">
+                          {currencyFormatter.format(item.price)} each
+                        </p>
+                        <div
+                          className="cart-quantity-controls"
+                          aria-label={`Quantity for ${item.title}`}
+                        >
+                          <button
+                            type="button"
+                            className="cart-quantity-btn"
+                            aria-label={`Decrease quantity for ${item.title}`}
+                            onClick={() => changeCartItemQuantity(item.id, -1)}
+                          >
+                            −
+                          </button>
+                          <span className="cart-quantity-value">{item.quantity}</span>
+                          <button
+                            type="button"
+                            className="cart-quantity-btn"
+                            aria-label={`Increase quantity for ${item.title}`}
+                            onClick={() => changeCartItemQuantity(item.id, 1)}
+                          >
+                            +
+                          </button>
+                          <button
+                            type="button"
+                            className="cart-remove-btn"
+                            onClick={() => removeCartDialogItem(item.id)}
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      </div>
+                      <p className="cart-item-subtotal">
+                        {currencyFormatter.format(item.price * item.quantity)}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+                <div className="cart-dialog-total">
+                  <span>Total</span>
+                  <strong>{currencyFormatter.format(cartTotal)}</strong>
+                </div>
+                <button type="button" className="cart-checkout-btn">
+                  Check Out
+                </button>
+              </>
+            ) : (
+              <p className="cart-empty-message">Your cart is empty.</p>
+            )}
+          </DialogContent>
+        </header>
+      </Dialog>
+
+      <Dialog open={signInOpen} onOpenChange={setSignInOpen}>
+        <DialogContent className="account-sign-in-dialog">
+          <DialogHeader className="account-dialog-header">
+            <div>
+              <DialogTitle className="account-dialog-title">Sign in or register</DialogTitle>
+              <DialogDescription className="account-dialog-summary">
+                Enter your email address to simulate signing in.
+              </DialogDescription>
+            </div>
+            <DialogClose className="cart-dialog-close">Close</DialogClose>
+          </DialogHeader>
+
+          <form className="account-sign-in-form" onSubmit={handleSignInSubmit}>
+            <label className="account-email-label" htmlFor="account-email-input">
+              Email address
+            </label>
+            <input
+              id="account-email-input"
+              className="account-email-input"
+              type="email"
+              value={emailInput}
+              onChange={(event) => setEmailInput(event.target.value)}
+              placeholder="you@example.com"
+              autoComplete="email"
+              required
+            />
+            <button type="submit" className="account-sign-in-submit">
+              Sign In
+            </button>
+          </form>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
