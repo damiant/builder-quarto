@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { addCartItem } from "./cart.ts";
 import { fetchProductBySku } from "./FeaturedProducts.tsx";
-import { currencyFormatter, getProductImageUrl, type Product } from "./ProductCard.tsx";
+import { currencyFormatter, getProductImageUrl } from "./ProductCard.tsx";
 
 type ProductDetailPageProps = {
   productId: string;
-  onAddToCart: (product: Product) => void;
 };
 
-export function ProductDetailPage({ productId, onAddToCart }: ProductDetailPageProps) {
+export function ProductDetailPage({ productId }: ProductDetailPageProps) {
   const [product, setProduct] = useState<Product | null | undefined>(undefined);
   const [cartButtonDisabled, setCartButtonDisabled] = useState(false);
   const cartButtonTimer = useRef<number | undefined>(undefined);
@@ -22,12 +21,6 @@ export function ProductDetailPage({ productId, onAddToCart }: ProductDetailPageP
       .then(setProduct)
       .catch(() => setProduct(null));
   }, [productId]);
-
-  function handleAddToCart(productToAdd: Product) {
-    onAddToCart(productToAdd);
-    setAddToCartDisabled(true);
-    window.setTimeout(() => setAddToCartDisabled(false), 1000);
-  }
 
   if (product === undefined) return null;
 
@@ -43,7 +36,7 @@ export function ProductDetailPage({ productId, onAddToCart }: ProductDetailPageP
 
     setCartButtonDisabled(true);
     window.clearTimeout(cartButtonTimer.current);
-    cartButtonTimer.current = window.setTimeout(() => setCartButtonDisabled(false), 3000);
+    cartButtonTimer.current = window.setTimeout(() => setCartButtonDisabled(false), 1000);
   }
 
   if (product === null) {

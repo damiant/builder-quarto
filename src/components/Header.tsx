@@ -153,11 +153,6 @@ const locationIcon = (
   </svg>
 );
 
-type HeaderProps = {
-  cartItemCount: number;
-  onCartOpen: () => void;
-};
-
 const categories = [
   "Guides",
   "Reference",
@@ -177,7 +172,7 @@ const categories = [
   "FAQ",
 ];
 
-export function Header({ cartItemCount, onCartOpen }: HeaderProps) {
+export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [signInOpen, setSignInOpen] = useState(false);
