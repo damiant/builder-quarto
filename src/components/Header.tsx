@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const quartoLogo = (
   <svg
@@ -160,6 +160,24 @@ const categories = [
 
 export function Header({ cartItemCount, onCartOpen }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [badgeAnimating, setBadgeAnimating] = useState(false);
+  const previousCartItemCount = useRef(cartItemCount);
+  const badgeClassName = `cart-badge${badgeAnimating ? " cart-badge-animate" : ""}`;
+
+  useEffect(() => {
+    if (cartItemCount > previousCartItemCount.current) {
+      setBadgeAnimating(false);
+      const startAnimation = window.setTimeout(() => setBadgeAnimating(true), 0);
+      const stopAnimation = window.setTimeout(() => setBadgeAnimating(false), 700);
+      previousCartItemCount.current = cartItemCount;
+      return () => {
+        window.clearTimeout(startAnimation);
+        window.clearTimeout(stopAnimation);
+      };
+    }
+
+    previousCartItemCount.current = cartItemCount;
+  }, [cartItemCount]);
 
   function closeMenu() {
     setMenuOpen(false);
@@ -308,7 +326,7 @@ export function Header({ cartItemCount, onCartOpen }: HeaderProps) {
               >
                 <span className="cart-icon-wrap">
                   {cartIcon}
-                  {cartItemCount > 0 && <span className="cart-badge">{cartItemCount}</span>}
+                  {cartItemCount > 0 && <span className={badgeClassName}>{cartItemCount}</span>}
                 </span>
                 <span className="cart-label">Cart</span>
               </button>
@@ -338,7 +356,7 @@ export function Header({ cartItemCount, onCartOpen }: HeaderProps) {
               >
                 <span className="cart-icon-wrap">
                   {cartIcon}
-                  {cartItemCount > 0 && <span className="cart-badge">{cartItemCount}</span>}
+                  {cartItemCount > 0 && <span className={badgeClassName}>{cartItemCount}</span>}
                 </span>
                 <span className="cart-label">Cart</span>
               </button>

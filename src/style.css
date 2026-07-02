@@ -493,7 +493,44 @@ body {
   font-weight: 700;
   line-height: 18px;
   text-align: center;
+  transform-origin: center;
   box-sizing: border-box;
+}
+
+.cart-badge-animate {
+  animation: cart-badge-jiggle-pulse 0.65s ease-in-out;
+}
+
+@keyframes cart-badge-jiggle-pulse {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+    box-shadow: 0 0 0 0 var(--primary-blue-bg-light);
+  }
+
+  18% {
+    transform: scale(1.22) rotate(-12deg);
+    box-shadow: 0 0 0 5px var(--primary-blue-bg-light);
+  }
+
+  36% {
+    transform: scale(0.92) rotate(10deg);
+  }
+
+  54% {
+    transform: scale(1.14) rotate(-7deg);
+    box-shadow: 0 0 0 9px rgba(0, 93, 171, 0);
+  }
+
+  72% {
+    transform: scale(0.98) rotate(4deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cart-badge-animate {
+    animation: none;
+  }
 }
 
 .cart-label {
