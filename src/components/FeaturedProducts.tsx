@@ -38,7 +38,7 @@ type BuilderContentWithTitleResponse = {
 };
 
 const PRODUCT_FIELDS =
-  "data.title,data.description,data.image,data.price,data.category,data.tags,data.sku";
+  "data.title,data.description,data.image,data.videoURL,data.price,data.category,data.tags,data.sku";
 
 export function getCategorySlug(title: string): string {
   return title
@@ -48,7 +48,7 @@ export function getCategorySlug(title: string): string {
 }
 
 function normalizeProduct(content: BuilderProductContent): Product | null {
-  const { title, description, image, price, category, tags, sku } = content.data ?? {};
+  const { title, description, image, videoURL, price, category, tags, sku } = content.data ?? {};
   if (!title || typeof price !== "number") return null;
   return {
     title,
@@ -56,6 +56,7 @@ function normalizeProduct(content: BuilderProductContent): Product | null {
     sku,
     description,
     image,
+    videoURL,
     price,
     categoryId: category?.id,
     tagId: tags?.id,
