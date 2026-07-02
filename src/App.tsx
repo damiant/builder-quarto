@@ -6,6 +6,7 @@ import {
   isBuilderPreviewRequest,
 } from "./builder-page.ts";
 import { Header } from "./components/Header.tsx";
+import { CartDialog, type CartItem } from "./components/CartDialog.tsx";
 import { Footer } from "./components/Footer.tsx";
 import { FooterLinks } from "./components/FooterLinks.tsx";
 import { FeaturedProducts, getCategorySlug } from "./components/FeaturedProducts.tsx";
@@ -16,11 +17,60 @@ import { LargeStaticCard } from "./components/LargeStaticCard.tsx";
 import { ProductDetailPage } from "./components/ProductDetailPage.tsx";
 import { StoresPage } from "./components/StoresPage.tsx";
 import { StoreDetailPage } from "./components/StoreDetailPage.tsx";
+import { getProductSlug, type Product } from "./components/ProductCard.tsx";
 import "./builder-components.tsx";
 
 builder.init(BUILDER_PUBLIC_API_KEY);
 
 type BuilderContent = Record<string, unknown>;
+
+const CART_STORAGE_KEY = "quarto-shopping-cart";
+
+function isOptionalImageUrl(value: unknown): boolean {
+  if (value === undefined) return true;
+  if (typeof value !== "string") return false;
+
+  try {
+    new URL(value);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function isCartItem(value: unknown): value is CartItem {
+  if (!value || typeof value !== "object") return false;
+  const item = value as Record<string, unknown>;
+  const quantity = item.quantity;
+  return (
+    typeof item.id === "string" &&
+    item.id.length > 0 &&
+    typeof item.title === "string" &&
+    item.title.length > 0 &&
+    typeof item.price === "number" &&
+    Number.isFinite(item.price) &&
+    typeof quantity === "number" &&
+    Number.isInteger(quantity) &&
+    quantity > 0 &&
+    (item.slug === undefined || typeof item.slug === "string") &&
+    (item.sku === undefined || typeof item.sku === "string") &&
+    (item.description === undefined || typeof item.description === "string") &&
+    isOptionalImageUrl(item.image) &&
+    (item.categoryId === undefined || typeof item.categoryId === "string")
+  );
+}
+
+function getInitialCartItems(): CartItem[] {
+  try {
+    const storedCart = localStorage.getItem(CART_STORAGE_KEY);
+    if (!storedCart) return [];
+
+    const parsedCart: unknown = JSON.parse(storedCart);
+    return Array.isArray(parsedCart) ? parsedCart.filter(isCartItem) : [];
+  } catch {
+    return [];
+  }
+}
 
 function PageNotFound({ urlPath }: { urlPath: string }) {
   return (
@@ -332,6 +382,13 @@ export function App() {
 
   const [content, setContent] = useState<BuilderContent | null | undefined>(undefined);
   const [error, setError] = useState(false);
+  const [cartItems, setCartItems] = useState<CartItem[]>(getInitialCartItems);
+  const [cartOpen, setCartOpen] = useState(false);
+  const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+
+  useEffect(() => {
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems));
+  }, [cartItems]);
 
   useEffect(() => {
     if (!useBuilder) return;
@@ -347,11 +404,26 @@ export function App() {
       .catch(() => setError(true));
   }, [urlPath, useBuilder]);
 
+  function addToCart(product: Product) {
+    const id = product.sku ?? product.slug ?? getProductSlug(product.title);
+
+    setCartItems((items) => {
+      const existingItem = items.find((item) => item.id === id);
+      if (existingItem) {
+        return items.map((item) =>
+          item.id === id ? { ...item, quantity: item.quantity + 1 } : item,
+        );
+      }
+
+      return [...items, { ...product, id, quantity: 1 }];
+    });
+  }
+
   function renderMain() {
     if (isTestRoute) return <TestPage />;
     if (isStoresRoute) return <StoresPage />;
     if (storeDetailSlug) return <StoreDetailPage storeSlug={storeDetailSlug} />;
-    if (productId) return <ProductDetailPage productId={productId} />;
+    if (productId) return <ProductDetailPage productId={productId} onAddToCart={addToCart} />;
     if (categoryId) {
       const categoryLabel = getCategoryLabel(categoryId);
       return (
@@ -380,7 +452,8 @@ export function App() {
 
   return (
     <>
-      <Header />
+      <Header cartItemCount={cartItemCount} onCartOpen={() => setCartOpen(true)} />
+      <CartDialog items={cartItems} open={cartOpen} onClose={() => setCartOpen(false)} />
       {renderMain()}
       <FooterLinks />
       <Footer />

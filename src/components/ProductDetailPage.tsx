@@ -4,9 +4,10 @@ import { currencyFormatter, getProductImageUrl, type Product } from "./ProductCa
 
 type ProductDetailPageProps = {
   productId: string;
+  onAddToCart: (product: Product) => void;
 };
 
-export function ProductDetailPage({ productId }: ProductDetailPageProps) {
+export function ProductDetailPage({ productId, onAddToCart }: ProductDetailPageProps) {
   const [product, setProduct] = useState<Product | null | undefined>(undefined);
 
   useEffect(() => {
@@ -74,7 +75,7 @@ export function ProductDetailPage({ productId }: ProductDetailPageProps) {
             <p className="product-detail-description">{product.description}</p>
           )}
           <p className="product-detail-price">{currencyFormatter.format(product.price)}</p>
-          <button className="product-detail-btn" type="button">
+          <button className="product-detail-btn" type="button" onClick={() => onAddToCart(product)}>
             Add to cart
           </button>
         </div>

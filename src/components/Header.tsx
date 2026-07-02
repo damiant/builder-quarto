@@ -134,6 +134,11 @@ const locationIcon = (
   </svg>
 );
 
+type HeaderProps = {
+  cartItemCount: number;
+  onCartOpen: () => void;
+};
+
 const categories = [
   "Guides",
   "Reference",
@@ -153,7 +158,7 @@ const categories = [
   "FAQ",
 ];
 
-export function Header() {
+export function Header({ cartItemCount, onCartOpen }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   function closeMenu() {
@@ -295,10 +300,18 @@ export function Header() {
               </a>
             </li>
             <li className="user-action-item user-action-divider">
-              <a href="#" className="cart-link" aria-label="Cart">
-                <span className="cart-icon-wrap">{cartIcon}</span>
+              <button
+                type="button"
+                className="cart-link cart-button"
+                aria-label="Open cart"
+                onClick={onCartOpen}
+              >
+                <span className="cart-icon-wrap">
+                  {cartIcon}
+                  {cartItemCount > 0 && <span className="cart-badge">{cartItemCount}</span>}
+                </span>
                 <span className="cart-label">Cart</span>
-              </a>
+              </button>
             </li>
           </ul>
         </nav>
@@ -317,10 +330,18 @@ export function Header() {
               </button>
             </li>
             <li className="tools-item tools-item-divider">
-              <a href="#" className="cart-link" aria-label="Cart">
-                <span className="cart-icon-wrap">{cartIcon}</span>
+              <button
+                type="button"
+                className="cart-link cart-button"
+                aria-label="Open cart"
+                onClick={onCartOpen}
+              >
+                <span className="cart-icon-wrap">
+                  {cartIcon}
+                  {cartItemCount > 0 && <span className="cart-badge">{cartItemCount}</span>}
+                </span>
                 <span className="cart-label">Cart</span>
-              </a>
+              </button>
             </li>
           </ul>
         </nav>
