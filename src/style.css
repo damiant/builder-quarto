@@ -34,7 +34,7 @@
   --placeholder: #999;
   --divider-light: rgb(204, 204, 204);
 
-  --sans: system-ui, "Segoe UI", Roboto, sans-serif;
+  --sans: "Wix Madefor Text", system-ui, "Segoe UI", Roboto, sans-serif;
   --heading: "Stack Sans Notch", system-ui, "Segoe UI", Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
