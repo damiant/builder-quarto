@@ -9,6 +9,7 @@ type ProductDetailPageProps = {
 
 export function ProductDetailPage({ productId, onAddToCart }: ProductDetailPageProps) {
   const [product, setProduct] = useState<Product | null | undefined>(undefined);
+  const [addToCartDisabled, setAddToCartDisabled] = useState(false);
 
   useEffect(() => {
     fetchFeaturedProducts(50)
@@ -19,6 +20,12 @@ export function ProductDetailPage({ productId, onAddToCart }: ProductDetailPageP
       )
       .catch(() => setProduct(null));
   }, [productId]);
+
+  function handleAddToCart(productToAdd: Product) {
+    onAddToCart(productToAdd);
+    setAddToCartDisabled(true);
+    window.setTimeout(() => setAddToCartDisabled(false), 1000);
+  }
 
   if (product === undefined) return null;
 
@@ -75,8 +82,13 @@ export function ProductDetailPage({ productId, onAddToCart }: ProductDetailPageP
             <p className="product-detail-description">{product.description}</p>
           )}
           <p className="product-detail-price">{currencyFormatter.format(product.price)}</p>
-          <button className="product-detail-btn" type="button" onClick={() => onAddToCart(product)}>
-            Add to cart
+          <button
+            className="product-detail-btn"
+            type="button"
+            onClick={() => handleAddToCart(product)}
+            disabled={addToCartDisabled}
+          >
+            {addToCartDisabled ? "Added" : "Add to cart"}
           </button>
         </div>
       </section>
